@@ -11,6 +11,6 @@ chmod +x commons/scripts/gcp-backend-deploy.sh
 chmod +x integration-testing/commons/workflow.sh
 chmod +x admin-portal/deploy.sh
 
-#./commons/scripts/gcp-backend-deploy.sh
+./commons/scripts/gcp-backend-deploy.sh
 ./integration-testing/commons/workflow.sh
 ./admin-portal/deploy.sh

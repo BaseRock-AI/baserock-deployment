@@ -4,14 +4,13 @@
 echo "Enter your password to begin:"
 sudo -v
 
-source ./gcp/prod-gcp-vars.sh
+chmod +x commons/vars/prod-gcp.sh
+source ./commons/vars/prod-gcp.sh
 
-chmod +x gcp/install.sh
-chmod +x commons/workflow.sh
-chmod +x initial/cert-manager-deploy.sh
-chmod +x gcp/ingress.sh
+chmod +x commons/scripts/gcp-backend-deploy.sh
+chmod +x integration-testing/commons/workflow.sh
+chmod +x admin-portal/deploy.sh
 
-./gcp/install.sh
-./initial/cert-manager-deploy.sh
-./gcp/ingress.sh
-./commons/workflow.sh
+./commons/scripts/gcp-backend-deploy.sh
+./integration-testing/commons/workflow.sh
+./admin-portal/deploy.sh

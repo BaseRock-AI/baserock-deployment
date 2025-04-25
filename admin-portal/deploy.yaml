@@ -9,8 +9,8 @@ metadata:
   name: admin-portal-map
   namespace: ${NAMESPACE}
 data:
-  REACT_APP_API_URL: "https://app.dev.onprem.baserock.ai"
-  DOMAIN_NAME: "app.dev.onprem.baserock.ai"
+  REACT_APP_API_URL: "https://${DOMAIN}"
+  DOMAIN_NAME: "${DOMAIN}"
 ---
 apiVersion: v1
 kind: Service
@@ -61,10 +61,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - app.dev.onprem.baserock.ai
+        - ${DOMAIN}
       secretName: app-baserock-onprem-ssl-cert
   rules:
-    - host: app.dev.onprem.baserock.ai
+    - host:  ${DOMAIN}
       http:
         paths:
           - path: /admin-portal(/|$)(.*)

@@ -9,8 +9,10 @@ export GKE_CLUSTER="on-prem-cluster"
 export GKE_REGION="us-central1"
 export PROJECT_ID="production-385606"
 export HOST_BASE_URL="app.onprem.baserock.ai"
+export DOMAIN="app.onprem.baserock.ai"
 export STATIC_IP_ADDRESS="34.122.141.94"
 export CERTIFICATE_NAME="app-baserock-onprem-prod-ssl-cert"
+export SECRET_NAME="app-baserock-onprem-prod-ssl-cert"
 
 # -- images --#
 export CLIENT_IMAGE="gcr.io/production-385606/client-local:0.49.0"

@@ -1,7 +1,7 @@
 # -- namespaces --#
 export CERT_MANAGER_NAMESPACE="cert-manager-baserock"
 export INGRESS_NAMESPACE="ingress-nginx"
-export NAMESPACE="baserockonpremise"
+export NAMESPACE="onpremise-baserock"
 
 # -- gke --#
 export BUCKET_NAME="gs://docker-images-baserock-server"
