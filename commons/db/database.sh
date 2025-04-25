@@ -3,11 +3,8 @@ source ./commons/messaging.sh
 curr_dir="$(pwd)"
 
 # shellcheck disable=SC2164
-cd ../../../../../
-./gradlew :facade-service:mergeSqlFiles
-cd facade-service
 print_status "init sql"
-kubectl create configmap postgres-init-script --from-file="$(pwd)/build/merged-sql/init.sql" -n $NAMESPACE
+kubectl create configmap postgres-init-script --from-file="$(pwd)/commons/db/init.sql" -n $NAMESPACE
 print_status "cd curr dir"
 cd "$curr_dir"
 

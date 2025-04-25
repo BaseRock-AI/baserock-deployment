@@ -1,4 +1,3 @@
-export NAMESPACE="baserock-backend"
 export HELM_RELEASE="baserock-backend"
 export CONTEXT="minikube"
 export IMAGE_PULL_POLICY="Never"

@@ -1,16 +1,16 @@
 # -- namespaces --#
-export CERT_MANAGER_NAMESPACE="cert-manager-baserock"
+export CERT_MANAGER_NAMESPACE="baserock-cert-manager"
 export INGRESS_NAMESPACE="ingress-nginx"
-export NAMESPACE="api-guard-baserock"
+export NAMESPACE="baserock-onprem"
 
 # -- gke --#
 export BUCKET_NAME="gs://docker-images-baserock-server"
-export GKE_CLUSTER="dev-on-prem"
+export GKE_CLUSTER="on-prem-cluster"
 export GKE_REGION="us-central1"
-export PROJECT_ID="development-375212"
-export HOST_BASE_URL="app.dev.onprem.baserock.ai"
-export STATIC_IP_ADDRESS="34.45.23.246"
-export CERTIFICATE_NAME="app-baserock-onprem-ssl-cert"
+export PROJECT_ID="production-385606"
+export HOST_BASE_URL="app.onprem.baserock.ai"
+export STATIC_IP_ADDRESS="34.122.141.94"
+export CERTIFICATE_NAME="app-baserock-onprem-prod-ssl-cert"
 
 # -- images --#
 export CLIENT_IMAGE="gcr.io/production-385606/client-local:0.49.0"
@@ -77,3 +77,13 @@ export DJANGO_SERVICE_URL="http://${DJANGO_SERVICE_DEPLOYMENT}.${NAMESPACE}.svc.
 
 export VALUE_VERIFICATION="false"
 export USE_MINIKUBE="true"
+
+#-- backend-extras--#
+export HELM_RELEASE="baserock-backend"
+export IMAGE_PULL_POLICY="Always"
+export VALUES_YAML="-f backend/baserock-backend/values-commons.yaml -f backend/baserock-backend/values-gcp-prod.yaml"
+export INGRESS_PATH_TYPE="Prefix"
+export SCHEME="https"
+export EMAIL_ID="support@baserock.ai"
+export USER_COUNT=1
+export LICENSE_TYPE="TRIAL"

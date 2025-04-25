@@ -24,4 +24,6 @@ kubectl patch svc ingress-nginx-controller -n ingress-nginx --type='merge' -p "{
 
 sleep 60
 
+envsubst < integration-testing/charts/ingress.yaml | kubectl apply -n "${NAMESPACE}" -f -
+
 echo "Setup complete."

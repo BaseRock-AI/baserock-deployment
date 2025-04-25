@@ -37,11 +37,11 @@ print_status "Environment: $ENV"
 print_status "Deployment Type: $DEPLOY_TYPE"
 
 chmod +x commons/scripts/dev-deploy.sh
-chmod +x gcp/dev-redeploy.sh
-chmod +x minikube/deploy.sh
-chmod +x minikube/redeploy.sh
-chmod +x gcp/prod-deploy.sh
-chmod +x gcp/prod-redeploy.sh
+#chmod +x gcp/dev-redeploy.sh
+#chmod +x minikube/deploy.sh
+#chmod +x minikube/redeploy.sh
+#chmod +x gcp/prod-deploy.sh
+#chmod +x gcp/prod-redeploy.sh
 
 # Step 3: Execute Based on User Choice
 if [[ "$ENV" == "dev" && "$DEPLOY_TYPE" == "Full Install" ]]; then
@@ -50,7 +50,7 @@ if [[ "$ENV" == "dev" && "$DEPLOY_TYPE" == "Full Install" ]]; then
 
 elif [[ "$ENV" == "dev" && "$DEPLOY_TYPE" == "Service Redeploy" ]]; then
     print_status "Redeploying service in DEV environment..."
-    ./gcp/dev-redeploy.sh
+    ./commons/scripts/dev-redeploy.sh
 
 elif [[ "$ENV" == "minikube" && "$DEPLOY_TYPE" == "Full Install" ]]; then
     print_status "Performing FULL INSTALL for MINIKUBE environment..."

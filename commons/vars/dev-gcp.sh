@@ -1,23 +1,25 @@
 # -- namespaces --#
-export CERT_MANAGER_NAMESPACE="baserock-cert-manager"
+export CERT_MANAGER_NAMESPACE="cert-manager-baserock"
 export INGRESS_NAMESPACE="ingress-nginx"
-export NAMESPACE="baserock-api-guard"
+export NAMESPACE="baserockonpremise"
 
 # -- gke --#
 export BUCKET_NAME="gs://docker-images-baserock-server"
-export GKE_CLUSTER="on-prem-cluster"
+export GKE_CLUSTER="dev-on-prem"
 export GKE_REGION="us-central1"
-export PROJECT_ID="production-385606"
-export HOST_BASE_URL="app.onprem.baserock.ai"
-export STATIC_IP_ADDRESS="34.122.141.94"
-export CERTIFICATE_NAME="app-baserock-onprem-prod-ssl-cert"
+export PROJECT_ID="development-375212"
+export HOST_BASE_URL="app.dev.onprem.baserock.ai"
+export DOMAIN="app.dev.onprem.baserock.ai"
+export STATIC_IP_ADDRESS="34.45.23.246"
+export CERTIFICATE_NAME="app-baserock-onprem-ssl-cert"
+export SECRET_NAME="app-baserock-onprem-ssl-cert"
 
 # -- images --#
-export CLIENT_IMAGE="gcr.io/production-385606/client-local:0.49.0"
-export UPCASTER_IMAGE="gcr.io/production-385606/upcaster:0.206.0"
-export FLINK_IMAGE="gcr.io/production-385606/flinkjob-rabbitmq-aggregation:0.42.0"
-export DJANGO_IMAGE="gcr.io/production-385606/le-django-server:0.205.0"
-export LE_SERVICE_IMAGE="gcr.io/production-385606/sapient-backend/learning-engine-service:0.138.0"
+export CLIENT_IMAGE="gcr.io/production-385606/client:0.36.2"
+export UPCASTER_IMAGE="gcr.io/production-385606/upcaster:0.244.0"
+export FLINK_IMAGE="gcr.io/production-385606/flinkjob-rabbitmq-aggregation:0.46.0"
+export DJANGO_IMAGE="gcr.io/production-385606/le-django-server:0.244.1-revert-363-Sachin-SM-768-Version.1"
+export LE_SERVICE_IMAGE="gcr.io/production-385606/sapient-backend/learning-engine-service:0.155.0"
 
 #-- mongo --#
 export UPCASTED_COLLECTION="testUpcastedSchemaSpec"
@@ -77,3 +79,13 @@ export DJANGO_SERVICE_URL="http://${DJANGO_SERVICE_DEPLOYMENT}.${NAMESPACE}.svc.
 
 export VALUE_VERIFICATION="false"
 export USE_MINIKUBE="true"
+
+#-- backend-extras--#
+export HELM_RELEASE="baserock-backend"
+export IMAGE_PULL_POLICY="Always"
+export VALUES_YAML="-f backend/baserock-backend/values-commons.yaml -f backend/baserock-backend/values-gcp.yaml"
+export INGRESS_PATH_TYPE="Prefix"
+export SCHEME="https"
+export EMAIL_ID="support@baserock.ai"
+export USER_COUNT=1
+export LICENSE_TYPE="TRIAL"

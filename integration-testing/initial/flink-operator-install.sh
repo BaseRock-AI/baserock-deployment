@@ -21,7 +21,8 @@ fi
 # Check if the flink-kubernetes-operator is already installed
 if ! helm status flink-kubernetes-operator -n "${NAMESPACE}" > /dev/null 2>&1; then
     echo "flink-kubernetes-operator deployment"
-  helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator -n "${NAMESPACE}"
+    echo "namespace : $NAMESPACE"
+    helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator -n "${NAMESPACE}"
 else
   echo "flink-kubernetes-operator is already installed in namespace ${NAMESPACE}."
 fi

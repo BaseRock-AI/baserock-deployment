@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Store the list of deployments to exclude
-EXCLUDE_DEPLOYMENTS="cert-manager cert-manager-cainjector cert-manager-webhook flink-kubernetes-operator"
+EXCLUDE_DEPLOYMENTS="admin-portal-deployment cert-manager cert-manager-cainjector cert-manager-webhook flink-kubernetes-operator"
 
 # Get all deployments in the api-guard namespace and delete the ones not in the exclude list
 kubectl get deployments -n "${NAMESPACE}" --no-headers -o custom-columns=":metadata.name" | \
@@ -12,15 +12,15 @@ while read deployment; do
   fi
 done
 
-envsubst < charts/rabbitmq.yaml | kubectl apply -n "${NAMESPACE}" -f -
-envsubst < charts/postgres.yaml | kubectl apply -n "${NAMESPACE}" -f -
-envsubst < charts/mongodb.yaml | kubectl apply -n "${NAMESPACE}" -f -
-envsubst < charts/mongodb-client.yaml | kubectl apply -n "${NAMESPACE}" -f -
-envsubst < charts/python-service.yaml | kubectl apply -n "${NAMESPACE}" -f -
-envsubst < charts/learning-engine.yaml | kubectl apply -n "${NAMESPACE}" -f -
-envsubst < charts/flink-aggregation-job.yaml | kubectl apply -n "${NAMESPACE}" -f -
-envsubst < charts/batch-upcaster.yaml | kubectl apply -n "${NAMESPACE}" -f -
-envsubst < charts/client.yaml | kubectl apply -n "${NAMESPACE}" -f -
+envsubst < integration-testing/charts/rabbitmq.yaml | kubectl apply -n "${NAMESPACE}" -f -
+envsubst < integration-testing/charts/postgres.yaml | kubectl apply -n "${NAMESPACE}" -f -
+envsubst < integration-testing/charts/mongodb.yaml | kubectl apply -n "${NAMESPACE}" -f -
+envsubst < integration-testing/charts/mongodb-client.yaml | kubectl apply -n "${NAMESPACE}" -f -
+envsubst < integration-testing/charts/python-service.yaml | kubectl apply -n "${NAMESPACE}" -f -
+envsubst < integration-testing/charts/learning-engine.yaml | kubectl apply -n "${NAMESPACE}" -f -
+envsubst < integration-testing/charts/flink-aggregation-job.yaml | kubectl apply -n "${NAMESPACE}" -f -
+envsubst < integration-testing/charts/batch-upcaster.yaml | kubectl apply -n "${NAMESPACE}" -f -
+envsubst < integration-testing/charts/client.yaml | kubectl apply -n "${NAMESPACE}" -f -
 
 
 
