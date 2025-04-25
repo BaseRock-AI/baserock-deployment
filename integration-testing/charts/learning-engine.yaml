@@ -1,0 +1,71 @@
+---
+# --- lerning-engine-service ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: learning-engine-service-deployment
+  namespace: ${NAMESPACE}
+  labels:
+    app: learning-engine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: learning-engine
+  template:
+    metadata:
+      labels:
+        app: learning-engine
+    spec:
+      containers:
+        - name: ${LE_SERVICE_DEPLOYMENT}
+          image: ${LE_SERVICE_IMAGE}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          env:
+            - name: DB_NAME
+              value: ${MONGO_DB_NAME}
+            - name: DB_URI
+              value: ${MONGO_URL}
+            - name: DJANGO_SERVICE_BASE_URL
+              value: ${DJANGO_SERVICE_URL}
+            - name: POSTGRES_DB
+              value: ${POSTGRES_DB_NAME}
+            - name: POSTGRES_HOST
+              value: ${POSTGRES_HOST}
+            - name: POSTGRES_USER
+              value: ${POSTGRES_USERNAME}
+            - name: POSTGRES_PASSWORD
+              value: ${POSTGRES_DB_PASSWORD}
+            - name: SERVICE_PORT
+              value: ${LE_SERVICE_PORT}
+            - name: VERIFY_VALUE
+              value: ${VALUE_VERIFICATION}
+            - name: UPCASTED_COLLECTION
+              value: ${UPCASTED_COLLECTION}
+
+---
+# --- lerning-engine-service ---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${NAMESPACE}
+  name: ${LE_SERVICE_DEPLOYMENT}-service
+  labels:
+    app: learning-engine
+spec:
+  selector:
+    app: learning-engine
+  ports:
+    - name: service
+      port: ${LE_SERVICE_PORT}
+      targetPort: 8080
+  type: ClusterIP

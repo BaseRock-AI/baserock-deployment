@@ -1,0 +1,8 @@
+export NAMESPACE="baserock-backend"
+export SECRET_NAME="app-baserock-onprem-ssl-cert"
+export ISSUER_NAME="letsencrypt-production"
+export DOMAIN="app.dev.onprem.baserock.ai"
+export CERT_SERVER="https://acme-v02.api.letsencrypt.org/directory"
+export EMAIL="admin@baserock.ai"
+export INGRESS_CLASS="nginx"
+export CERT_MANAGER_NAMESPACE="cert-manager"

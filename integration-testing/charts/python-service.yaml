@@ -1,0 +1,51 @@
+---
+# --- deployment-django.yml ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${DJANGO_DEPLOYMENT}
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-deployment
+  template:
+    metadata:
+      labels:
+        app: python-deployment
+    spec:
+      containers:
+        - name: python-deployment
+          image: ${DJANGO_IMAGE}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGO_URL
+              value: ${MONGO_URL}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+              ephemeral-storage: 1Gi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+              ephemeral-storage: 1Gi
+      terminationGracePeriodSeconds: 30
+---
+# --- service-django.yml ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${DJANGO_SERVICE_DEPLOYMENT}
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: ${DJANGO_DEPLOYMENT}
+  ports:
+    - protocol: TCP
+      port: ${LE_DJANGO_PORT}
+      targetPort: 8080
+  type: LoadBalancer

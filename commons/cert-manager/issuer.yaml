@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: ${ISSUER_NAME}
+spec:
+  acme:
+    server: ${CERT_SERVER}
+    email: ${EMAIL}
+    privateKeySecretRef:
+      name: ${ISSUER_NAME}
+    solvers:
+      - http01:
+          ingress:
+            class: ${INGRESS_CLASS}

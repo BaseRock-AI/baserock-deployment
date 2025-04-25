@@ -1,0 +1,37 @@
+---
+# --- CronJob ---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ${UPCASTER_DEPLOYMENT}-cronjob
+  namespace: ${NAMESPACE}
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      parallelism: 1 # One pod at a time
+      backoffLimit: 1
+      template:
+        spec:
+          containers:
+            - name: ${UPCASTER_DEPLOYMENT}
+              image: ${UPCASTER_IMAGE}
+              imagePullPolicy: Always
+              env:
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: MONGO_URL
+                  value: ${MONGO_URL}
+              resources:
+                limits:
+                  cpu: 500m
+                  memory: 500Mi
+                  ephemeral-storage: 1Gi
+                requests:
+                  cpu: 500m
+                  memory: 500Mi
+                  ephemeral-storage: 1Gi
+          restartPolicy: OnFailure
+          terminationGracePeriodSeconds: 30

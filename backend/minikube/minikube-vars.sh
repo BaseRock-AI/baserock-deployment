@@ -1,0 +1,11 @@
+export NAMESPACE="baserock-backend"
+export HELM_RELEASE="baserock-backend"
+export CONTEXT="minikube"
+export IMAGE_PULL_POLICY="Never"
+export VALUES_YAML="-f baserock-backend/values-commons.yaml -f baserock-backend/values-minikube.yaml"
+export BASE_URL="localhost"
+export INGRESS_PATH_TYPE="ImplementationSpecific"
+export SCHEME="http"
+export EMAIL_ID="support@baserock.ai"
+export USER_COUNT=1
+export LICENSE_TYPE="TRIAL"
