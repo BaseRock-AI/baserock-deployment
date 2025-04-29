@@ -1,7 +1,5 @@
 source ./commons/messaging.sh
 
-CONTEXT="gke_${PROJECT_ID}_${GKE_REGION}_${GKE_CLUSTER}"
-kubectl config use-context $CONTEXT
 
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update

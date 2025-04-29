@@ -1,9 +1,5 @@
 source ./commons/messaging.sh
 
-CONTEXT="gke_${PROJECT_ID}_${GKE_REGION}_${GKE_CLUSTER}"
-print_status "Switching context"
-kubectl config use-context $CONTEXT
-
 echo $IMAGE
 echo $TAG
 print_status "Deploying application..."
