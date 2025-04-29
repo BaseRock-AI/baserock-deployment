@@ -15,7 +15,7 @@ metadata:
   name: ${UPCASTER_DEPLOYMENT}-cronjob
   namespace: ${NAMESPACE}
 spec:
-  schedule: "*/2 * * * *"
+  schedule: "0 0 */1 * *"
   jobTemplate:
     spec:
       parallelism: 1 # One pod at a time
