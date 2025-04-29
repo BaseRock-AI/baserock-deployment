@@ -15,19 +15,21 @@ spec:
       labels:
         app: ${CLIENT_DEPLOYMENT}
     spec:
+      imagePullSecrets:
+        - name: gcr-json-key
       containers:
         - name: ${CLIENT_DEPLOYMENT}
           image: ${CLIENT_IMAGE}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: ${CLIENT_PORT}
           resources:
             limits:
-              cpu: 500m
-              memory: 1Gi
+              cpu: ${CLIENT_CPUS}
+              memory: ${CLIENT_MEMORY}
             requests:
-              cpu: 500m
-              memory: 500Mi
+              cpu: ${CLIENT_CPUS}
+              memory: ${CLIENT_MEMORY}
 
 ---
 # --- client-service ---
@@ -42,5 +44,5 @@ spec:
   ports:
     - protocol: TCP
       port: ${CLIENT_PORT}
-      targetPort: 8080
+      targetPort: ${CLIENT_PORT}
   type: ClusterIP

@@ -7,10 +7,8 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
-  labels:
-    app.kubernetes.io/managed-by: manual
 spec:
   ingressClassName: nginx
   tls:
@@ -35,13 +33,11 @@ metadata:
   name: le-service-ingress
   namespace: ${NAMESPACE}
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/use-regex: "true"
-  labels:
-    app.kubernetes.io/managed-by: manual
 spec:
   ingressClassName: nginx
   tls:
@@ -49,13 +45,13 @@ spec:
         - ${HOST_BASE_URL}
       secretName: ${CERTIFICATE_NAME}
   rules:
-    - host: ${HOST_BASE_URL}
+    - host: app.dev.onprem.baserock.ai
       http:
         paths:
-          - path: ${LE_SERVICE_BASE_URL}
-            pathType: Prefix
-            backend:
+          - backend:
               service:
-                name: ${LE_SERVICE_DEPLOYMENT}-service
+                name: learning-engine-service
                 port:
-                  number: ${LE_SERVICE_PORT}
+                  number: 80
+            path: ${LE_SERVICE_BASE_URL}
+            pathType: Prefix

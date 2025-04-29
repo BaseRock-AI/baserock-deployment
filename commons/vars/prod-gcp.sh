@@ -56,8 +56,8 @@ export POSTGRES_SERVICE_DEPLOYMENT="postgres-service"
 export RABBITMQ_SERVICE_DEPLOYMENT="rabbitmq-service"
 
 #-- ingress  & Cert--#
-export CLIENT_BASE_URL="/it/catalog"
-export LE_SERVICE_BASE_URL="/it/leService"
+export CLIENT_BASE_URL="/it/catalog(/|$)(.*)"
+export LE_SERVICE_BASE_URL="/it/leService(/|$)(.*)"
 export ISSUER_NAME="letsencrypt-production"
 export CERT_SERVER="https://acme-v02.api.letsencrypt.org/directory"
 export EMAIL="admin@baserock.ai"
@@ -66,14 +66,14 @@ export HOST_PATH_TYPE="Prefix"
 export INGRESS_PORT="80"
 
 #-- port & host --#
-export LE_SERVICE_PORT="21082"
-export LE_DJANGO_PORT="21081"
+export LE_SERVICE_PORT="80"
+export LE_DJANGO_PORT="80"
 export CLIENT_PORT="80"
 export MONGO_EXPRESS_PORT="8081"
 export RABBITMQ_PORT="5672"
 export RABBITMQ_HOST="http://${RABBITMQ_SERVICE_DEPLOYMENT}.${NAMESPACE}.svc.cluster.local:${RABBITMQ_PORT}"
 export POSTGRES_PORT="5432"
-export POSTGRES_HOST="http://${POSTGRES_SERVICE_DEPLOYMENT}.${NAMESPACE}.svc.cluster.local:${POSTGRES_PORT}"
+export POSTGRES_HOST="postgres://${POSTGRES_SERVICE_DEPLOYMENT}.${NAMESPACE}.svc.cluster.local:${POSTGRES_PORT}"
 export DJANGO_SERVICE_URL="http://${DJANGO_SERVICE_DEPLOYMENT}.${NAMESPACE}.svc.cluster.local:8080"
 #-- misc --#
 

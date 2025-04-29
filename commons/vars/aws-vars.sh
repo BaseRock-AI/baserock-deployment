@@ -4,7 +4,6 @@ export INGRESS_NAMESPACE="ingress-nginx"
 export NAMESPACE="onpremise-baserock"
 
 # -- gke --#
-export BUCKET_NAME="gs://docker-images-baserock-server"
 export GKE_CLUSTER="dev-on-prem"
 export GKE_REGION="us-central1"
 export PROJECT_ID="development-375212"
@@ -119,7 +118,7 @@ export RABBITMQ_CPUS="2"
 export RABBITMQ_MEMORY="2Gi"
 
 #-- django --#
-export ANTHROPIC_API_KEY=""
+export ANTHROPIC_API_KEY="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"
 export ANTHROPIC_MODEL_NAME="claude-3-5-sonnet-20241022"
 export CHROMA_HOST="http://34.118.233.130:8000"
 export CHROMA_TOKEN=""

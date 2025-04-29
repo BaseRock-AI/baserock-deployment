@@ -1,4 +1,13 @@
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: upcaster-secrets
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  MONGO_URL: "${MONGO_URL}"
+---
 # --- CronJob ---
 apiVersion: batch/v1
 kind: CronJob
@@ -13,6 +22,8 @@ spec:
       backoffLimit: 1
       template:
         spec:
+          imagePullSecrets:
+            - name: gcr-json-key
           containers:
             - name: ${UPCASTER_DEPLOYMENT}
               image: ${UPCASTER_IMAGE}
@@ -22,16 +33,17 @@ spec:
                   valueFrom:
                     fieldRef:
                       fieldPath: metadata.name
-                - name: MONGO_URL
-                  value: ${MONGO_URL}
+              envFrom:
+                - secretRef:
+                    name: upcaster-secrets
               resources:
                 limits:
-                  cpu: 500m
-                  memory: 500Mi
+                  cpu: ${UPCASTER_CPUS}
+                  memory: ${UPCASTER_MEMORY}
                   ephemeral-storage: 1Gi
                 requests:
-                  cpu: 500m
-                  memory: 500Mi
+                  cpu: ${UPCASTER_CPUS}
+                  memory: ${UPCASTER_MEMORY}
                   ephemeral-storage: 1Gi
           restartPolicy: OnFailure
           terminationGracePeriodSeconds: 30

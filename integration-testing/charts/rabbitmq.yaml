@@ -1,4 +1,14 @@
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rabbitmq-secret
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  RABBITMQ_DEFAULT_USER: "${MQ_USERNAME}"
+  RABBITMQ_DEFAULT_PASS: "${MQ_PASSWORD}"
+---
 # --- rabbitmq-deploy ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,16 +35,14 @@ spec:
             - containerPort: 15672 # Port for RabbitMQ Management UI
           resources:
             requests:
-              cpu: "500m"
-              memory: "500Mi"
+              cpu: ${RABBITMQ_CPUS}
+              memory: ${RABBITMQ_MEMORY}
             limits:
-              cpu: "1"
-              memory: "1Gi"
-          env:
-            - name: RABBITMQ_DEFAULT_USER
-              value: ${MQ_USERNAME}
-            - name: RABBITMQ_DEFAULT_PASS
-              value: ${MQ_PASSWORD}
+              cpu: ${RABBITMQ_CPUS}
+              memory: ${RABBITMQ_MEMORY}
+          envFrom:
+            - secretRef:
+                name: rabbitmq-secret
           volumeMounts:
             - name: rabbitmq-data
               mountPath: /var/lib/rabbitmq

@@ -4,8 +4,8 @@
 echo "Enter your password to begin:"
 sudo -v
 
-chmod +x commons/vars/dev-gcp.sh
-source ./commons/vars/dev-gcp.sh
+chmod +x commons/vars/aws-vars.sh
+source ./commons/vars/aws-vars.sh
 
 chmod +x commons/cert-manager/cert-manager-cleanup.sh
 chmod +x commons/gcp/set-cluster-context.sh
@@ -18,11 +18,11 @@ chmod +x integration-testing/commons/workflow.sh
 chmod +x admin-portal/deploy.sh
 
 ./commons/cert-manager/cert-manager-cleanup.sh
-./commons/gcp/set-cluster-context.sh
+./commons/aws/set-cluster-context.sh
 ./commons/namespace-setup.sh
 ./commons/cert-manager/cert-manager-deploy.sh
 ./integration-testing/initial/flink-operator-install.sh
 ./commons/ingress/ingress-deploy.sh
 ./integration-testing/commons/workflow.sh
-./commons/scripts/gcp-backend-deploy.sh
+./commons/scripts/aws-deploy.sh
 ./admin-portal/deploy.sh

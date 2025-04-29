@@ -7,7 +7,7 @@ source ./commons/messaging.sh
 while true; do
     echo "Select Environment:"
     echo "1) minikube"
-    echo "2) dev"
+    echo "2) gcp"
     echo "3) prod"
     read -p "#? " ENV_OPTION
 

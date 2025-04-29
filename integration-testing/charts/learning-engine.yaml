@@ -1,4 +1,29 @@
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: learning-engine-secret
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  DB_NAME: "${MONGO_DB_NAME}"
+  DB_URI: "${MONGO_URL}"
+  DJANGO_SERVICE_BASE_URL: "${DJANGO_SERVICE_URL}"
+  ENCRYPTION_PRIVATE_KEY: "${ENCRYPTION_PRIVATE_KEY}"
+  GITHUB_APP_ID: "${GITHUB_APP_ID}"
+  GITHUB_APP_ID_INT: "${GITHUB_APP_ID_INT}"
+  GITHUB_CLIENT_ID: "${GITHUB_CLIENT_ID}"
+  GITHUB_CLIENT_SECRET: "${GITHUB_CLIENT_SECRET}"
+  GITHUB_PRIVATE_KEY: "${GITHUB_PRIVATE_KEY}"
+  GITHUB_REDIRECT_URI: "${GITHUB_REDIRECT_URI}"
+  POSTGRES_DB: "${POSTGRES_DB_NAME}"
+  POSTGRES_HOST: "${POSTGRES_HOST}"
+  POSTGRES_USER: "${POSTGRES_USERNAME}"
+  POSTGRES_PASSWORD: "${POSTGRES_DB_PASSWORD}"
+  SERVICE_PORT: "80"
+  VERIFY_VALUE: "${VALUE_VERIFICATION}"
+  UPCASTED_COLLECTION: "${UPCASTED_COLLECTION}"
+---
 # --- lerning-engine-service ---
 apiVersion: apps/v1
 kind: Deployment
@@ -17,6 +42,8 @@ spec:
       labels:
         app: learning-engine
     spec:
+      imagePullSecrets:
+        - name: gcr-json-key
       containers:
         - name: ${LE_SERVICE_DEPLOYMENT}
           image: ${LE_SERVICE_IMAGE}
@@ -25,33 +52,14 @@ spec:
             - containerPort: 8080
           resources:
             limits:
-              cpu: 500m
-              memory: 1Gi
+              cpu: ${LE_GO_CPUS}
+              memory: ${LE_GO_MEMORY}
             requests:
-              cpu: 500m
-              memory: 500Mi
-          env:
-            - name: DB_NAME
-              value: ${MONGO_DB_NAME}
-            - name: DB_URI
-              value: ${MONGO_URL}
-            - name: DJANGO_SERVICE_BASE_URL
-              value: ${DJANGO_SERVICE_URL}
-            - name: POSTGRES_DB
-              value: ${POSTGRES_DB_NAME}
-            - name: POSTGRES_HOST
-              value: ${POSTGRES_HOST}
-            - name: POSTGRES_USER
-              value: ${POSTGRES_USERNAME}
-            - name: POSTGRES_PASSWORD
-              value: ${POSTGRES_DB_PASSWORD}
-            - name: SERVICE_PORT
-              value: ${LE_SERVICE_PORT}
-            - name: VERIFY_VALUE
-              value: ${VALUE_VERIFICATION}
-            - name: UPCASTED_COLLECTION
-              value: ${UPCASTED_COLLECTION}
-
+              cpu: ${LE_GO_CPUS}
+              memory: ${LE_GO_MEMORY}
+          envFrom:
+            - secretRef:
+                name: learning-engine-secret
 ---
 # --- lerning-engine-service ---
 apiVersion: v1
@@ -66,6 +74,6 @@ spec:
     app: learning-engine
   ports:
     - name: service
-      port: ${LE_SERVICE_PORT}
-      targetPort: 8080
+      port: 80
+      targetPort: 80
   type: ClusterIP

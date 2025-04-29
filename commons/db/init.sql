@@ -326,3 +326,4 @@ ALTER TABLE IF EXISTS public.service_account
     OWNER to postgres;
 
 GRANT ALL ON TABLE public.service_account TO postgres;
+

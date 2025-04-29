@@ -1,4 +1,21 @@
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: flink-job-secret
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  MQ_HOST: "${MQ_HOST_NAME}"
+  MQ_VIRTUAL_HOST: "/"
+  MQ_USERNAME: "${MQ_USERNAME}"
+  MQ_PASSWORD: "${MQ_PASSWORD}"
+  MONGO_DB_CONNECTION_STRING: "${MONGO_URL}"
+  MONGO_DB_PORT: "${MONGO_DB_PORT}"
+  MONGO_DB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
+  MONGO_DB_USER: "${MONGO_DB_USER}"
+  DB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
+---
 # --- flink-job ---
 apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
@@ -13,60 +30,42 @@ spec:
   serviceAccount: flink
   jobManager:
     resource:
-      memory: "1024m"
-      cpu: 1
+      memory: ${FLINK_MEMORY}
+      cpu: ${FLINK_CPUS}
     podTemplate:
       apiVersion: v1
       kind: Pod
       metadata:
         name: pod-template
       spec:
+        imagePullSecrets:
+          - name: gcr-json-key
         containers:
           - name: flink-main-container
             image: ${FLINK_IMAGE}
             imagePullPolicy: Always
+            envFrom:
+              - secretRef:
+                  name: flink-job-secret
             env:
-              - name: MQ_HOST
-                value: ${MQ_HOST_NAME}
-              - name: MQ_VIRTUAL_HOST
-                value: "/"
-              - name: MQ_USERNAME
-                value: ${MQ_USERNAME}
-              - name: MQ_PASSWORD
-                value: ${MQ_PASSWORD}
-              - name: MONGO_DB_CONNECTION_STRING
-                value: ${MONGO_URL}
-              - name: MONGO_DB_HOST
-                value:
-              - name: MONGO_DB_PORT
-                value: ${}
-              - name: MONGO_DB_ROOT_PASSWORD
-                value: ${MONGO_DB_PASSWORD}
-              - name: MONGO_DB_USER
-                value: ${MONGO_DB_USER}
               - name: REFRESH_INTERVAL
                 value: "30000"
-              - name: DB_ROOT_PASSWORD
-                value: ${MONGO_DB_PASSWORD}
               - name: SPAN_DURATION_IN_SECONDS
                 value: "60"
   taskManager:
     resource:
-      memory: "1024m"
-      cpu: 1
+      memory: ${FLINK_MEMORY}
+      cpu: ${FLINK_CPUS}
     podTemplate:
       spec:
         containers:
           - name: flink-main-container
+            envFrom:
+              - secretRef:
+                  name: flink-job-secret
             env:
-              - name: MQ_HOST
-                value: ${RABBITMQ_SERVICE_DEPLOYMENT}
-              - name: MQ_VIRTUAL_HOST
-                value: ${RABBITMQ_SERVICE_DEPLOYMENT}
-              - name: MQ_USERNAME
-                value: ${MQ_USERNAME}
-              - name: MQ_PASSWORD
-                value: ${MQ_PASSWORD}
+              - name: REFRESH_INTERVAL
+                value: "30000"
               - name: SPAN_DURATION_IN_SECONDS
                 value: "60"
   job:

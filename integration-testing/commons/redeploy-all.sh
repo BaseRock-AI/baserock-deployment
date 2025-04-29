@@ -12,6 +12,20 @@ while read deployment; do
   fi
 done
 
+INCLUDE_SECRETS="upcaster-secrets flink-job-secret learning-engine-secret mongodb-secret postgres-secret django-service-secret rabbitmq-secret"
+# Get all secrets in the api-guard namespace and delete the ones in the include list
+kubectl get secrets -n "${NAMESPACE}" --no-headers -o custom-columns=":metadata.name" | \
+while read secret; do
+  if [[ $INCLUDE_SECRETS =~ (^|[[:space:]])$secret($|[[:space:]]) ]]; then
+    echo "Deleting secret: $secret"
+    kubectl delete secret "$secret" -n "${NAMESPACE}"
+  fi
+done
+
+
+
+
+envsubst < integration-testing/commons/init.sql | kubectl create configmap postgres-init-scripts-it --from-file=init.sql=/dev/stdin --namespace=${NAMESPACE}
 envsubst < integration-testing/charts/rabbitmq.yaml | kubectl apply -n "${NAMESPACE}" -f -
 envsubst < integration-testing/charts/postgres.yaml | kubectl apply -n "${NAMESPACE}" -f -
 envsubst < integration-testing/charts/mongodb.yaml | kubectl apply -n "${NAMESPACE}" -f -
