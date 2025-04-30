@@ -12,6 +12,6 @@ aws eks update-kubeconfig --region "$AWS_REGION" --name "$EKS_CLUSTER"
 kubectl create secret docker-registry gcr-json-key \
   --docker-server=https://gcr.io \
   --docker-username=_json_key \
-  --docker-password="$(cat key.json)" \
+  --docker-password="$(cat commons/aws/key.json)" \
   --docker-email="lumber-image-puller@production-385606.iam.gserviceaccount.com" \
   -n ${NAMESPACE}

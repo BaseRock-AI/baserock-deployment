@@ -18,11 +18,11 @@ chmod +x integration-testing/commons/workflow.sh
 chmod +x admin-portal/deploy.sh
 
 ./commons/cert-manager/cert-manager-cleanup.sh
-./commons/aws/set-cluster-context.sh
 ./commons/namespace-setup.sh
+./commons/aws/set-cluster-context.sh
 ./commons/cert-manager/cert-manager-deploy.sh
 ./integration-testing/initial/flink-operator-install.sh
 ./commons/ingress/ingress-deploy.sh
 ./integration-testing/commons/workflow.sh
-./commons/scripts/aws-deploy.sh
+./commons/scripts/aws-backend-deploy.sh
 ./admin-portal/deploy.sh
