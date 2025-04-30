@@ -17,8 +17,8 @@ chmod +x sample-services/todo-service/todo-web-app/deployment.sh
 chmod +x sample-services/todo-service/todo-web-service/deployment.sh
 
 ./commons/gcp/set-cluster-context.sh
-#./commons/scripts/gcp-backend-deploy.sh
-#./integration-testing/commons/workflow.sh
-#./admin-portal/deploy.sh
-#./sample-services/todo-service/todo-web-app/deployment.sh
+./commons/scripts/gcp-backend-deploy.sh
+./integration-testing/commons/workflow.sh
+./admin-portal/deploy.sh
+./sample-services/todo-service/todo-web-app/deployment.sh
 ./sample-services/todo-service/todo-web-service/deployment.sh
