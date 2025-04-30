@@ -1,6 +1,6 @@
 #!/bin/bash
 source ./commons/messaging.sh
-HEALTH_API_URL="${SCHEME}://${HOST_BASE_URL}/actuator/health"
+HEALTH_API_URL="${SCHEME}://${DOMAIN}/actuator/health"
 RETRY_INTERVAL=7
 
 print_status "health api : ${HEALTH_API_URL}"

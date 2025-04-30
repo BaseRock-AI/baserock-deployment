@@ -36,7 +36,7 @@ spec:
         app: python-deployment
     spec:
       imagePullSecrets:
-        - name: gcr-json-key
+        - name: ${IMAGE_PULL_SECRET}
       containers:
         - name: python-deployment
           image: ${DJANGO_IMAGE}

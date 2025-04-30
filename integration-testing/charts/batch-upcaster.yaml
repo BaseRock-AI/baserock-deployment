@@ -23,7 +23,7 @@ spec:
       template:
         spec:
           imagePullSecrets:
-            - name: gcr-json-key
+            - name: ${IMAGE_PULL_SECRET}
           containers:
             - name: ${UPCASTER_DEPLOYMENT}
               image: ${UPCASTER_IMAGE}

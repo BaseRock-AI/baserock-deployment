@@ -1,9 +1,9 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ${SECRET_NAME}
+  name: ${CERTIFICATE_NAME}
 spec:
-  secretName: ${SECRET_NAME}
+  secretName: ${CERTIFICATE_NAME}
   issuerRef:
     group: cert-manager.io
     name: ${ISSUER_NAME}

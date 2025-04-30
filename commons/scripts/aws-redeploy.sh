@@ -4,15 +4,17 @@
 echo "Enter your password to begin:"
 sudo -v
 
-chmod +x commons/vars/dev-gcp.sh
-source ./commons/vars/dev-gcp.sh
+chmod +x commons/vars/aws-vars.sh
+source ./commons/vars/aws-vars.sh
 chmod +x commons/vars/common-vars.sh
 source commons/vars/common-vars.sh
 
-chmod +x commons/scripts/gcp-backend-deploy.sh
+chmod +x commons/aws/set-cluster-context.sh
+chmod +x commons/scripts/aws-backend-deploy.sh
 chmod +x integration-testing/commons/workflow.sh
 chmod +x admin-portal/deploy.sh
 
-./commons/scripts/gcp-backend-deploy.sh
+./commons/aws/set-cluster-context.sh
 ./integration-testing/commons/workflow.sh
+./commons/scripts/aws-backend-deploy.sh
 ./admin-portal/deploy.sh

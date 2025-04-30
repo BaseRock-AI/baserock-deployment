@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
         - name: admin-portal
-          image: gcr.io/production-385606/admin-portal-ui:0.12.1-SM-697.1
+          image: ${ADMIN_PORTAL_IMAGE}
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
@@ -63,7 +63,7 @@ spec:
         - ${DOMAIN}
       secretName: ${CERTIFICATE_NAME}
   rules:
-    - host:  ${DOMAIN}
+    - host: ${DOMAIN}
       http:
         paths:
           - path: /admin-portal

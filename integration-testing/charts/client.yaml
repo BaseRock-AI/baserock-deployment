@@ -16,7 +16,7 @@ spec:
         app: ${CLIENT_DEPLOYMENT}
     spec:
       imagePullSecrets:
-        - name: gcr-json-key
+        - name: ${IMAGE_PULL_SECRET}
       containers:
         - name: ${CLIENT_DEPLOYMENT}
           image: ${CLIENT_IMAGE}

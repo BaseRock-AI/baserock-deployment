@@ -6,6 +6,8 @@ sudo -v
 
 chmod +x commons/vars/prod-gcp.sh
 source ./commons/vars/prod-gcp.sh
+chmod +x commons/vars/common-vars.sh
+source commons/vars/common-vars.sh
 
 chmod +x commons/scripts/gcp-backend-deploy.sh
 chmod +x integration-testing/commons/workflow.sh

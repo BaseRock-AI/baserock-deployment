@@ -39,7 +39,7 @@ spec:
         name: pod-template
       spec:
         imagePullSecrets:
-          - name: gcr-json-key
+          - name: ${IMAGE_PULL_SECRET}
         containers:
           - name: flink-main-container
             image: ${FLINK_IMAGE}

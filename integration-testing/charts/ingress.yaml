@@ -13,10 +13,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - ${HOST_BASE_URL}
+        - ${DOMAIN}
       secretName: ${CERTIFICATE_NAME}
   rules:
-    - host: ${HOST_BASE_URL}
+    - host: ${DOMAIN}
       http:
         paths:
           - path: ${CLIENT_BASE_URL}
@@ -42,7 +42,7 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - ${HOST_BASE_URL}
+        - ${DOMAIN}
       secretName: ${CERTIFICATE_NAME}
   rules:
     - host: app.dev.onprem.baserock.ai
