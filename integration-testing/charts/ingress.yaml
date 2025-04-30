@@ -45,7 +45,7 @@ spec:
         - ${DOMAIN}
       secretName: ${CERTIFICATE_NAME}
   rules:
-    - host: app.dev.onprem.baserock.ai
+    - host: ${DOMAIN}
       http:
         paths:
           - backend:
