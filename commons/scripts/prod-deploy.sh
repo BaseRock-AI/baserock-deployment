@@ -18,6 +18,8 @@ chmod +x commons/ingress/ingress-deploy.sh
 chmod +x commons/scripts/gcp-backend-deploy.sh
 chmod +x integration-testing/commons/workflow.sh
 chmod +x admin-portal/deploy.sh
+chmod +x sample-services/todo-service/todo-web-app/deployment.sh
+chmod +x sample-services/todo-service/todo-web-service/deployment.sh
 
 ./commons/cert-manager/cert-manager-cleanup.sh
 ./commons/gcp/set-cluster-context.sh
@@ -29,3 +31,4 @@ chmod +x admin-portal/deploy.sh
 ./integration-testing/commons/workflow.sh
 ./admin-portal/deploy.sh
 ./sample-services/todo-service/todo-web-app/deployment.sh
+./sample-services/todo-service/todo-web-service/deployment.sh

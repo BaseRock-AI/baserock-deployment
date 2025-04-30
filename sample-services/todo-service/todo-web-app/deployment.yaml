@@ -7,8 +7,8 @@ metadata:
 type: Opaque
 stringData:
   TODO_WEB_SERVICE_URL: "${TODO_WEB_SERVICE_URL}"
-  CONTEXT_PATH: "${CONTEXT_PATH}"
-  SERVER_PORT: "${SERVER_PORT}"
+  TODO_WEB_APP_CONTEXT_PATH: "${TODO_WEB_APP_CONTEXT_PATH}"
+  TODO_WEB_APP_SERVER_PORT: "${TODO_WEB_APP_SERVER_PORT}"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -32,13 +32,13 @@ spec:
           image: ${TODO_WEB_APP_IMAGE}
           imagePullPolicy: Always
           ports:
-            - containerPort: ${SERVER_PORT}
+            - containerPort: ${TODO_WEB_APP_SERVER_PORT}
           envFrom:
             - secretRef:
                 name: todo-web-app-secret
           env:
             - name: SPRING_APPLICATION_JSON
-              value: '{"todo":{"web":{"service":{"url":"$(TODO_WEB_SERVICE_URL)"}}}, "server":{"servlet":{"context-path":"$(CONTEXT_PATH)"}, "port":"$(SERVER_PORT)"}}'
+              value: '{"todo":{"web":{"service":{"url":"${TODO_WEB_SERVICE_URL}"}}}, "server":{"servlet":{"context-path":"${TODO_WEB_APP_CONTEXT_PATH}"}, "port":"${TODO_WEB_APP_SERVER_PORT}"}}'
           resources:
             limits:
               cpu: ${TODO_WEB_APP_CPUS}
@@ -60,8 +60,8 @@ spec:
     app: todo-web-app
   ports:
     - protocol: TCP
-      port: ${SERVER_PORT}
-      targetPort: ${SERVER_PORT}
+      port: ${TODO_WEB_APP_SERVER_PORT}
+      targetPort: ${TODO_WEB_APP_SERVER_PORT}
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
@@ -87,6 +87,6 @@ spec:
               service:
                 name: todo-web-app-service
                 port:
-                  number: ${SERVER_PORT}
-            path: ${CONTEXT_PATH}
+                  number: ${TODO_WEB_APP_SERVER_PORT}
+            path: ${TODO_WEB_APP_CONTEXT_PATH}
             pathType: Prefix

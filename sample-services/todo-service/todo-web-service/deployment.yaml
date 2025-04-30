@@ -1,0 +1,124 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todo-web-service-config
+  namespace: ${NAMESPACE}
+data:
+  SERVICE_NAME: "${SERVICE_NAME}"
+  ENABLE_EXTENSION: "${TODO_WEB_SERVICE_ENABLE_EXTENSION}"
+  EXTENSION_MODE: "${TODO_WEB_SERVICE_EXTENSION_MODE}"
+  GO_SERVER_BASE_URL: "${TODO_WEB_SERVICE_GO_SERVER_BASE_URL}"
+  SPRING_PROFILES_ACTIVE: "${TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE}"
+  PUBLISHER_MODE: "${TODO_WEB_SERVICE_PUBLISHER_MODE}"
+  TODO_WEB_SERVICE_SERVER_PORT: "${TODO_WEB_SERVICE_SERVER_PORT}"
+  TODO_WEB_SERVICE_CONTEXT_PATH: "${TODO_WEB_SERVICE_CONTEXT_PATH}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: todo-web-service-secret
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  MQ_HOST: "${MQ_HOST}"
+  MQ_PORT: "${MQ_PORT}"
+  MQ_QUEUE: "${MQ_QUEUE}"
+  MQ_USER: "${MQ_USER}"
+  MQ_PASSWORD: "${MQ_PASSWORD}"
+  SPRING_DATASOURCE_URL: "${SPRING_DATASOURCE_URL}"
+  SPRING_DATASOURCE_USERNAME: "${SPRING_DATASOURCE_USERNAME}"
+  SPRING_DATASOURCE_PASSWORD: "${SPRING_DATASOURCE_PASSWORD}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-web-service
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-web-service
+  template:
+    metadata:
+      labels:
+        app: todo-web-service
+    spec:
+      imagePullSecrets:
+        - name: ${IMAGE_PULL_SECRET}
+      containers:
+        - name: todo-web-service
+          image: ${TODO_WEB_SERVICE_IMAGE}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: ${TODO_WEB_SERVICE_SERVER_PORT}
+          envFrom:
+            - secretRef:
+                name: todo-web-service-secret
+          env:
+            - name: SPRING_APPLICATION_JSON
+              value: '{"spring":{"datasource":{"url":"${SPRING_DATASOURCE_URL}","username":"${SPRING_DATASOURCE_USERNAME}","password":"${SPRING_DATASOURCE_PASSWORD}"}}, "server":{"servlet":{"context-path":"${TODO_WEB_SERVICE_CONTEXT_PATH}"}, "port":"${TODO_WEB_SERVICE_SERVER_PORT}"}}'
+          resources:
+            limits:
+              cpu: ${TODO_WEB_SERVICE_CPUS}
+              memory: ${TODO_WEB_SERVICE_MEMORY}
+              ephemeral-storage: 1Gi
+            requests:
+              cpu: ${TODO_WEB_SERVICE_CPUS}
+              memory: ${TODO_WEB_SERVICE_MEMORY}
+              ephemeral-storage: 1Gi
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: ${TODO_WEB_SERVICE_SERVER_PORT}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: ${TODO_WEB_SERVICE_SERVER_PORT}
+            initialDelaySeconds: 60
+            periodSeconds: 15
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-web-service
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: todo-web-service
+  ports:
+    - protocol: TCP
+      port: ${TODO_WEB_SERVICE_SERVER_PORT}
+      targetPort: ${TODO_WEB_SERVICE_SERVER_PORT}
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todo-web-service-ingress
+  namespace: ${NAMESPACE}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ${DOMAIN}
+      secretName: ${CERTIFICATE_NAME}
+  rules:
+    - host: ${DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: todo-web-service
+                port:
+                  number: ${TODO_WEB_SERVICE_SERVER_PORT}
+            path: ${TODO_WEB_SERVICE_CONTEXT_PATH}
+            pathType: Prefix
