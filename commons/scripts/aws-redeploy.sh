@@ -18,3 +18,4 @@ chmod +x admin-portal/deploy.sh
 ./integration-testing/commons/workflow.sh
 ./commons/scripts/aws-backend-deploy.sh
 ./admin-portal/deploy.sh
+./sample-services/todo-service/todo-web-app/deployment.sh

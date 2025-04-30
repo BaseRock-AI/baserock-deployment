@@ -27,3 +27,4 @@ ALTER TABLE IF EXISTS public.oauth_states
 
 GRANT ALL ON TABLE public.oauth_states TO ${POSTGRES_USERNAME};
 
+CREATE DATABASE todo;

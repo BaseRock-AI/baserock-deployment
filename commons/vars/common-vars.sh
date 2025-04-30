@@ -106,3 +106,10 @@ export DEFINITION_MODE_THRESHOLD="100"
 export LLM_ENABLED="True"
 export MAX_TEST_CASES="10"
 export POSITIVE_TEST_RATIO="0.5"
+
+#-- todo-web-app --#
+export TODO_WEB_SERVICE_URL="https://${DOMAIN}/todo"
+export CONTEXT_PATH="/todo-ui"
+export SERVER_PORT="8080"
+export TODO_WEB_APP_CPUS="1"
+export TODO_WEB_APP_MEMORY="2Gi"
