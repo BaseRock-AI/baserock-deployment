@@ -28,3 +28,4 @@ chmod +x admin-portal/deploy.sh
 ./commons/scripts/gcp-backend-deploy.sh
 ./integration-testing/commons/workflow.sh
 ./admin-portal/deploy.sh
+./sample-services/todo-service/todo-web-app/deployment.sh

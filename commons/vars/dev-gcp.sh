@@ -15,6 +15,7 @@ export FLINK_IMAGE="gcr.io/production-385606/flinkjob-rabbitmq-aggregation:0.48.
 export DJANGO_IMAGE="gcr.io/production-385606/le-django-server:0.265.0"
 export LE_SERVICE_IMAGE="gcr.io/production-385606/baserock-backend/learning-engine-service:0.163.0"
 export ADMIN_PORTAL_IMAGE="gcr.io/production-385606/admin-portal-ui:0.12.1-SM-697.1"
+export TODO_WEB_APP_IMAGE="gcr.io/production-385606/todo-web-app:0.0.1"
 
 #-- backend-extras--#
 export VALUES_YAML="-f backend/baserock-backend/values-commons.yaml -f backend/baserock-backend/values-gcp.yaml"
