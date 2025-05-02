@@ -42,8 +42,7 @@ spec:
       labels:
         app: learning-engine
     spec:
-      imagePullSecrets:
-        - name: ${IMAGE_PULL_SECRET}
+      ${IMAGE_PULL_SECRET_BLOCK}
       containers:
         - name: ${LE_SERVICE_DEPLOYMENT}
           image: ${LE_SERVICE_IMAGE}

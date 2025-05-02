@@ -15,11 +15,8 @@ kubectl delete crd \
     issuers.cert-manager.io \
     orders.acme.cert-manager.io
 
-echo "deleting namespace cert-manager"
-helm uninstall cert-manager -n "${CERT_MANAGER_NAMESPACE}"
-kubectl delete namespace "${CERT_MANAGER_NAMESPACE}"
+kubectl delete challenges.acme.cert-manager.io -n onpremise-baserock --all
 
-
-print_status "delete cert manager"
+echo "deleting namespace ${CERT_MANAGER_NAMESPACE}"
 helm uninstall cert-manager -n "${CERT_MANAGER_NAMESPACE}"
 kubectl delete namespace "${CERT_MANAGER_NAMESPACE}"

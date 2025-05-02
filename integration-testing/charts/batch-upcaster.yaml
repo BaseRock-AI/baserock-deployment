@@ -22,8 +22,7 @@ spec:
       backoffLimit: 1
       template:
         spec:
-          imagePullSecrets:
-            - name: ${IMAGE_PULL_SECRET}
+          ${IMAGE_PULL_SECRET_BLOCK}
           containers:
             - name: ${UPCASTER_DEPLOYMENT}
               image: ${UPCASTER_IMAGE}

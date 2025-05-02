@@ -1,12 +1,10 @@
 source ./commons/messaging.sh
 
-echo $IMAGE
-echo $TAG
 print_status "Deploying application..."
 helm upgrade --install $HELM_RELEASE ./backend/baserock-backend $VALUES_YAML \
     --namespace $NAMESPACE \
-    --set image.repository=$IMAGE \
-    --set image.tag=$TAG \
+    --set image.repository=$BACKEND_IMAGE \
+    --set image.tag=$BACKEND_TAG \
     --set image.pullPolicy=$IMAGE_PULL_POLICY \
     --set ingress.enabled=true \
     --set config.GITLAB_OAUTH_CALLBACK_URL="${DOMAIN}/login/oauth/callback?oAuthProviderType=gitlab" \

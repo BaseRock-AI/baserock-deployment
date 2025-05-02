@@ -15,8 +15,7 @@ spec:
       labels:
         app: ${CLIENT_DEPLOYMENT}
     spec:
-      imagePullSecrets:
-        - name: ${IMAGE_PULL_SECRET}
+      ${IMAGE_PULL_SECRET_BLOCK}
       containers:
         - name: ${CLIENT_DEPLOYMENT}
           image: ${CLIENT_IMAGE}

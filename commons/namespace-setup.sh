@@ -1,7 +1,3 @@
-source ./commons/messaging.sh
-print_status "Cleaning up previous installations..."
-kubectl delete namespace "${NAMESPACE}" 2>/dev/null || true
-
-
 print_status "Creating namespace: ${NAMESPACE}"
 kubectl create namespace "${NAMESPACE}" || true
+kubectl create namespace ingress-nginx

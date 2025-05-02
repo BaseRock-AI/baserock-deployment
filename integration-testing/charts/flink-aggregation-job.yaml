@@ -38,8 +38,7 @@ spec:
       metadata:
         name: pod-template
       spec:
-        imagePullSecrets:
-          - name: ${IMAGE_PULL_SECRET}
+        ${IMAGE_PULL_SECRET_BLOCK}
         containers:
           - name: flink-main-container
             image: ${FLINK_IMAGE}

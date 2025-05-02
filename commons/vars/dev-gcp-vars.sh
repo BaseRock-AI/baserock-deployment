@@ -17,6 +17,9 @@ export LE_SERVICE_IMAGE="gcr.io/production-385606/baserock-backend/learning-engi
 export ADMIN_PORTAL_IMAGE="gcr.io/production-385606/admin-portal-ui:0.12.1-SM-697.1"
 export TODO_WEB_APP_IMAGE="gcr.io/production-385606/todo-web-app:0.0.1"
 export TODO_WEB_SERVICE_IMAGE="gcr.io/production-385606/todo-web-service:0.0.1"
+export BACKEND_IMAGE="gcr.io/production-385606/sapient-backend/facade-service"
+export BACKEND_TAG="1.182.0"
+
 
 #-- backend-extras--#
 export VALUES_YAML="-f backend/baserock-backend/values-commons.yaml -f backend/baserock-backend/values-gcp.yaml"
@@ -28,6 +31,3 @@ export VOYAGE_MODEL_NAME="voyage-3"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="dev"
-
-chmod +x commons/vars/common-vars.sh
-./commons/vars/common-vars.sh

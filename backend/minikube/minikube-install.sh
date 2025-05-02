@@ -21,12 +21,6 @@ minikube start --memory=4096 --cpus=3 --driver=docker || exit 1
 print_status "Switching context"
 kubectl config use-context minikube
 
-./commons/namespace-setup.sh
-
-print_status "Cleaning up existing chart dependencies..."
-rm -rf ./baserock-backend/charts
-
-
 # Wait until Minikube is fully started
 if ! minikube status | grep -q "Running"; then
     print_status "Minikube failed to start. Exiting."
@@ -36,8 +30,5 @@ fi
 # Enable Ingress only if Minikube is running
 print_status "Enabling Ingress addon..."
 minikube addons enable ingress || exit 1
-
-print_status "Creating namespace: $NAMESPACE"
-kubectl create namespace $NAMESPACE || true
 
 print_status "Minikube setup completed successfully!"

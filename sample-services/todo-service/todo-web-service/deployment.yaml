@@ -45,8 +45,7 @@ spec:
       labels:
         app: todo-web-service
     spec:
-      imagePullSecrets:
-        - name: ${IMAGE_PULL_SECRET}
+      ${IMAGE_PULL_SECRET_BLOCK}
       containers:
         - name: todo-web-service
           image: ${TODO_WEB_SERVICE_IMAGE}
