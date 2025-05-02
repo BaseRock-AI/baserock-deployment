@@ -31,3 +31,4 @@ chmod +x integration-testing/initial/flink-operator-uninstall.sh
 ./integration-testing/commons/workflow.sh
 ./commons/scripts/gcp-backend-deploy.sh
 ./admin-portal/deploy.sh
+./sample-services/todo-service/todo-web-app/deployment.sh
