@@ -138,13 +138,13 @@ elif [[ "$CERT_MANAGER_OPTION_TYPE" == "No" &&  "$DEPLOY_TYPE" == "Full Install"
 fi
 
 
-#if [[ "$DEPLOY_TYPE" == "Full Install" ]]; then
-#    print_status "Performing FULL INSTALL for DEV environment..."
-#    ./commons/scripts/common-backend-deploy.sh
-#
-#elif [[ "$DEPLOY_TYPE" == "Service Redeploy" ]]; then
-#    print_status "Redeploying service in DEV environment..."
-#    ./commons/scripts/common-backend-redeploy.sh
-#fi
+if [[ "$DEPLOY_TYPE" == "Full Install" ]]; then
+    print_status "Performing FULL INSTALL for DEV environment..."
+    ./commons/scripts/common-backend-deploy.sh
+
+elif [[ "$DEPLOY_TYPE" == "Service Redeploy" ]]; then
+    print_status "Redeploying service in DEV environment..."
+    ./commons/scripts/common-backend-redeploy.sh
+fi
 
 print_status "Deployment process completed!"
