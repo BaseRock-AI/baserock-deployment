@@ -57,7 +57,13 @@ spec:
       memory: ${FLINK_MEMORY}
       cpu: ${FLINK_CPUS}
     podTemplate:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: pod-template
       spec:
+        imagePullSecrets:
+          - name: ${IMAGE_PULL_SECRET}
         containers:
           - name: flink-main-container
             envFrom:
