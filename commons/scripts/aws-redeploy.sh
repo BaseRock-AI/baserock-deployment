@@ -13,9 +13,12 @@ chmod +x commons/aws/set-cluster-context.sh
 chmod +x commons/scripts/aws-backend-deploy.sh
 chmod +x integration-testing/commons/workflow.sh
 chmod +x admin-portal/deploy.sh
+chmod +x sample-services/todo-service/todo-web-app/deployment.sh
+chmod +x sample-services/todo-service/todo-web-service/deployment.sh
 
 ./commons/aws/set-cluster-context.sh
 ./integration-testing/commons/workflow.sh
 ./commons/scripts/aws-backend-deploy.sh
 ./admin-portal/deploy.sh
 ./sample-services/todo-service/todo-web-app/deployment.sh
+./sample-services/todo-service/todo-web-service/deployment.sh

@@ -20,6 +20,8 @@ chmod +x commons/scripts/gcp-backend-deploy.sh
 chmod +x integration-testing/commons/workflow.sh
 chmod +x admin-portal/deploy.sh
 chmod +x integration-testing/initial/flink-operator-uninstall.sh
+chmod +x sample-services/todo-service/todo-web-app/deployment.sh
+chmod +x sample-services/todo-service/todo-web-service/deployment.sh
 
 ./commons/gcp/set-cluster-context.sh
 ./integration-testing/initial/flink-operator-uninstall.sh
@@ -32,3 +34,4 @@ chmod +x integration-testing/initial/flink-operator-uninstall.sh
 ./commons/scripts/gcp-backend-deploy.sh
 ./admin-portal/deploy.sh
 ./sample-services/todo-service/todo-web-app/deployment.sh
+./sample-services/todo-service/todo-web-service/deployment.sh

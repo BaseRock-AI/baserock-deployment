@@ -28,3 +28,24 @@ ALTER TABLE IF EXISTS public.oauth_states
 GRANT ALL ON TABLE public.oauth_states TO ${POSTGRES_USERNAME};
 
 CREATE DATABASE todo;
+
+CREATE TABLE IF NOT EXISTS public.to_do_item
+(
+    id bigint NOT NULL,
+    completed boolean NOT NULL,
+    name character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT to_do_item_pkey PRIMARY KEY (id)
+) TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.to_do_item
+    OWNER to ${POSTGRES_USERNAME};
+
+CREATE SEQUENCE IF NOT EXISTS public.to_do_item_seq
+    INCREMENT 50
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.to_do_item_seq
+    OWNER TO postgres;
