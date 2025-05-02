@@ -39,3 +39,13 @@ CREATE TABLE IF NOT EXISTS public.to_do_item
 
 ALTER TABLE IF EXISTS public.to_do_item
     OWNER to ${POSTGRES_USERNAME};
+
+CREATE SEQUENCE IF NOT EXISTS public.to_do_item_seq
+    INCREMENT 50
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.to_do_item_seq
+    OWNER TO postgres;

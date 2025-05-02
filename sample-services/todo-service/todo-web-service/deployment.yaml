@@ -108,5 +108,5 @@ spec:
                 name: todo-web-service
                 port:
                   number: ${TODO_WEB_SERVICE_SERVER_PORT}
-            path: ${TODO_WEB_SERVICE_CONTEXT_PATH}
+            path: ${TODO_WEB_SERVICE_CONTEXT_PATH}(/.*)
             pathType: Prefix
