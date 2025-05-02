@@ -15,10 +15,6 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
-  tls:
-    - hosts:
-        - app.dev.onprem.baserock.ai
-      secretName: app-baserock-onprem-ssl-cert
   host: ""
 
 config:

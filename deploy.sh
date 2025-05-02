@@ -92,13 +92,6 @@ chmod +x commons/vars/common-vars.sh
 ./commons/vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
 ./commons/vars/common-vars.sh
 
-
-if [ -n "$IMAGE_PULL_SECRET" ]; then
-  export IMAGE_PULL_SECRET_BLOCK="      imagePullSecrets:\n        - name: ${IMAGE_PULL_SECRET}"
-else
-  export IMAGE_PULL_SECRET_BLOCK=""
-fi
-
 # Step 3: Execute Based on User Choice
 if [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "gcp" ]]; then
     print_status "Setting gcp context.."
@@ -120,6 +113,13 @@ if [[ "$DEPLOY_TYPE" == "Full Install" ]]; then
     ./commons/scripts/cleanup.sh
 fi
 
+
+if [ -n "$IMAGE_PULL_SECRET" ]; then
+  export IMAGE_PULL_SECRET_BLOCK="      imagePullSecrets:\n        - name: ${IMAGE_PULL_SECRET}"
+else
+  export IMAGE_PULL_SECRET_BLOCK=""
+fi
+
 # Step 3: Execute Based on User Choice
 if [[ "$IMAGE_PULL_SECRET" != "" ]]; then
     ./commons/image-secret.sh
@@ -138,13 +138,13 @@ elif [[ "$CERT_MANAGER_OPTION_TYPE" == "No" &&  "$DEPLOY_TYPE" == "Full Install"
 fi
 
 
-if [[ "$DEPLOY_TYPE" == "Full Install" ]]; then
-    print_status "Performing FULL INSTALL for DEV environment..."
-    ./commons/scripts/common-backend-deploy.sh
-
-elif [[ "$DEPLOY_TYPE" == "Service Redeploy" ]]; then
-    print_status "Redeploying service in DEV environment..."
-    ./commons/scripts/common-backend-redeploy.sh
-fi
+#if [[ "$DEPLOY_TYPE" == "Full Install" ]]; then
+#    print_status "Performing FULL INSTALL for DEV environment..."
+#    ./commons/scripts/common-backend-deploy.sh
+#
+#elif [[ "$DEPLOY_TYPE" == "Service Redeploy" ]]; then
+#    print_status "Redeploying service in DEV environment..."
+#    ./commons/scripts/common-backend-redeploy.sh
+#fi
 
 print_status "Deployment process completed!"

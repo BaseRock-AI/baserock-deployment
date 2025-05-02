@@ -1,18 +1,24 @@
 source ./commons/messaging.sh
 
 print_status "Deploying application..."
-helm upgrade --install $HELM_RELEASE ./backend/baserock-backend $VALUES_YAML \
-    --namespace $NAMESPACE \
-    --set image.repository=$BACKEND_IMAGE \
-    --set image.tag=$BACKEND_TAG \
-    --set image.pullPolicy=$IMAGE_PULL_POLICY \
+helm upgrade --install "${HELM_RELEASE}" ./backend/baserock-backend "${VALUES_YAML}" \
+    --namespace "${NAMESPACE}" \
+    --set image.repository="${BACKEND_IMAGE}" \
+    --set image.tag="${BACKEND_TAG}" \
+    --set image.pullPolicy="${IMAGE_PULL_POLICY}"\
+    --set image.pullPolicy="${BACKEND_PULL_POLICY}" \
     --set ingress.enabled=true \
+    --set tls[0].hosts[0]="${DOMAIN}" \
+    --set tls[0].secretName="${CERTIFICATE_NAME}" \
     --set config.GITLAB_OAUTH_CALLBACK_URL="${DOMAIN}/login/oauth/callback?oAuthProviderType=gitlab" \
     --set config.LINKEDIN_OAUTH_CALLBACK_URL="${DOMAIN}/login/oauth/callback?oAuthProviderType=linkedin" \
     --set config.SERVER_BASE_URL="${SCHEME}://${DOMAIN}" \
     --set ingress.hosts[0].host="${DOMAIN}" \
     --set ingress.hosts[0].paths[0].path="/" \
     --set ingress.hosts[0].paths[0].pathType="${INGRESS_PATH_TYPE}" \
+    --set secrets.baserockBackend.BASEROCK_EMAIL="${BASEROCK_EMAIL_SMTP}" \
+    --set secrets.baserockBackend.BASEROCK_EMAIL_PASSWORD="${BASEROCK_EMAIL_PASSWORD_SMTP}" \
+    --set imagePullSecrets[0]="${IMAGE_PULL_SECRET}" \
     --timeout 10m
 
 

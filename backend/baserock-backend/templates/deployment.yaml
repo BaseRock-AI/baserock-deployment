@@ -17,8 +17,12 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
+    {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-        - name: ${{ .Values.imagePullSecrets }}
+    {{- range .Values.imagePullSecrets }}
+        - name: {{ . }}
+    {{- end }}
+    {{- end }}
       containers:
         - name: baserock-backend
           image: {{ .Values.image.repository}}:{{ .Values.image.tag}}

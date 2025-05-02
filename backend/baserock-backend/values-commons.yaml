@@ -11,12 +11,6 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
-# Image configuration
-image:
-  repository: gcr.io/production-385606/sapient-backend/facade-service
-  tag: 1.182.0
-  pullPolicy: Never
-
 
 # Image pull secrets for private registry
 imagePullSecrets: [ ]

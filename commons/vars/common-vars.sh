@@ -78,7 +78,9 @@ export SCHEME="https"
 export EMAIL_ID="support@baserock.ai"
 export USER_COUNT=1
 export LICENSE_TYPE="TRIAL"
-
+export BACKEND_PULL_POLICY="Never"
+export BASEROCK_EMAIL_SMTP="rohit@baserock.ai"
+export BASEROCK_EMAIL_PASSWORD_SMTP="cbawpdgtbxjydsvf"
 
 #-- resource limits --#
 export CLIENT_CPUS="2"
