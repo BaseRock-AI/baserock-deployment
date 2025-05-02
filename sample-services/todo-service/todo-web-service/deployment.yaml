@@ -36,7 +36,7 @@ metadata:
   name: todo-web-service
   namespace: ${NAMESPACE}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: todo-web-service
@@ -68,18 +68,6 @@ spec:
               cpu: ${TODO_WEB_SERVICE_CPUS}
               memory: ${TODO_WEB_SERVICE_MEMORY}
               ephemeral-storage: 1Gi
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: ${TODO_WEB_SERVICE_SERVER_PORT}
-            initialDelaySeconds: 30
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: ${TODO_WEB_SERVICE_SERVER_PORT}
-            initialDelaySeconds: 60
-            periodSeconds: 15
       terminationGracePeriodSeconds: 30
 ---
 apiVersion: v1
