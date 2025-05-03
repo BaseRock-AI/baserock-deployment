@@ -48,4 +48,4 @@ CREATE SEQUENCE IF NOT EXISTS public.to_do_item_seq
     CACHE 1;
 
 ALTER SEQUENCE public.to_do_item_seq
-    OWNER TO postgres;
+    OWNER TO ${POSTGRES_USERNAME};
