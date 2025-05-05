@@ -7,7 +7,7 @@ spec:
     server: ${CERT_SERVER}
     email: ${EMAIL}
     privateKeySecretRef:
-      name: ${CERTIFICATE_NAME}
+      name: ${CERTIFICATE_NAME}-issuer-key
     solvers:
       - http01:
           ingress:
