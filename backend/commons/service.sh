@@ -1,7 +1,9 @@
 source ./commons/messaging.sh
 
 print_status "Deploying application..."
-helm upgrade --install "${HELM_RELEASE}" ./backend/baserock-backend "${VALUES_YAML}" \
+helm upgrade --install "${HELM_RELEASE}" ./backend/baserock-backend \
+    -f backend/baserock-backend/values-commons.yaml \
+    -f "${VALUES_YAML}" \
     --namespace "${NAMESPACE}" \
     --set image.repository="${BACKEND_IMAGE}" \
     --set image.tag="${BACKEND_TAG}" \

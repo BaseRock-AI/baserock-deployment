@@ -19,7 +19,7 @@ export TODO_WEB_SERVICE_IMAGE="vikasbaserock/todo-web-service:0.0.1"
 export BACKEND_IMAGE="vikasbaserock/facade-service"
 export BACKEND_TAG="1.182.0"
 #-- backend-extras--#
-export VALUES_YAML="-f backend/baserock-backend/values-commons.yaml -f backend/baserock-backend/values-gcp.yaml"
+export VALUES_YAML="backend/baserock-backend/values-gcp.yaml"
 
 #-- django --#
 export ANTHROPIC_API_KEY="<>"
