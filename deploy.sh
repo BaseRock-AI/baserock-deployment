@@ -120,6 +120,8 @@ else
   export IMAGE_PULL_SECRET_BLOCK=""
 fi
 
+./commons/namespace-setup.sh
+
 # Step 3: Execute Based on User Choice
 if [[ "$IMAGE_PULL_SECRET" != "" ]]; then
     ./commons/image-secret.sh

@@ -5,7 +5,7 @@ export AWS_ACCOUNT_ID="<>"
 export DOMAIN="<>"
 export STATIC_IP_ADDRESS="<>"
 export CERTIFICATE_NAME="<>"
-export IMAGE_PULL_SECRET=""
+export IMAGE_PULL_SECRET="<>"
 
 # -- images --#
 export CLIENT_IMAGE="vikasbaserock/client-dev-onprem:0.0.1-SM-816-Retest-integration-on-prem-deployment.0"
