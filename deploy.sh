@@ -111,6 +111,7 @@ fi
 if [[ "$DEPLOY_TYPE" == "Full Install" ]]; then
       print_status "Cleaning up.."
     ./commons/scripts/cleanup.sh
+    ./commons/namespace-setup.sh
 fi
 
 
@@ -120,7 +121,6 @@ else
   export IMAGE_PULL_SECRET_BLOCK=""
 fi
 
-./commons/namespace-setup.sh
 
 # Step 3: Execute Based on User Choice
 if [[ "$IMAGE_PULL_SECRET" != "" ]]; then

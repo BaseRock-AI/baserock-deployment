@@ -20,7 +20,7 @@ helm upgrade --install "${HELM_RELEASE}" ./backend/baserock-backend \
     --set ingress.hosts[0].paths[0].pathType="${INGRESS_PATH_TYPE}" \
     --set secrets.baserockBackend.BASEROCK_EMAIL="${BASEROCK_EMAIL_SMTP}" \
     --set secrets.baserockBackend.BASEROCK_EMAIL_PASSWORD="${BASEROCK_EMAIL_PASSWORD_SMTP}" \
-    --set imagePullSecrets[0]="${IMAGE_PULL_SECRET}" \
+    --set imagePullSecrets[0].name="${IMAGE_PULL_SECRET}" \
     --timeout 10m
 
 

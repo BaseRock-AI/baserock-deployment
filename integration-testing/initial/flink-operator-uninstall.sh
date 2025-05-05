@@ -4,4 +4,3 @@ kubectl delete clusterrole flink-operator
 kubectl delete clusterrolebinding flink-operator-role-binding
 kubectl delete validatingwebhookconfigurations "flink-operator-${NAMESPACE}-webhook-configuration" -n onpremise-baserock
 kubectl delete mutatingwebhookconfigurations "flink-operator-${NAMESPACE}-webhook-configuration" -n onpremise-baserock
-kubectl delete flinkdeployments.flink.apache.org -n onpremise-baserock --all
