@@ -7,6 +7,7 @@ export DOMAIN="app.dev.onprem.baserock.ai"
 export STATIC_IP_ADDRESS="34.45.23.246"
 export CERTIFICATE_NAME="app-baserock-onprem-ssl-cert"
 export IMAGE_PULL_SECRET=""
+export IMAGE_PULL_SECRET_SERVER="https://gcr.io"
 
 # -- images --#
 export CLIENT_IMAGE="gcr.io/production-385606/client-dev-onprem:0.0.1-SM-816-Retest-integration-on-prem-deployment.0"

@@ -7,6 +7,7 @@ export DOMAIN="app.onprem.baserock.ai"
 export STATIC_IP_ADDRESS="34.122.141.94"
 export CERTIFICATE_NAME="app-baserock-onprem-prod-ssl-cert"
 export IMAGE_PULL_SECRET=""
+export IMAGE_PULL_SECRET_SERVER="https://gcr.io"
 
 # -- images --#
 export CLIENT_IMAGE="gcr.io/production-385606/client-local:0.49.0"

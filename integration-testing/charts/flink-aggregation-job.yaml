@@ -15,6 +15,7 @@ stringData:
   MONGO_DB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
   MONGO_DB_USER: "${MONGO_DB_USER}"
   DB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
+  COLLECT_INPUT_DATA: "true"
 ---
 # --- flink-job ---
 apiVersion: flink.apache.org/v1beta1
@@ -61,8 +62,7 @@ spec:
       metadata:
         name: pod-template
       spec:
-        imagePullSecrets:
-          - name: ${IMAGE_PULL_SECRET}
+        ${IMAGE_PULL_SECRET_BLOCK}
         containers:
           - name: flink-main-container
             envFrom:
