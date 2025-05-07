@@ -10,11 +10,11 @@ export IMAGE_PULL_SECRET=""
 export IMAGE_PULL_SECRET_SERVER="https://gcr.io"
 
 # -- images --#
-export CLIENT_IMAGE="gcr.io/production-385606/client-dev-onprem:0.0.1-SM-816-Retest-integration-on-prem-deployment.0"
-export UPCASTER_IMAGE="gcr.io/production-385606/upcaster:0.264.0"
-export FLINK_IMAGE="gcr.io/production-385606/flinkjob-rabbitmq-aggregation:0.48.0"
-export DJANGO_IMAGE="gcr.io/production-385606/le-django-server:0.265.0"
-export LE_SERVICE_IMAGE="gcr.io/production-385606/baserock-backend/learning-engine-service:0.163.0"
+export CLIENT_IMAGE="gcr.io/production-385606/client:0.53.0"
+export UPCASTER_IMAGE="gcr.io/production-385606/upcaster:0.270.0"
+export FLINK_IMAGE="gcr.io/production-385606/flinkjob-rabbitmq-aggregation:0.48.2-feature-concentric-deployment.1"
+export DJANGO_IMAGE="gcr.io/production-385606/le-django-server:0.269.0"
+export LE_SERVICE_IMAGE="gcr.io/production-385606/baserock-backend/learning-engine-service:0.164.0"
 export ADMIN_PORTAL_IMAGE="gcr.io/production-385606/admin-portal-ui:0.12.1-SM-697.1"
 export TODO_WEB_APP_IMAGE="gcr.io/production-385606/todo-web-app:0.0.1"
 export TODO_WEB_SERVICE_IMAGE="gcr.io/production-385606/todo-web-service:0.0.1"
@@ -26,7 +26,7 @@ export BACKEND_TAG="1.182.0"
 export VALUES_YAML="backend/baserock-backend/values-gcp.yaml"
 
 #-- django --#
-export ANTHROPIC_API_KEY="<>"
+export ANTHROPIC_API_KEY="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"
 export VOYAGE_API_KEY="<>"
 export VOYAGE_MODEL_NAME="voyage-3"
 

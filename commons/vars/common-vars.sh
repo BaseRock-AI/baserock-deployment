@@ -109,6 +109,10 @@ export LLM_ENABLED="True"
 export MAX_TEST_CASES="10"
 export POSITIVE_TEST_RATIO="0.5"
 
+#-- client --#
+export REACT_APP_API_URL="https://${DOMAIN}/it/leService"
+export REACT_APP_REDIRECT_BASE_URL="https://${DOMAIN}/admin-portal"
+
 #-- todo-web-app --#
 export TODO_WEB_SERVICE_URL="https://${DOMAIN}/todo"
 export TODO_WEB_APP_CONTEXT_PATH="/todo-ui"

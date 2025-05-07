@@ -7,6 +7,17 @@ metadata:
 type: Opaque
 stringData:
   MONGO_URL: "${MONGO_URL}"
+  ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+  ANTHROPIC_MODEL_NAME: "${ANTHROPIC_MODEL_NAME}"
+  CHROMA_HOST: "${CHROMA_HOST}"
+  CHROMA_TOKEN: "${CHROMA_TOKEN}"
+  DEFINITION_MODE_THRESHOLD: "${DEFINITION_MODE_THRESHOLD}"
+  DOMAIN_NAME: "${DOMAIN}"
+  LLM_ENABLED: "${LLM_ENABLED}"
+  MAX_TEST_CASES: "${MAX_TEST_CASES}"
+  POSITIVE_TEST_RATIO: "${POSITIVE_TEST_RATIO}"
+  VOYAGE_API_KEY: "${VOYAGE_API_KEY}"
+  VOYAGE_MODEL_NAME: "${VOYAGE_MODEL_NAME}"
 ---
 # --- CronJob ---
 apiVersion: batch/v1
@@ -15,7 +26,7 @@ metadata:
   name: ${UPCASTER_DEPLOYMENT}-cronjob
   namespace: ${NAMESPACE}
 spec:
-  schedule: "0 0 */1 * *"
+  schedule: "*/2 * * * *"
   jobTemplate:
     spec:
       parallelism: 1 # One pod at a time
