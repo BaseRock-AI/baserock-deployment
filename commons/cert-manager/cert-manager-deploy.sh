@@ -31,7 +31,7 @@ kubectl wait --namespace "${CERT_MANAGER_NAMESPACE}" \
     -l app.kubernetes.io/name=cert-manager \
     --timeout=300s
 
-#kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.crds.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.crds.yaml
 
 
 
