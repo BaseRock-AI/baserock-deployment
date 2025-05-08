@@ -31,17 +31,8 @@ kubectl wait --namespace "${CERT_MANAGER_NAMESPACE}" \
     -l app.kubernetes.io/name=cert-manager \
     --timeout=300s
 
-print_status "kubectl apply -f commons/cert-manager/secret.yaml -n baserock-backend"
-envsubst < commons/cert-manager/secret.yaml | kubectl apply -n "${NAMESPACE}" -f -
-#kubectl apply -f cert-manager/secret.yaml -n "${NAMESPACE}"
-
-print_status "kubectl apply -f commons/cert-manager/issuer.yaml -n baserock-backend"
-envsubst < commons/cert-manager/issuer.yaml | kubectl apply -n "${NAMESPACE}" -f -
+#kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.crds.yaml
 
 
-print_status "kubectl apply -f commons/cert-manager/cert.yaml -n baserock-backend"
-envsubst < commons/cert-manager/cert.yaml | kubectl apply -n "${NAMESPACE}" -f -
-
-print_status "Cert manager deployment completed!"
 
 

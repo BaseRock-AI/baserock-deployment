@@ -19,12 +19,12 @@ export ADMIN_PORTAL_IMAGE="gcr.io/production-385606/admin-portal-ui:0.12.1-SM-69
 export TODO_WEB_APP_IMAGE="gcr.io/production-385606/todo-web-app:0.0.1"
 export TODO_WEB_SERVICE_IMAGE="gcr.io/production-385606/todo-web-service:0.0.1"
 export BACKEND_IMAGE="gcr.io/production-385606/sapient-backend/facade-service"
-export BACKEND_TAG="1.182.0"
+export BACKEND_TAG="1.182.1-SM-967.1"
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-gcp-prod.yaml"
 
 #-- django --#
-export ANTHROPIC_API_KEY="<>"
+export ANTHROPIC_API_KEY="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"
 export VOYAGE_API_KEY="<>"
 export VOYAGE_MODEL_NAME="voyage-3"
 

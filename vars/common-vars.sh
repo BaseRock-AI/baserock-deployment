@@ -79,8 +79,8 @@ export EMAIL_ID="support@baserock.ai"
 export USER_COUNT=1
 export LICENSE_TYPE="TRIAL"
 export BACKEND_PULL_POLICY="Always"
-export BASEROCK_EMAIL_SMTP="rohit@baserock.ai"
-export BASEROCK_EMAIL_PASSWORD_SMTP="cbawpdgtbxjydsvf"
+export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
+export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 
 #-- resource limits --#
 export CLIENT_CPUS="2"

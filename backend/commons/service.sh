@@ -7,11 +7,10 @@ helm upgrade --install "${HELM_RELEASE}" ./backend/baserock-backend \
     --namespace "${NAMESPACE}" \
     --set image.repository="${BACKEND_IMAGE}" \
     --set image.tag="${BACKEND_TAG}" \
-    --set image.pullPolicy="${IMAGE_PULL_POLICY}"\
     --set image.pullPolicy="${BACKEND_PULL_POLICY}" \
     --set ingress.enabled=true \
-    --set tls[0].hosts[0]="${DOMAIN}" \
-    --set tls[0].secretName="${CERTIFICATE_NAME}" \
+    --set ingress.tls[0].hosts[0]="${DOMAIN}" \
+    --set ingress.tls[0].secretName="${CERTIFICATE_NAME}" \
     --set config.GITLAB_OAUTH_CALLBACK_URL="${DOMAIN}/login/oauth/callback?oAuthProviderType=gitlab" \
     --set config.LINKEDIN_OAUTH_CALLBACK_URL="${DOMAIN}/login/oauth/callback?oAuthProviderType=linkedin" \
     --set config.SERVER_BASE_URL="${SCHEME}://${DOMAIN}" \
