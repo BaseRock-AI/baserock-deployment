@@ -2,6 +2,15 @@
 
 source ./commons/messaging.sh
 
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || { echo "$1 is required but not installed."; exit 1; }
+}
+
+require_command docker
+require_command kubectl
+require_command helm
+require_command dig
+
 
 # Step 2: Select Deployment Type
 while true; do
@@ -74,8 +83,8 @@ print_status "CERT_MANAGER_OPTION_TYPE Type: $CERT_MANAGER_OPTION_TYPE"
 
 
 # shellcheck source=./commons/vars/dev-gcp-vars.sh
-source ./commons/vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
-source ./commons/vars/common-vars.sh
+source ./vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
+source ./vars/common-vars.sh
 
 
 chmod +x commons/scripts/install-with-cert.sh
@@ -86,11 +95,11 @@ chmod +x commons/aws/set-cluster-context.sh
 chmod +x commons/gcp/set-cluster-context.sh
 chmod +x commons/scripts/cleanup.sh
 chmod +x commons/image-secret.sh
-chmod +x commons/vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
-chmod +x commons/vars/common-vars.sh
+chmod +x vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
+chmod +x vars/common-vars.sh
 
-./commons/vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
-./commons/vars/common-vars.sh
+./vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
+./vars/common-vars.sh
 
 # Step 3: Execute Based on User Choice
 if [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "gcp" ]]; then

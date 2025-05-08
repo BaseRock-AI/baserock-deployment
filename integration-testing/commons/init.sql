@@ -1,4 +1,6 @@
-CREATE TABLE IF NOT EXISTS github_app_installations (                                              name VARCHAR(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS github_app_installations (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
     acc_id VARCHAR(255) NOT NULL,
     acc_type VARCHAR(255) NOT NULL,
     installation_id INTEGER NOT NULL,
