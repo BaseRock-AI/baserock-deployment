@@ -1,0 +1,155 @@
+# Default values for baserock-backend
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+
+# Image pull secrets for private registry
+imagePullSecrets: [ ]
+# - name: regcred
+
+# Service Account configuration
+serviceAccount:
+  name: backend-service-account
+  create: true
+  annotations: { }
+
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 2048m
+    memory: 2048Mi
+  requests:
+    cpu: 1024m
+    memory: 1024Mi
+
+# Health check probe configuration
+probes:
+  liveness:
+    path: /actuator/health
+    initialDelaySeconds: 120
+    periodSeconds: 20
+    timeoutSeconds: 10
+  readiness:
+    path: /actuator/health
+    initialDelaySeconds: 120
+    periodSeconds: 20
+    timeoutSeconds: 10
+
+# PostgreSQL configuration
+postgresql:
+  enabled: true
+  auth:
+    username: postgres
+    password: postgres123
+    database: testdb
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+# rabbitmq configuration
+rabbitmq:
+  auth:
+    username: user
+    password: password
+  replication:
+    enabled: true
+
+# Redis configuration
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: true
+    password: redis123
+  master:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+config:
+  ON_PREMISE_FLAG: "true"
+  LOGFILE: logback-local.xml
+  FEATURE_PUBSUB_ENABLED: "false"
+  CHAT_GPT_CALL_DIRECT: "false"
+  CHAT_GPT_RATE_LIMIT: "500"
+  CORS_ALLOWED_ORIGINS: "http://localhost:3000"
+  CUTOFF_PLUGIN_RELEASE_TIME_INTERVAL_IN_DAYS: "30"
+  DB_HOST_NAME: "postgresql"
+  DB_HOST_PORT: "5432"
+  GCP_PROJECT_ID: development-375212
+  GITHUB_OAUTH_SERVER_URL: https://api.github.com/user
+  GITHUB_OAUTH_USER_DATA_SCOPE: "user:email"
+  GITLAB_OAUTH_CALLBACK_URL: http://localhost/login/oauth/callback?oAuthProviderType=gitlab
+  LINKEDIN_OAUTH_CALLBACK_URL: http://localhost/login/oauth/callback?oAuthProviderType=linkedin
+  SERVER_BASE_URL: http://localhost
+  GITLAB_OAUTH_SERVER_URL: https://gitlab.com/api/v4/user
+  GITLAB_OAUTH_USER_DATA_SCOPE: read_user
+  HELP_REQUEST_TEMPLATE: help_request_submission.ftlh
+  JPA_HIBERNATE_DDL_AUTO: none
+  JPA_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+  LINKEDIN_OAUTH_SERVER_URL: https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))
+  LINKEDIN_OAUTH_USER_DATA_SCOPE: r_liteprofile r_emailaddress
+  LLM_ENABLED: "true"
+  MAIL_PROTOCOL: "smtp"
+  MAIL_SERVER_HOST: "smtp.gmail.com"
+  MAIL_SERVER_PORT: "587"
+  REDIS_SERVER_HOST: "baserock-backend-redis-master"
+  REDIS_SERVER_PORT: "6379"
+  REMAINING_DAYS_TO_SEND_EVENT: "7"
+  SONET_ANTHROPIC_URL: https://api.anthropic.com/v1/messages
+  SONET_ANTHROPIC_VERSION: "2023-06-01"
+  SONET_CALL_DIRECT: "true"
+  SONET_RATE_LIMIT: "100"
+  TARGET_DB_NAME: testdb
+  USER_ORG_PAGINATION_PAGE_NUMBER: "0"
+  USER_ORG_PAGINATION_PAGE_SIZE: "20"
+  PLUGIN_ID: "21709"
+
+# Application secrets
+secrets:
+  baserockBackend:
+    CHAT_GPT_API_KEY: <CHAT_GPT_API_KEY>
+    CHAT_GPT_URL: https://api.openai.com/v1/chat/completions
+    SONET_VERTEX_AI_URL: https://us-east5-aiplatform.googleapis.com/v1/projects/prod-it-406207/locations/us-east5/publishers/anthropic/models/claude-3-5-sonnet@20240620:rawPredict
+    BASEROCK_EMAIL: <BASEROCK_EMAIL>
+    BASEROCK_EMAIL_PASSWORD: <BASEROCK_EMAIL_PASSWORD>
+    BASEROCK_SUPPORT_EMAIL: noreply@baserock.ai
+    DB_USER_NAME: postgres
+    DB_USER_PASSWORD: postgres123
+    DEFAULT_CREDIT_EXPIRY_TIME: "264000"
+    ENTERPRISE_CREDIT_EXPIRY_TIME: "264000"
+    ENTERPRISE_DEFAULT_CREDITS: "264000"
+    FREEMIUM_DEFAULT_CREDITS: "264000"
+    GITHUB_OAUTH_CLIENT_ID: <GITHUB_OAUTH_CLIENT_ID>
+    GITHUB_OAUTH_CLIENT_SECRET: <GITHUB_OAUTH_CLIENT_SECRET>
+    GITLAB_OAUTH_CLIENT_ID: <GITLAB_OAUTH_CLIENT_ID>
+    GITLAB_OAUTH_CLIENT_SECRET: <GITLAB_OAUTH_CLIENT_SECRET>
+    LINKEDIN_OAUTH_CLIENT_ID: <LINKEDIN_OAUTH_CLIENT_ID>
+    LINKEDIN_OAUTH_CLIENT_SECRET: <LINKEDIN_OAUTH_CLIENT_SECRET>
+    PROFESSIONAL_CREDIT_EXPIRY_TIME: "264000"
+    PROFESSIONAL_DEFAULT_CREDITS: "264000"
+    GOOGLE_APPLICATION_CREDENTIALS: ""
+    redis_password: redis123
+    INTELLIJ_ENDPOINT: "https://plugins.jetbrains.com/api/plugins"
+    SONET_ANTHROPIC_API_KEY: <SONET_ANTHROPIC_API_KEY>
+    SONET_VERTEX_AI_TOKEN: <SONET_VERTEX_AI_TOKEN>
+    FEATURE_PUBSUB_ENABLED: "false"
+    REDIS_PASSWORD: redis123
+    TOKEN_PRIVATE_KEY: <TOKEN_PRIVATE_KEY>
+    TOKEN_PUBLIC_KEY: <TOKEN_PUBLIC_KEY>
+    CHAT_GPT_AZURE_API_KEY: <CHAT_GPT_AZURE_API_KEY>
+    CHAT_GPT_AZURE_URL: <CHAT_GPT_AZURE_URL>
+    THRESHOLD_VERSION: 2023.2.24
+  dockercfg:
+    data: { }

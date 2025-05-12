@@ -1,0 +1,74 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  POSTGRES_DB: "${POSTGRES_DB_NAME}"
+  POSTGRES_USER: "${POSTGRES_USERNAME}"
+  POSTGRES_PASSWORD: "${POSTGRES_DB_PASSWORD}"
+---
+# --- postgres-deployment ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${POSTGRES_DEPLOYMENT}
+  namespace: ${NAMESPACE}
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: postgres-secret
+          resources:
+            requests:
+              cpu: ${POSTGRES_CPUS}
+              memory: ${POSTGRES_MEMORY}
+            limits:
+              cpu: ${POSTGRES_CPUS}
+              memory: ${POSTGRES_MEMORY}
+          volumeMounts:
+            - name: postgres-pv
+              mountPath: /var/lib/postgresql/data
+            - name: init-scripts
+              mountPath: /docker-entrypoint-initdb.d # Path for PostgreSQL initialization scripts
+      volumes:
+        - name: postgres-pv
+          emptyDir: {} # This creates ephemeral storage
+        - name: init-scripts
+          configMap:
+            name: postgres-init-scripts-it
+
+---
+# --- postgres-service ---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${NAMESPACE}
+  name: ${POSTGRES_SERVICE_DEPLOYMENT}
+  labels:
+    app: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+    - name: postgres
+      port: ${POSTGRES_PORT}
+      targetPort: 5432
+  type: ClusterIP

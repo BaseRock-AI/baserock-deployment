@@ -1,0 +1,59 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: upcaster-secrets
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  MONGO_URL: "${MONGO_URL}"
+  ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+  ANTHROPIC_MODEL_NAME: "${ANTHROPIC_MODEL_NAME}"
+  CHROMA_HOST: "${CHROMA_HOST}"
+  CHROMA_TOKEN: "${CHROMA_TOKEN}"
+  DEFINITION_MODE_THRESHOLD: "${DEFINITION_MODE_THRESHOLD}"
+  DOMAIN_NAME: "${DOMAIN}"
+  LLM_ENABLED: "${LLM_ENABLED}"
+  MAX_TEST_CASES: "${MAX_TEST_CASES}"
+  POSITIVE_TEST_RATIO: "${POSITIVE_TEST_RATIO}"
+  VOYAGE_API_KEY: "${VOYAGE_API_KEY}"
+  VOYAGE_MODEL_NAME: "${VOYAGE_MODEL_NAME}"
+---
+# --- CronJob ---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ${UPCASTER_DEPLOYMENT}-cronjob
+  namespace: ${NAMESPACE}
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      parallelism: 1 # One pod at a time
+      backoffLimit: 1
+      template:
+        spec:
+          ${IMAGE_PULL_SECRET_BLOCK}
+          containers:
+            - name: ${UPCASTER_DEPLOYMENT}
+              image: ${UPCASTER_IMAGE}
+              imagePullPolicy: Always
+              env:
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              envFrom:
+                - secretRef:
+                    name: upcaster-secrets
+              resources:
+                limits:
+                  cpu: ${UPCASTER_CPUS}
+                  memory: ${UPCASTER_MEMORY}
+                  ephemeral-storage: 1Gi
+                requests:
+                  cpu: ${UPCASTER_CPUS}
+                  memory: ${UPCASTER_MEMORY}
+                  ephemeral-storage: 1Gi
+          restartPolicy: OnFailure
+          terminationGracePeriodSeconds: 30

@@ -1,0 +1,80 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: flink-job-secret
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  MQ_HOST: "${MQ_HOST_NAME}"
+  MQ_VIRTUAL_HOST: "/"
+  MQ_USERNAME: "${MQ_USERNAME}"
+  MQ_PASSWORD: "${MQ_PASSWORD}"
+  MONGO_DB_CONNECTION_STRING: "${MONGO_URL}"
+  MONGO_DB_PORT: "${MONGO_DB_PORT}"
+  MONGO_DB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
+  MONGO_DB_USER: "${MONGO_DB_USER}"
+  DB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
+  COLLECT_INPUT_DATA: "true"
+---
+# --- flink-job ---
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  namespace: ${NAMESPACE}
+  name: flink-aggregation-job
+spec:
+  image: ${FLINK_IMAGE}
+  flinkVersion: v1_19
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "1"
+  serviceAccount: flink
+  jobManager:
+    resource:
+      memory: ${FLINK_MEMORY}
+      cpu: ${FLINK_CPUS}
+    podTemplate:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: pod-template
+      spec:
+        ${IMAGE_PULL_SECRET_BLOCK}
+        containers:
+          - name: flink-main-container
+            image: ${FLINK_IMAGE}
+            imagePullPolicy: Always
+            envFrom:
+              - secretRef:
+                  name: flink-job-secret
+            env:
+              - name: REFRESH_INTERVAL
+                value: "30000"
+              - name: SPAN_DURATION_IN_SECONDS
+                value: "60"
+  taskManager:
+    resource:
+      memory: ${FLINK_MEMORY}
+      cpu: ${FLINK_CPUS}
+    podTemplate:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: pod-template
+      spec:
+        ${IMAGE_PULL_SECRET_BLOCK}
+        containers:
+          - name: flink-main-container
+            envFrom:
+              - secretRef:
+                  name: flink-job-secret
+            env:
+              - name: REFRESH_INTERVAL
+                value: "30000"
+              - name: SPAN_DURATION_IN_SECONDS
+                value: "60"
+  job:
+    jarURI: local:///opt/flink/usrlib/FlinkJob-1.0-SNAPSHOT.jar
+    entryClass: "org.sapient.Main"
+    parallelism: 1
+    upgradeMode: stateless

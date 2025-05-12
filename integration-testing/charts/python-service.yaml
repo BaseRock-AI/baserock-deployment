@@ -1,0 +1,72 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: django-service-secret
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  MONGO_URL: "${MONGO_URL}"
+  ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+  ANTHROPIC_MODEL_NAME: "${ANTHROPIC_MODEL_NAME}"
+  CHROMA_HOST: "${CHROMA_HOST}"
+  CHROMA_TOKEN: "${CHROMA_TOKEN}"
+  DEFINITION_MODE_THRESHOLD: "${DEFINITION_MODE_THRESHOLD}"
+  DOMAIN_NAME: "${DOMAIN}"
+  LLM_ENABLED: "${LLM_ENABLED}"
+  MAX_TEST_CASES: "${MAX_TEST_CASES}"
+  POSITIVE_TEST_RATIO: "${POSITIVE_TEST_RATIO}"
+  VOYAGE_API_KEY: "${VOYAGE_API_KEY}"
+  VOYAGE_MODEL_NAME: "${VOYAGE_MODEL_NAME}"
+---
+# --- deployment-django.yml ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${DJANGO_DEPLOYMENT}
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-deployment
+  template:
+    metadata:
+      labels:
+        app: python-deployment
+    spec:
+      ${IMAGE_PULL_SECRET_BLOCK}
+      containers:
+        - name: python-deployment
+          image: ${DJANGO_IMAGE}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: django-service-secret
+          resources:
+            limits:
+              cpu: ${DJANGO_CPUS}
+              memory: ${DJANGO_MEMORY}
+              ephemeral-storage: 1Gi
+            requests:
+              cpu: ${DJANGO_CPUS}
+              memory: ${DJANGO_MEMORY}
+              ephemeral-storage: 1Gi
+      terminationGracePeriodSeconds: 30
+---
+# --- service-django.yml ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${DJANGO_SERVICE_DEPLOYMENT}
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: ${DJANGO_DEPLOYMENT}
+  ports:
+    - protocol: TCP
+      port: ${LE_DJANGO_PORT}
+      targetPort: 8080
+  type: LoadBalancer

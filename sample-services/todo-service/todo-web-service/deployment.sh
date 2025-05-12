@@ -1,0 +1,1 @@
+envsubst < sample-services/todo-service/todo-web-service/deployment.yaml | kubectl apply -n "${NAMESPACE}" -f -

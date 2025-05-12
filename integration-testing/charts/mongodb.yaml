@@ -1,0 +1,121 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-secret
+  namespace: ${NAMESPACE}
+type: Opaque
+stringData:
+  MONGO_INITDB_ROOT_USERNAME: "${MONGO_DB_USER}"
+  MONGO_INITDB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
+---
+# --- mongo-init-config ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-mongo-script
+  namespace: ${NAMESPACE}
+data:
+  init-mongo.js: |
+    db = db.getSiblingDB("microservice");
+    db.createCollection("analyzer");
+
+    db = db.getSiblingDB("flink_mongo_db");
+    db.createCollection("aggregated_document_database");
+
+---
+# --- mongo-deployment ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ${NAMESPACE}
+  name: mongodb-deployment
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:8.0.0
+          ports:
+            - containerPort: 27017 # MongoDB default port
+          envFrom:
+            - secretRef:
+                name: mongodb-secret
+          resources:
+            requests:
+              cpu: ${MONGO_CPUS}
+              memory: ${MONGO_MEMORY}
+            limits:
+              cpu: ${MONGO_CPUS}
+              memory: ${MONGO_MEMORY}
+          volumeMounts:
+            - name: mongodb-data
+              mountPath: /data/db # Directory where MongoDB stores its data
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d/init-mongo.js # Mount the initialization script
+              subPath: init-mongo.js # Directory where MongoDB stores its data
+      volumes:
+        - name: mongodb-data
+          emptyDir: {} # Can be replaced by a PersistentVolumeClaim for persistent data
+        - name: init-script
+          configMap:
+            name: init-mongo-script
+
+---
+# --- mongo-service ---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${NAMESPACE}
+  name: ${MONGO_SERVICE}
+  labels:
+    app: mongodb
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - port: 27017 # MongoDB default port
+      targetPort: 27017
+  type: ClusterIP
+
+---
+# --- mongodb-alias-service ---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${NAMESPACE}
+  name: mongodb
+  labels:
+    app: mongodb
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - port: 27017
+      targetPort: 27017
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-test-service
+  namespace: ${NAMESPACE}
+spec:
+  type: LoadBalancer
+  ports:
+    - name: amqp
+      port: 27017
+      targetPort: 27017
+  selector:
+    app: mongodb

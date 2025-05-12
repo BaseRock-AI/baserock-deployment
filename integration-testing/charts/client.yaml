@@ -1,0 +1,51 @@
+---
+# --- client-deployment ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${CLIENT_DEPLOYMENT}
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${CLIENT_DEPLOYMENT}
+  template:
+    metadata:
+      labels:
+        app: ${CLIENT_DEPLOYMENT}
+    spec:
+      ${IMAGE_PULL_SECRET_BLOCK}
+      containers:
+        - name: ${CLIENT_DEPLOYMENT}
+          image: ${CLIENT_IMAGE}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: ${CLIENT_PORT}
+          env:
+            - name: REACT_APP_API_URL
+              value: "${REACT_APP_API_URL}"
+            - name: REACT_APP_REDIRECT_BASE_URL
+              value: "${REACT_APP_REDIRECT_BASE_URL}"
+          resources:
+            limits:
+              cpu: ${CLIENT_CPUS}
+              memory: ${CLIENT_MEMORY}
+            requests:
+              cpu: ${CLIENT_CPUS}
+              memory: ${CLIENT_MEMORY}
+---
+# --- client-service ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${CLIENT_DEPLOYMENT}-service
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: ${CLIENT_DEPLOYMENT}
+  ports:
+    - protocol: TCP
+      port: ${CLIENT_PORT}
+      targetPort: ${CLIENT_PORT}
+  type: ClusterIP
