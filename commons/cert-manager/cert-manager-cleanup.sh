@@ -15,7 +15,21 @@ kubectl delete crd \
     issuers.cert-manager.io \
     orders.acme.cert-manager.io
 
+# Remove finalizers from challenges
+for c in $(kubectl get challenges.acme.cert-manager.io -n onpremise-baserock -o jsonpath='{.items[*].metadata.name}'); do
+  echo "Patching challenge: $c"
+  kubectl patch challenge.acme.cert-manager.io "$c" -n onpremise-baserock -p '{"metadata":{"finalizers":[]}}' --type=merge
+done
+
+# Remove finalizers from orders
+for o in $(kubectl get orders.acme.cert-manager.io -n onpremise-baserock -o jsonpath='{.items[*].metadata.name}'); do
+  echo "Patching order: $o"
+  kubectl patch order.acme.cert-manager.io "$o" -n onpremise-baserock -p '{"metadata":{"finalizers":[]}}' --type=merge
+done
+
+# Now delete the resources cleanly
 kubectl delete challenges.acme.cert-manager.io -n onpremise-baserock --all
+kubectl delete orders.acme.cert-manager.io -n onpremise-baserock --all
 
 echo "deleting namespace ${CERT_MANAGER_NAMESPACE}"
 helm uninstall cert-manager -n "${CERT_MANAGER_NAMESPACE}"

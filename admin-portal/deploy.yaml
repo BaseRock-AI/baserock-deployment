@@ -41,6 +41,7 @@ spec:
       labels:
         app: admin-portal
     spec:
+      ${IMAGE_PULL_SECRET_BLOCK}
       containers:
         - name: admin-portal
           image: ${ADMIN_PORTAL_IMAGE}

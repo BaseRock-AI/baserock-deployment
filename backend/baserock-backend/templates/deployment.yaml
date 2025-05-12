@@ -19,9 +19,9 @@ spec:
         runAsUser: 1000
     {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-    {{- range .Values.imagePullSecrets }}
-        - name: {{ . }}
-    {{- end }}
+      {{- range .Values.imagePullSecrets }}
+        - name: {{ .name }}
+      {{- end }}
     {{- end }}
       containers:
         - name: baserock-backend
