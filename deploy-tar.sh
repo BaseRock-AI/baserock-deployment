@@ -12,4 +12,6 @@ source ./vars/tar-vars.sh
 source ./vars/common-vars.sh
 
 chmod +x script.sh
+chmod +x bundle/push_to_ecr.sh
+./bundle/push_to_ecr.sh
 ./script.sh

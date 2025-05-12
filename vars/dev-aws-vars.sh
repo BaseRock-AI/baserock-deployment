@@ -32,7 +32,3 @@ export VOYAGE_MODEL_NAME="voyage-3"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"
-
-
-export IMAGE_PULL_POLICY="Always"
-export BACKEND_PULL_POLICY="Always"
