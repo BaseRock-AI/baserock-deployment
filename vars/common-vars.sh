@@ -72,13 +72,11 @@ export USE_MINIKUBE="false"
 
 #-- backend-extras--#
 export HELM_RELEASE="baserock-backend"
-export IMAGE_PULL_POLICY="Always"
 export INGRESS_PATH_TYPE="Prefix"
 export SCHEME="https"
 export EMAIL_ID="support@baserock.ai"
 export USER_COUNT=1
 export LICENSE_TYPE="TRIAL"
-export BACKEND_PULL_POLICY="Always"
 export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
 export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 
