@@ -61,7 +61,19 @@ while true; do
 done
 
 
-# Step 2: Select Deployment Type
+while true; do
+    echo "Certificate Type:"
+    echo "1) Self Signed"
+    echo "2) Cloud Based"
+    read -p "#? " CERT_TYPE
+
+    case $CERT_TYPE in
+        1) CERT_TYPE_OPTION="Self Signed"; break;;
+        2) CERT_TYPE_OPTION="Cloud"; break;;
+        *) echo "Invalid option. Please select again.";;
+    esac
+done
+
 while true; do
     echo "Install cert manager:"
     echo "1) Yes"
@@ -75,10 +87,10 @@ while true; do
     esac
 done
 
-
 print_status "Environment: $ENV"
 print_status "Deployment Type: $DEPLOY_TYPE"
 print_status "BASEROCK_CLOUD_OPTION_TYPE Type: $BASEROCK_CLOUD_OPTION_TYPE"
+print_status "CERT_TYPE_OPTION Type: $CERT_TYPE_OPTION"
 print_status "CERT_MANAGER_OPTION_TYPE Type: $CERT_MANAGER_OPTION_TYPE"
 
 
@@ -98,6 +110,7 @@ chmod +x commons/image-secret.sh
 chmod +x vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
 chmod +x vars/common-vars.sh
 chmod +x commons/image-secret.sh
+chmod +x commons/scripts/install-with-self-signed-cert.sh
 
 ./vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
 ./vars/common-vars.sh
@@ -124,6 +137,10 @@ if [[ "$DEPLOY_TYPE" == "Full Install" ]]; then
     ./commons/namespace-setup.sh
 fi
 
+if [[ "$DEPLOY_TYPE" != "Full Install" && "$CERT_TYPE_OPTION" == "Self Signed" ]]; then
+      print_status "Cleaning up cert manager for self signed certificate.."
+    ./commons/cert-manager/cert-manager-cleanup.sh
+fi
 
 if [ -n "$IMAGE_PULL_SECRET" ]; then
   export IMAGE_PULL_SECRET_BLOCK="imagePullSecrets: [{ name: $IMAGE_PULL_SECRET }]"
@@ -151,13 +168,18 @@ fi
 
 
 # Step 3: Execute Based on User Choice
-if [[ "$CERT_MANAGER_OPTION_TYPE" == "Yes" &&  "$DEPLOY_TYPE" == "Full Install" ]]; then
+if [[ "$CERT_MANAGER_OPTION_TYPE" == "Yes" &&  "$DEPLOY_TYPE" == "Full Install" && "$CERT_TYPE_OPTION" != "Self Signed" ]]; then
     print_status "Installing with cert-manager in cluster"
     ./commons/scripts/install-with-cert.sh
 
-elif [[ "$CERT_MANAGER_OPTION_TYPE" == "No" &&  "$DEPLOY_TYPE" == "Full Install" ]]; then
+elif [[ "$CERT_MANAGER_OPTION_TYPE" == "No" &&  "$DEPLOY_TYPE" == "Full Install" && "$CERT_TYPE_OPTION" != "Self Signed" ]]; then
     print_status "Installing without cert-manager in cluster"
     ./commons/scripts/install-without-cert.sh
+
+elif [[ "$CERT_TYPE_OPTION" == "Self Signed" &&  "$DEPLOY_TYPE" == "Full Install" ]]; then
+    print_status "Self Signed certificate deployment..."
+    ./commons/scripts/install-with-self-signed-cert.sh
+
 fi
 
 
