@@ -97,6 +97,7 @@ chmod +x commons/scripts/cleanup.sh
 chmod +x commons/image-secret.sh
 chmod +x vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
 chmod +x vars/common-vars.sh
+chmod +x commons/image-secret.sh
 
 ./vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
 ./vars/common-vars.sh
@@ -125,10 +126,21 @@ fi
 
 
 if [ -n "$IMAGE_PULL_SECRET" ]; then
-  export IMAGE_PULL_SECRET_BLOCK="      imagePullSecrets:\n        - name: ${IMAGE_PULL_SECRET}"
+  export IMAGE_PULL_SECRET_BLOCK="imagePullSecrets: [{ name: $IMAGE_PULL_SECRET }]"
 else
   export IMAGE_PULL_SECRET_BLOCK=""
 fi
+
+if [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "aws" ]]; then
+  export STORAGE_CLASS_BLOCK="gp2"
+elif [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "gcp" ]]; then
+  export STORAGE_CLASS_BLOCK="standard"
+else
+  export STORAGE_CLASS_BLOCK=""
+fi
+
+echo "${IMAGE_PULL_SECRET_BLOCK}"
+echo "storageClassName:${STORAGE_CLASS_BLOCK}"
 
 
 # Step 3: Execute Based on User Choice

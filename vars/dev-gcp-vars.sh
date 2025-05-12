@@ -8,6 +8,9 @@ export STATIC_IP_ADDRESS="34.45.23.246"
 export CERTIFICATE_NAME="app-baserock-onprem-ssl-cert"
 export IMAGE_PULL_SECRET=""
 export IMAGE_PULL_SECRET_SERVER="https://gcr.io"
+export IMAGE_PULL_USERNAME="_json_key"
+export IMAGE_PULL_PASSWORD="$(cat commons/aws/key.json)"
+export IMAGE_PULL_EMAIL="lumber-image-puller@production-385606.iam.gserviceaccount.com"
 
 # -- images --#
 export CLIENT_IMAGE="gcr.io/production-385606/client:0.53.0"

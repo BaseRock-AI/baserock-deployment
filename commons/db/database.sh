@@ -16,12 +16,17 @@ helm upgrade --install postgresql bitnami/postgresql \
     --set auth.username=postgres \
     --set auth.password=postgres123 \
     --set auth.database=testdb \
-    --set primary.persistence.enabled=true \
-    --set primary.persistence.size=1Gi \
+    --set primary.persistence.enabled=false \
     --set primary.extraVolumes[0].name=init-script \
     --set primary.extraVolumes[0].configMap.name=postgres-init-script \
     --set primary.extraVolumeMounts[0].name=init-script \
     --set primary.extraVolumeMounts[0].mountPath=/docker-entrypoint-initdb.d \
+    --set primary.resources.requests.ephemeral-storage=512Mi \
+    --set primary.resources.limits.ephemeral-storage=1Gi \
+    --set primary.resources.requests.cpu=500m \
+    --set primary.resources.requests.memory=512Mi \
+    --set primary.resources.limits.cpu=1 \
+    --set primary.resources.limits.memory=1Gi
     --timeout 10m
 
 kubectl create secret generic baserock-backend-redis \
@@ -36,8 +41,13 @@ helm upgrade --install my-redis bitnami/redis \
   --set fullnameOverride=baserock-backend-redis \
   --set service.ports.redis=6379 \
   --set auth.enabled=false \
-  --set master.persistence.enabled=true \
-  --set master.persistence.size=5Gi
+  --set master.persistence.enabled=false \
+  --set master.resources.requests.ephemeral-storage=512Mi \
+  --set master.resources.limits.ephemeral-storage=1Gi \
+  --set master.resources.requests.cpu=100m \
+  --set master.resources.requests.memory=256Mi \
+  --set master.resources.limits.cpu=200m \
+  --set master.resources.limits.memory=512Mi
 
 # Wait for PostgreSQL to be ready
 print_status "Waiting for PostgreSQL to be ready..."
