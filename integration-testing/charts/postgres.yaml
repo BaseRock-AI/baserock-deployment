@@ -46,14 +46,10 @@ spec:
           volumeMounts:
             - name: postgres-pv
               mountPath: /var/lib/postgresql/data
-            - name: init-scripts
-              mountPath: /docker-entrypoint-initdb.d # Path for PostgreSQL initialization scripts
       volumes:
         - name: postgres-pv
           emptyDir: {} # This creates ephemeral storage
-        - name: init-scripts
-          configMap:
-            name: postgres-init-scripts-it
+
 
 ---
 # --- postgres-service ---

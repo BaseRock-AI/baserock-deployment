@@ -29,8 +29,8 @@ resources:
     cpu: 2048m
     memory: 2048Mi
   requests:
-    cpu: 1024m
-    memory: 1024Mi
+    cpu: 500m
+    memory: 500Mi
 
 # Health check probe configuration
 probes:
@@ -51,7 +51,7 @@ postgresql:
   auth:
     username: postgres
     password: postgres123
-    database: testdb
+    database: baserock-dev
   primary:
     persistence:
       enabled: true
@@ -111,7 +111,7 @@ config:
   SONET_ANTHROPIC_VERSION: "2023-06-01"
   SONET_CALL_DIRECT: "true"
   SONET_RATE_LIMIT: "100"
-  TARGET_DB_NAME: testdb
+  TARGET_DB_NAME: baserock-dev
   USER_ORG_PAGINATION_PAGE_NUMBER: "0"
   USER_ORG_PAGINATION_PAGE_SIZE: "20"
   PLUGIN_ID: "21709"

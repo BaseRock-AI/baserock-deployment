@@ -19,7 +19,7 @@ ingress:
   host: ""
 
 config:
-  TARGET_DB_NAME: "testdb"
+  TARGET_DB_NAME: "baserock-dev"
 secrets:
   baserockBackend:
     ON_PREM_API_KEY:

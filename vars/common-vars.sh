@@ -14,9 +14,9 @@ export MONGO_SERVICE="mongodb-service"
 export MONGO_URL="mongodb://${MONGO_DB_USER}:${MONGO_DB_PASSWORD}@${MONGO_SERVICE}:${MONGO_PORT}/"
 
 #-- postgres --#
-export POSTGRES_DB_NAME="sapient-dev"
+export POSTGRES_DB_NAME="baserock-dev"
 export POSTGRES_USERNAME="postgres"
-export POSTGRES_DB_PASSWORD="teste"
+export POSTGRES_DB_PASSWORD="postgres123"
 
 #--rabbitMQ --#
 export MQ_HOST_NAME="rabbitmq-service"
@@ -34,7 +34,7 @@ export DJANGO_DEPLOYMENT="python-deployment"
 export MQ_DEPLOYMENT="rabbitmq-deployment"
 export MONGO_SERVICE="mongodb-service"
 export DJANGO_SERVICE_DEPLOYMENT="python-service"
-export POSTGRES_SERVICE_DEPLOYMENT="postgres-service"
+export POSTGRES_SERVICE_DEPLOYMENT="postgresql"
 export RABBITMQ_SERVICE_DEPLOYMENT="rabbitmq-service"
 
 #-- ingress & Cert--#
@@ -83,22 +83,24 @@ export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
 export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 
 #-- resource limits --#
-export CLIENT_CPUS="1"
+export CLIENT_CPUS="0.5"
 export CLIENT_MEMORY="1Gi"
 export UPCASTER_CPUS="1"
 export UPCASTER_MEMORY="1Gi"
-export FLINK_CPUS="1"
-export FLINK_MEMORY="1Gi"
-export LE_GO_CPUS="1"
-export LE_GO_MEMORY="1Gi"
+export FLINK_CPUS="0.5"
+export FLINK_MEMORY="512Mi"
+export LE_GO_CPUS="0.5"
+export LE_GO_MEMORY="512Mi"
 export MONGO_CPUS="1"
 export MONGO_MEMORY="1Gi"
 export POSTGRES_CPUS="1"
 export POSTGRES_MEMORY="1Gi"
 export DJANGO_CPUS="1"
 export DJANGO_MEMORY="1Gi"
-export RABBITMQ_CPUS="1"
-export RABBITMQ_MEMORY="1Gi"
+export RABBITMQ_CPUS="0.5"
+export RABBITMQ_MEMORY="512Mi"
+export BACKEND_CPUS="0.5"
+export BACKEND_MEMORY="500Mi"
 
 #-- django --#
 export ANTHROPIC_MODEL_NAME="claude-3-5-sonnet-20241022"
