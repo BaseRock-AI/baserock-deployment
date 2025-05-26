@@ -14,7 +14,7 @@ export IMAGE_PULL_EMAIL="lumber-image-puller@production-385606.iam.gserviceaccou
 
 # -- images --#
 export CLIENT_IMAGE="gcr.io/production-385606/client:0.62.0"
-export UPCASTER_IMAGE="gcr.io/production-385606/upcaster:0.297.0"
+export UPCASTER_IMAGE="gcr.io/production-385606/upcaster:0.298.1-SM-1073-dependency-graph-for-apis.0"
 export FLINK_IMAGE="gcr.io/production-385606/flinkjob-rabbitmq-aggregation:0.55.0"
 export DJANGO_IMAGE="gcr.io/production-385606/le-django-server:0.298.0"
 export LE_SERVICE_IMAGE="gcr.io/production-385606/baserock-backend/learning-engine-service:0.178.0"
