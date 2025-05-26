@@ -5,6 +5,7 @@ metadata:
   namespace: ${INGRESS_NAMESPACE}
   annotations:
     cert-manager.io/http01-ingress-class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   rules:

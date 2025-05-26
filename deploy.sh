@@ -107,6 +107,4 @@ source ./vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
 source ./vars/common-vars.sh
 
 chmod +x script.sh
-chmod +x bundle/load_list.sh
-./bundle/load_list.sh
 ./script.sh
