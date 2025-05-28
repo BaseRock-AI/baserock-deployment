@@ -11,9 +11,9 @@ helm upgrade --install "${HELM_RELEASE}" ./backend/baserock-backend \
     --set ingress.enabled=true \
     --set ingress.tls[0].hosts[0]="${DOMAIN}" \
     --set ingress.tls[0].secretName="${CERTIFICATE_NAME}" \
-    --set config.GITLAB_OAUTH_CALLBACK_URL="${DOMAIN}/login/oauth/callback?oAuthProviderType=gitlab" \
-    --set config.LINKEDIN_OAUTH_CALLBACK_URL="${DOMAIN}/login/oauth/callback?oAuthProviderType=linkedin" \
-    --set config.SERVER_BASE_URL="${SCHEME}://${DOMAIN}" \
+    --set config.GITLAB_OAUTH_CALLBACK_URL="${DOMAIN}${DOMAIN_PORT}/login/oauth/callback?oAuthProviderType=gitlab" \
+    --set config.LINKEDIN_OAUTH_CALLBACK_URL="${DOMAIN}${DOMAIN_PORT}/login/oauth/callback?oAuthProviderType=linkedin" \
+    --set config.SERVER_BASE_URL="${SCHEME}://${DOMAIN}${DOMAIN_PORT}" \
     --set ingress.hosts[0].host="${DOMAIN}" \
     --set ingress.hosts[0].paths[0].path="/" \
     --set ingress.hosts[0].paths[0].pathType="${INGRESS_PATH_TYPE}" \

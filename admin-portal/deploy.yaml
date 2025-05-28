@@ -9,8 +9,8 @@ metadata:
   name: admin-portal-map
   namespace: ${NAMESPACE}
 data:
-  REACT_APP_API_URL: "https://${DOMAIN}"
-  DOMAIN_NAME: "${DOMAIN}"
+  REACT_APP_API_URL: "https://${DOMAIN}${DOMAIN_PORT}"
+  DOMAIN_NAME: "${DOMAIN}${DOMAIN_PORT}"
 ---
 apiVersion: v1
 kind: Service
