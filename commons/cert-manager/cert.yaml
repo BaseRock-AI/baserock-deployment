@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ${CERTIFICATE_NAME}
-  namespace: ${NAMESPACE}
+  name: "app-baserock-onprem-ssl-cert"
+  namespace: "onpremise-baserock"
 spec:
-  secretName: ${CERTIFICATE_NAME}
+  secretName: "app-baserock-onprem-ssl-cert"
   issuerRef:
     group: cert-manager.io
-    name: ${ISSUER_NAME}
+    name: letsencrypt-production
     kind: Issuer
   dnsNames:
-    - ${DOMAIN}
+    - app.dev.onprem.baserock.ai

@@ -24,9 +24,11 @@ spec:
             - containerPort: ${CLIENT_PORT}
           env:
             - name: REACT_APP_API_URL
-              value: "${REACT_APP_API_URL}"
+              value: "${REACT_APP_API_URL}/it/leService"
             - name: REACT_APP_REDIRECT_BASE_URL
               value: "${REACT_APP_REDIRECT_BASE_URL}"
+            - name: PUBLIC_URL
+              value: "/it/catalog"
           resources:
             limits:
               cpu: ${CLIENT_CPUS}

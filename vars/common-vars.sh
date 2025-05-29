@@ -38,7 +38,7 @@ export POSTGRES_SERVICE_DEPLOYMENT="postgresql"
 export RABBITMQ_SERVICE_DEPLOYMENT="rabbitmq-service"
 
 #-- ingress & Cert--#
-export CLIENT_BASE_URL="/it/catalog/(.*)"
+export CLIENT_BASE_URL="/it/catalog"
 export LE_SERVICE_BASE_URL="/it/leService/(.*)"
 export ISSUER_NAME="letsencrypt-production"
 export CERT_SERVER="https://acme-v02.api.letsencrypt.org/directory"
@@ -134,9 +134,7 @@ export POSITIVE_TEST_RATIO="0.5"
 
 #-- client --#
 export REACT_APP_API_URL="https://${DOMAIN}${DOMAIN_PORT}"
-export REACT_APP_REDIRECT_BASE_URL="${REACT_APP_API_URL}/admin-portal"
-export REACT_APP_SERVICES_PATH="${REACT_APP_API_URL}/it/catalog/v1/services"
-
+export REACT_APP_REDIRECT_BASE_URL="${REACT_APP_API_URL}/admin-portal/"
 #-- todo-web-app --#
 export TODO_WEB_SERVICE_URL="https://${DOMAIN}${DOMAIN_PORT}/todo"
 export TODO_WEB_APP_CONTEXT_PATH="/todo-ui"
