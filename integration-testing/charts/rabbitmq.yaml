@@ -32,7 +32,9 @@ spec:
           image: rabbitmq:4.0.2-management
           ports:
             - containerPort: ${RABBITMQ_PORT} # Port for AMQP protocol
+              protocol: TCP
             - containerPort: 15672 # Port for RabbitMQ Management UI
+              protocol: TCP
           resources:
             requests:
               cpu: ${RABBITMQ_CPUS}
@@ -57,17 +59,21 @@ kind: Service
 metadata:
   name: rabbitmq-service
   namespace: ${NAMESPACE}
+  labels:
+    app: rabbitmq
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: amqp
       port: ${RABBITMQ_PORT} # AMQP port inside the pod
       targetPort: ${RABBITMQ_PORT} # RabbitMQ's AMQP port inside the pod
-#      nodePort: 30072 # External port exposed by the Minikube node for AMQP
+      protocol: TCP
+      nodePort: 30072 # External port exposed by the Minikube node for AMQP
     - name: management
       port: 15672 # Management UI port inside the pod
       targetPort: 15672 # RabbitMQ's Management UI port inside the pod
-#      nodePort: 31672 # External port exposed by the Minikube node for the Management UI
+      protocol: TCP
+      nodePort: 31672 # External port exposed by the Minikube node for the Management UI
   selector:
     app: rabbitmq
 
