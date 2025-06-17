@@ -4,4 +4,4 @@ chmod +x commons/cert-manager/cert-ingress.sh
 
 ./commons/cert-manager/cert-manager-deploy.sh
 ./commons/scripts/install-without-cert.sh
-#./commons/cert-manager/cert-ingress.sh
+./commons/cert-manager/cert-ingress.sh

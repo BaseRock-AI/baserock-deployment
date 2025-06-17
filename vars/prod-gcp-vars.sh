@@ -24,11 +24,12 @@ export TODO_WEB_APP_IMAGE="gcr.io/production-385606/todo-web-app:0.0.1"
 export TODO_WEB_SERVICE_IMAGE="gcr.io/production-385606/todo-web-service:0.0.1"
 export BACKEND_IMAGE="gcr.io/production-385606/sapient-backend/facade-service"
 export BACKEND_TAG="1.182.0"
+export CELERY_WORKER_IMAGE="gcr.io/production-385606/celery-worker:celery-worker-0.318.0"
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-gcp-prod.yaml"
 
 #-- django --#
-export ANTHROPIC_API_KEY="<>"
+export LLM_API_KEY="<>"
 export VOYAGE_API_KEY="<>"
 export VOYAGE_MODEL_NAME="voyage-3"
 
