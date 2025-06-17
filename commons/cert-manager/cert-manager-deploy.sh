@@ -50,10 +50,6 @@ envsubst < commons/cert-manager/secret.yaml | kubectl apply -f -
 print_status "kubectl apply -f commons/cert-manager/issuer.yaml -n baserock-backend"
 envsubst < commons/cert-manager/issuer.yaml | kubectl apply -f -
 
-#
-#print_status "kubectl apply -f commons/cert-manager/cert.yaml -n baserock-backend"
-#envsubst < commons/cert-manager/cert.yaml | kubectl apply -f -
-
 print_status "Cert manager deployment completed!"
 
 
