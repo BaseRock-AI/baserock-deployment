@@ -24,7 +24,7 @@ stringData:
   VERIFY_VALUE: "${VALUE_VERIFICATION}"
   UPCASTED_COLLECTION: "${UPCASTED_COLLECTION}"
   REDIS_URL: "${REDIS_URL_LE}"
-  CELERY_QUEUE: "${CELERY_QUEUE}"
+  CELERY_QUEUE: "${CELERY_QUEUE_NAME}"
 ---
 # --- lerning-engine-service ---
 apiVersion: apps/v1
