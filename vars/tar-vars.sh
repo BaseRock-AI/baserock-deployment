@@ -26,8 +26,9 @@ export BACKEND_TAG="1.182.0"
 export VALUES_YAML="backend/baserock-backend/values-gcp.yaml"
 
 #-- django --#
-export ANTHROPIC_API_KEY="<>"
-export VOYAGE_API_KEY="<>"
+export LLM_API_KEY=""
+export LLM_MODEL_NAME="claude-3-5-sonnet-20241022"
+export VOYAGE_API_KEY=""
 export VOYAGE_MODEL_NAME="voyage-3"
 
 #-- todo-web-service --#

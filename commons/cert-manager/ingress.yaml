@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: "${DOMAIN}"
+    - host: "app.dev.onprem.baserock.ai"
       http:
         paths:
           - path: /.well-known/acme-challenge/
