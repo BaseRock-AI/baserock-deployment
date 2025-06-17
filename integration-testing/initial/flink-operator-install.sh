@@ -22,7 +22,11 @@ fi
 if ! helm status flink-kubernetes-operator -n "${NAMESPACE}" > /dev/null 2>&1; then
     echo "flink-kubernetes-operator deployment"
     echo "namespace : $NAMESPACE"
-    helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator -n "${NAMESPACE}"
+    helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator -n "${NAMESPACE}" \
+      --set resources.requests.cpu="$FLINK_OPERATOR_CPU_REQUEST" \
+      --set resources.requests.memory="$FLINK_OPERATOR_MEM_REQUEST" \
+      --set resources.limits.cpu="$FLINK_OPERATOR_CPU_LIMIT" \
+      --set resources.limits.memory="$FLINK_OPERATOR_MEM_LIMIT"
 else
   echo "flink-kubernetes-operator is already installed in namespace ${NAMESPACE}."
 fi

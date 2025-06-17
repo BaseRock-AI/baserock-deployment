@@ -95,11 +95,27 @@ done
 export CERT_MANAGER_OPTION_TYPE
 
 
+while true; do
+    echo "Ingress manager type:"
+    echo "1) LoadBalancer"
+    echo "2) NodePort"
+    read -p "#? " INGRESS_MANAGER_OPTION
+
+    case $INGRESS_MANAGER_OPTION in
+        1) INGRESS_TYPE="LoadBalancer"; break;;
+        2) INGRESS_TYPE="NodePort"; break;;
+        *) echo "Invalid option. Please select again.";
+    esac
+done
+
+export INGRESS_TYPE
+
 print_status "Environment: $ENV"
 print_status "Deployment Type: $DEPLOY_TYPE"
 print_status "BASEROCK_CLOUD_OPTION_TYPE Type: $BASEROCK_CLOUD_OPTION_TYPE"
 print_status "CERT_TYPE_OPTION Type: $CERT_TYPE_OPTION"
 print_status "CERT_MANAGER_OPTION_TYPE Type: $CERT_MANAGER_OPTION_TYPE"
+print_status "INGRESS_TYPE Type: $INGRESS_TYPE"
 
 
 # shellcheck source=./commons/vars/dev-gcp-vars.sh
@@ -107,6 +123,4 @@ source ./vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
 source ./vars/common-vars.sh
 
 chmod +x script.sh
-chmod +x bundle/load_list.sh
-./bundle/load_list.sh
 ./script.sh

@@ -21,7 +21,7 @@ export MONGO_SERVICE="mongodb-service"
 export MONGO_URL="mongodb://${MONGO_DB_USER}:${MONGO_DB_PASSWORD}@${MONGO_SERVICE}:${MONGO_PORT}/"
 
 #-- postgres --#
-export POSTGRES_DB_NAME="sapient-dev"
+export POSTGRES_DB_NAME="baserock-dev"
 export POSTGRES_USERNAME="postgres"
 export POSTGRES_DB_PASSWORD="teste"
 

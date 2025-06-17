@@ -12,7 +12,7 @@ secrets:
   baserockBackend:
     ON_PREM_API_KEY:
     ON_PREM_URL: 
-    ON_PREM_MODEL_NAME:
+    ON_PREM_MODEL_NAME: 
     ON_PREMISE_ADMIN_EMAIL: rishi@baserock.ai
     ON_PREMISE_USER_COUNT: "5"
     CHAT_GPT_API_KEY:

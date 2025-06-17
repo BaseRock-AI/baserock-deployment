@@ -2,36 +2,17 @@
 
 nameOverride: ""
 fullnameOverride: ""
-
-# Autoscaling configuration
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 3
+  maxReplicas: 1
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
-
-# Image pull secrets for private registry
-imagePullSecrets: [ ]
-# - name: regcred
-
 # Service Account configuration
 serviceAccount:
-  name: backend-service-account
-  create: true
-  annotations: { }
-
-
-# Resource limits and requests
-resources:
-  limits:
-    cpu: 2048m
-    memory: 2048Mi
-  requests:
-    cpu: 1024m
-    memory: 1024Mi
-
+  create: false
+  
 # Health check probe configuration
 probes:
   liveness:
@@ -44,38 +25,6 @@ probes:
     initialDelaySeconds: 120
     periodSeconds: 20
     timeoutSeconds: 10
-
-# PostgreSQL configuration
-postgresql:
-  enabled: true
-  auth:
-    username: postgres
-    password: postgres123
-    database: testdb
-  primary:
-    persistence:
-      enabled: true
-      size: 1Gi
-
-# rabbitmq configuration
-rabbitmq:
-  auth:
-    username: user
-    password: password
-  replication:
-    enabled: true
-
-# Redis configuration
-redis:
-  enabled: true
-  architecture: standalone
-  auth:
-    enabled: true
-    password: redis123
-  master:
-    persistence:
-      enabled: true
-      size: 1Gi
 
 config:
   ON_PREMISE_FLAG: "true"
@@ -111,7 +60,6 @@ config:
   SONET_ANTHROPIC_VERSION: "2023-06-01"
   SONET_CALL_DIRECT: "true"
   SONET_RATE_LIMIT: "100"
-  TARGET_DB_NAME: testdb
   USER_ORG_PAGINATION_PAGE_NUMBER: "0"
   USER_ORG_PAGINATION_PAGE_SIZE: "20"
   PLUGIN_ID: "21709"
@@ -140,12 +88,10 @@ secrets:
     PROFESSIONAL_CREDIT_EXPIRY_TIME: "264000"
     PROFESSIONAL_DEFAULT_CREDITS: "264000"
     GOOGLE_APPLICATION_CREDENTIALS: ""
-    redis_password: redis123
     INTELLIJ_ENDPOINT: "https://plugins.jetbrains.com/api/plugins"
     SONET_ANTHROPIC_API_KEY: <SONET_ANTHROPIC_API_KEY>
     SONET_VERTEX_AI_TOKEN: <SONET_VERTEX_AI_TOKEN>
     FEATURE_PUBSUB_ENABLED: "false"
-    REDIS_PASSWORD: redis123
     TOKEN_PRIVATE_KEY: <TOKEN_PRIVATE_KEY>
     TOKEN_PUBLIC_KEY: <TOKEN_PUBLIC_KEY>
     CHAT_GPT_AZURE_API_KEY: <CHAT_GPT_AZURE_API_KEY>

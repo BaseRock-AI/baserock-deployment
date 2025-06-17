@@ -13,9 +13,21 @@ if ! helm status cert-manager -n "${CERT_MANAGER_NAMESPACE}" > /dev/null 2>&1; t
     cert-manager jetstack/cert-manager \
     -n "${CERT_MANAGER_NAMESPACE}" \
     --create-namespace \
-    --version 1.15.3 \
+    --version "${CERT_MANAGER_VERSION}" \
     --set global.leaderElection.namespace="${CERT_MANAGER_NAMESPACE}" \
-    --set crds.enabled=true
+    --set crds.enabled=true \
+    --set webhook.resources.requests.cpu="${CERT_CPU_REQUEST}" \
+    --set webhook.resources.requests.memory="${CERT_MEM_REQUEST}" \
+    --set webhook.resources.limits.cpu="${CERT_CPU_LIMIT}" \
+    --set webhook.resources.limits.memory="${CERT_MEM_LIMIT}" \
+    --set cainjector.resources.requests.cpu="${CERT_CPU_REQUEST}" \
+    --set cainjector.resources.requests.memory="${CERT_MEM_REQUEST}" \
+    --set cainjector.resources.limits.cpu="${CERT_CPU_LIMIT}" \
+    --set cainjector.resources.limits.memory="${CERT_MEM_LIMIT}" \
+    --set controller.resources.requests.cpu="${CERT_CPU_REQUEST}" \
+    --set controller.resources.requests.memory="${CERT_MEM_REQUEST}" \
+    --set controller.resources.limits.cpu="${CERT_CPU_LIMIT}" \
+    --set controller.resources.limits.memory="${CERT_MEM_LIMIT}"
 else
   echo "cert-manager is already installed in namespace ${CERT_MANAGER_NAMESPACE}."
 fi

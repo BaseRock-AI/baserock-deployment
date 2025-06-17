@@ -8,7 +8,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 if [[ "$STATIC_IP_ADDRESS" != "" && "$STATIC_IP_ADDRESS" != "<>" ]]; then
     echo "Patching the service $INGRESS_SERVICE_NAME to use IP $IP_ADDRESS"
-    kubectl patch svc ingress-nginx-controller -n ingress-nginx --type='merge' -p "{\"spec\": {\"loadBalancerIP\": \"$STATIC_IP_ADDRESS\"}}"
+    kubectl patch svc ingress-nginx-controller -n "${INGRESS_NAMESPACE}" --type='merge' -p "{\"spec\": {\"loadBalancerIP\": \"$STATIC_IP_ADDRESS\"}}"
 fi
 
 sleep 60
