@@ -103,6 +103,7 @@ export CPU_REQUEST="100m"
 export CPU_LIMIT="200m"
 export TODO_WEB_APP_CPUS="0.5"
 export TODO_WEB_SERVICE_CPUS="0.5"
+export REDIS_CPUS="100m"
 
 export CLIENT_MEMORY="1Gi"
 export UPCASTER_MEMORY="1Gi"
@@ -121,6 +122,7 @@ export FLINK_OPERATOR_MEM_REQUEST="64Mi"
 export FLINK_OPERATOR_MEM_LIMIT="128Mi"
 export TODO_WEB_APP_MEMORY="2Gi"
 export TODO_WEB_SERVICE_MEMORY="2Gi"
+export REDIS_MEMORY="256Mi"
 
 #-- django --#
 export ANTHROPIC_MODEL_NAME="claude-3-5-sonnet-20241022"
