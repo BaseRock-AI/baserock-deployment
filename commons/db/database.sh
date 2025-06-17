@@ -17,9 +17,9 @@ echo "pwd : $(pwd)"
 print_status "Deploying PostgreSQL..."
 helm upgrade --install postgresql bitnami/postgresql \
     --namespace $NAMESPACE \
-    --set auth.username=postgres \
-    --set auth.password=postgres123 \
-    --set auth.database=baserock-dev \
+    --set auth.username="${POSTGRES_USERNAME}" \
+    --set auth.password="${POSTGRES_DB_PASSWORD}" \
+    --set auth.database="${POSTGRES_DB_NAME}" \
     --set primary.persistence.enabled=false \
     --set primary.extraVolumes[0].name=init-script \
     --set primary.extraVolumes[0].configMap.name=postgres-init-script \

@@ -1,13 +1,3 @@
-env: gcp
-# Number of replicas when autoscaling is disabled
-replicaCount: 1
-
-# Service configuration
-service:
-  type: ClusterIP
-  port: 8080
-  targetPort: 8080
-
 ingress:
   enabled: true
   className: nginx
@@ -18,8 +8,6 @@ ingress:
     cert-manager.io/issuer: "letsencrypt-production"
   host: ""
 
-config:
-  TARGET_DB_NAME: "baserock-dev"
 secrets:
   baserockBackend:
     ON_PREM_API_KEY:
