@@ -22,7 +22,7 @@ export ADMIN_PORTAL_IMAGE="vikasbaserock/admin-portal-ui:latest"
 export TODO_WEB_APP_IMAGE="vikasbaserock/todo-web-app:latest"
 export TODO_WEB_SERVICE_IMAGE="vikasbaserock/todo-web-service:latest"
 export BACKEND_IMAGE="vikasbaserock/baserock-facade-service"
-export BACKEND_TAG="1.182.0"
+export BACKEND_TAG="latest"
 export CELERY_WORKER_IMAGE="vikas-baserock/celery-worker:latest"
 
 #-- backend-extras--#
