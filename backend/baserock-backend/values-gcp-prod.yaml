@@ -16,8 +16,6 @@ secrets:
     ON_PREMISE_ADMIN_EMAIL: rishi@baserock.ai
     ON_PREMISE_USER_COUNT: "5"
     CHAT_GPT_API_KEY:
-    BASEROCK_EMAIL: rohit@baserock.ai
-    BASEROCK_EMAIL_PASSWORD: cbawpdgtbxjydsvf
     GITHUB_OAUTH_CLIENT_ID:
     GITHUB_OAUTH_CLIENT_SECRET:
     GITLAB_OAUTH_CLIENT_ID:

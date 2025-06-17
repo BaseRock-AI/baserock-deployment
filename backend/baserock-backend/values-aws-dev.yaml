@@ -17,8 +17,6 @@ secrets:
     ON_PREMISE_USER_COUNT: "5"
     CHAT_GPT_API_KEY:
     CORS_ALLOWED_ORIGINS: "http://localhost:3000,https://app.dev.onprem.baserock.ai:30443"
-    BASEROCK_EMAIL: rohit@baserock.ai
-    BASEROCK_EMAIL_PASSWORD: cbawpdgtbxjydsvf
     GITHUB_OAUTH_CLIENT_ID:
     GITHUB_OAUTH_CLIENT_SECRET:
     GITLAB_OAUTH_CLIENT_ID:
