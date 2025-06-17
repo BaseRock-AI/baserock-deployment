@@ -32,8 +32,8 @@ config:
 secrets:
   baserockBackend:
     ON_PREM_API_KEY:
-    ON_PREM_URL: http://35.232.11.213:8000/v1/chat/completions
-    ON_PREM_MODEL_NAME: Qwen/Qwen2.5-Coder-32B-Instruct
+    ON_PREM_URL: 
+    ON_PREM_MODEL_NAME: 
     ON_PREMISE_ADMIN_EMAIL: rishi@baserock.ai
     ON_PREMISE_USER_COUNT: "5"
     GITHUB_OAUTH_CLIENT_ID:
