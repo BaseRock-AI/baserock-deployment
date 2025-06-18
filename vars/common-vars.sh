@@ -5,6 +5,7 @@ export NAMESPACE="onpremise-baserock"
 
 #--api keys--#
 export LLM_API_KEY="<>"
+export LLM_MODEL_NAME="claude-3-5-sonnet-20241022"
 export VOYAGE_API_KEY="<>"
 export VOYAGE_MODEL_NAME="voyage-3"
 #-- mongo --#
@@ -155,7 +156,6 @@ export CELERY_WORKER_MEMORY="512Mi"
 export CELERY_WORKER_STORAGE="1Gi"
 
 #-- django --#
-export LLM_MODEL_NAME="claude-3-5-sonnet-20241022"
 export MODEL_NAME="claude-3-5-sonnet-20241022"
 export CHROMA_HOST="http://34.118.233.130:8000"
 export CHROMA_TOKEN=""
