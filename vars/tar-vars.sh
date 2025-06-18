@@ -25,11 +25,6 @@ export BACKEND_TAG="1.182.0"
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-gcp.yaml"
 
-#-- django --#
-export LLM_API_KEY="<>"
-export VOYAGE_API_KEY="<>"
-export VOYAGE_MODEL_NAME="voyage-3"
-
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"
 

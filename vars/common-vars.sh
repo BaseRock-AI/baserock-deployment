@@ -3,6 +3,11 @@ export CERT_MANAGER_NAMESPACE="cert-manager-baserock"
 export INGRESS_NAMESPACE="ingress-nginx"
 export NAMESPACE="onpremise-baserock"
 
+#--api keys--#
+export LLM_API_KEY="<>"
+export LLM_MODEL_NAME="claude-3-5-sonnet-20241022"
+export VOYAGE_API_KEY="<>"
+export VOYAGE_MODEL_NAME="voyage-3"
 #-- mongo --#
 export UPCASTED_COLLECTION="testUpcastedSchemaSpec"
 export MONGO_DB_PASSWORD="teste"
@@ -151,7 +156,6 @@ export CELERY_WORKER_MEMORY="512Mi"
 export CELERY_WORKER_STORAGE="1Gi"
 
 #-- django --#
-export LLM_MODEL_NAME="claude-3-5-sonnet-20241022"
 export MODEL_NAME="claude-3-5-sonnet-20241022"
 export CHROMA_HOST="http://34.118.233.130:8000"
 export CHROMA_TOKEN=""
@@ -187,5 +191,4 @@ export SPRING_DATASOURCE_PASSWORD="${POSTGRES_DB_PASSWORD}"
 export MODEL_API_URL=""
 export MAX_WORKERS="5"
 
-#-- celery-worker -- #
 
