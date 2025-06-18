@@ -3,6 +3,10 @@ export CERT_MANAGER_NAMESPACE="cert-manager-baserock"
 export INGRESS_NAMESPACE="ingress-nginx"
 export NAMESPACE="onpremise-baserock"
 
+#--api keys--#
+export LLM_API_KEY="<>"
+export VOYAGE_API_KEY="<>"
+export VOYAGE_MODEL_NAME="voyage-3"
 #-- mongo --#
 export UPCASTED_COLLECTION="testUpcastedSchemaSpec"
 export MONGO_DB_PASSWORD="teste"
@@ -187,5 +191,4 @@ export SPRING_DATASOURCE_PASSWORD="${POSTGRES_DB_PASSWORD}"
 export MODEL_API_URL=""
 export MAX_WORKERS="5"
 
-#-- celery-worker -- #
 

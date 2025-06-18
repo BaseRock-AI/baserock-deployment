@@ -28,10 +28,5 @@ export CELERY_WORKER_IMAGE="gcr.io/production-385606/celery-worker:celery-worker
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-gcp-prod.yaml"
 
-#-- django --#
-export LLM_API_KEY="<>"
-export VOYAGE_API_KEY="<>"
-export VOYAGE_MODEL_NAME="voyage-3"
-
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"
