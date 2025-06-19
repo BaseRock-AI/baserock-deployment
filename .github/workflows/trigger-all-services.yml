@@ -338,11 +338,23 @@ jobs:
             // The integration-testing workflow creates tags with prefixes
             for (const tag of tags) {
               if (tag.name.startsWith('flink-') && !flinkTag) {
-                flinkTag = tag.name.replace('flink-', '');
+                // Extract version from flink-0.56.1-SM-1223-consolidated-push-tags-for-service.3
+                const versionMatch = tag.name.match(/^flink-(.+)$/);
+                if (versionMatch) {
+                  flinkTag = versionMatch[1];
+                }
               } else if (tag.name.startsWith('learning-engine-service-') && !learningEngineServiceTag) {
-                learningEngineServiceTag = tag.name.replace('learning-engine-service-', '');
+                // Extract version from learning-engine-service-0.187.2-SM-1223-consolidated-push-tags-for-service.4
+                const versionMatch = tag.name.match(/^learning-engine-service-(.+)$/);
+                if (versionMatch) {
+                  learningEngineServiceTag = versionMatch[1];
+                }
               } else if (tag.name.startsWith('client-') && !clientTag) {
-                clientTag = tag.name.replace('client-', '');
+                // Extract version from client-0.69.1-SM-1223-consolidated-push-tags-for-service.4
+                const versionMatch = tag.name.match(/^client-(.+)$/);
+                if (versionMatch) {
+                  clientTag = versionMatch[1];
+                }
               }
               
               // Break if we found all tags
@@ -390,4 +402,5 @@ jobs:
           echo "  • gcr.io/production-385606/baserock-backend/learning-engine-service:${{ needs.wait-for-integration-testing.outputs.learning_engine_service_tag }}"
           echo "  • gcr.io/production-385606/client:${{ needs.wait-for-integration-testing.outputs.client_tag }}"
           echo ""
+          echo "📝 All tags have been pushed to GitHub releases."
           echo "✅ All services have been built and tagged successfully!" 
