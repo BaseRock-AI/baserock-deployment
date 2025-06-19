@@ -286,4 +286,98 @@ jobs:
           echo "  • gcr.io/production-385606/baserock-backend/learning-engine-service:${{ needs.wait-for-integration-testing.outputs.learning_engine_service_tag }}"
           echo "  • gcr.io/production-385606/client:${{ needs.wait-for-integration-testing.outputs.client_tag }}"
           echo ""
-          echo "✅ All services have been built and tagged successfully!" 
+          echo "✅ All services have been built and tagged successfully!"
+
+  debug-integration-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List workflows in integration-testing
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: workflows } = await github.rest.actions.listRepoWorkflows({
+              owner: 'BaseRock-AI',
+              repo: 'integration-testing'
+            });
+            console.log('Available workflows in integration-testing:');
+            for (const wf of workflows.workflows) {
+              console.log(`- ${wf.name} (id: ${wf.id}, path: ${wf.path})`);
+            }
+      - name: List branches in integration-testing
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: branches } = await github.rest.repos.listBranches({
+              owner: 'BaseRock-AI',
+              repo: 'integration-testing',
+              per_page: 100
+            });
+            console.log('Branches in integration-testing:');
+            for (const branch of branches) {
+              console.log(`- ${branch.name}`);
+            }
+      - name: List workflow runs for upload-all-services.yml in integration-testing
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
+              owner: 'BaseRock-AI',
+              repo: 'integration-testing',
+              workflow_id: 'upload-all-services.yml',
+              branch: 'SM-1223/consolidated-push-tags-for-service',
+              per_page: 5
+            });
+            console.log('Recent workflow runs:');
+            for (const run of runs.workflow_runs) {
+              console.log(`- id: ${run.id}, status: ${run.status}, conclusion: ${run.conclusion}, branch: ${run.head_branch}`);
+            }
+
+  debug-learning-engine:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List workflows in learning-engine
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: workflows } = await github.rest.actions.listRepoWorkflows({
+              owner: 'BaseRock-AI',
+              repo: 'learning-engine'
+            });
+            console.log('Available workflows in learning-engine:');
+            for (const wf of workflows.workflows) {
+              console.log(`- ${wf.name} (id: ${wf.id}, path: ${wf.path})`);
+            }
+      - name: List branches in learning-engine
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: branches } = await github.rest.repos.listBranches({
+              owner: 'BaseRock-AI',
+              repo: 'learning-engine',
+              per_page: 100
+            });
+            console.log('Branches in learning-engine:');
+            for (const branch of branches) {
+              console.log(`- ${branch.name}`);
+            }
+      - name: List workflow runs for upload-all-services.yml in learning-engine
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
+              owner: 'BaseRock-AI',
+              repo: 'learning-engine',
+              workflow_id: 'upload-all-services.yml',
+              branch: 'SM-1223/consolidated-push-tags-for-service',
+              per_page: 5
+            });
+            console.log('Recent workflow runs:');
+            for (const run of runs.workflow_runs) {
+              console.log(`- id: ${run.id}, status: ${run.status}, conclusion: ${run.conclusion}, branch: ${run.head_branch}`);
+            } 
