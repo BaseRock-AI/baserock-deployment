@@ -210,12 +210,17 @@ jobs:
             
             // Look for service-specific tags
             for (const tag of tags) {
-              if (tag.name.startsWith('le-django-server-') && !djangoTag) {
-                djangoTag = tag.name.replace('le-django-server-', '');
-              } else if (tag.name.startsWith('celery-worker-') && !celeryTag) {
-                celeryTag = tag.name.replace('celery-worker-', '');
-              } else if (tag.name.startsWith('upcaster-') && !upcasterTag) {
-                upcasterTag = tag.name.replace('upcaster-', '');
+              // For celery worker, we expect the full tag format
+              if (tag.name.startsWith('celery-worker-') && !celeryTag) {
+                celeryTag = tag.name;
+              }
+              // For django server, we expect the full tag format
+              else if (tag.name.startsWith('le-django-server-') && !djangoTag) {
+                djangoTag = tag.name;
+              }
+              // For upcaster, we expect the full tag format
+              else if (tag.name.startsWith('upcaster-') && !upcasterTag) {
+                upcasterTag = tag.name;
               }
               
               // Break if we found all tags
@@ -342,26 +347,19 @@ jobs:
             let learningEngineServiceTag = '';
             let clientTag = '';
             
-            // The integration-testing workflow creates tags with prefixes
+            // Look for service-specific tags
             for (const tag of tags) {
-              if (tag.name.startsWith('flink-') && !flinkTag) {
-                // Extract version from flink-0.56.1-SM-1223-consolidated-push-tags-for-service.3
-                const versionMatch = tag.name.match(/^flink-(.+)$/);
-                if (versionMatch) {
-                  flinkTag = versionMatch[1];
-                }
-              } else if (tag.name.startsWith('learning-engine-service-') && !learningEngineServiceTag) {
-                // Extract version from learning-engine-service-0.187.2-SM-1223-consolidated-push-tags-for-service.4
-                const versionMatch = tag.name.match(/^learning-engine-service-(.+)$/);
-                if (versionMatch) {
-                  learningEngineServiceTag = versionMatch[1];
-                }
-              } else if (tag.name.startsWith('client-') && !clientTag) {
-                // Extract version from client-0.69.1-SM-1223-consolidated-push-tags-for-service.4
-                const versionMatch = tag.name.match(/^client-(.+)$/);
-                if (versionMatch) {
-                  clientTag = versionMatch[1];
-                }
+              // For flink job, we expect the full tag format
+              if (tag.name.startsWith('flinkjob-rabbitmq-aggregation-') && !flinkTag) {
+                flinkTag = tag.name;
+              }
+              // For learning engine service, we expect the full tag format
+              else if (tag.name.startsWith('learning-engine-service-') && !learningEngineServiceTag) {
+                learningEngineServiceTag = tag.name;
+              }
+              // For client, we expect the full tag format
+              else if (tag.name.startsWith('client-') && !clientTag) {
+                clientTag = tag.name;
               }
               
               // Break if we found all tags
