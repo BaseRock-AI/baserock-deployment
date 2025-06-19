@@ -1,0 +1,289 @@
+name: Trigger All Services Workflows
+
+on:
+  workflow_dispatch:
+    inputs:
+      trigger_type:
+        description: 'Type of trigger for the workflows'
+        required: true
+        default: 'workflow_dispatch'
+        type: choice
+        options:
+          - workflow_dispatch
+          - push
+  push:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  trigger-learning-engine:
+    runs-on: ubuntu-latest
+    outputs:
+      workflow_run_id: ${{ steps.trigger.outputs.workflow_run_id }}
+    steps:
+      - name: Trigger Learning Engine Workflow
+        id: trigger
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: workflow } = await github.rest.actions.createWorkflowDispatch({
+              owner: 'BaseRock-AI',
+              repo: 'learning-engine',
+              workflow_id: 'upload-all-services.yml',
+              ref: 'main',
+              inputs: {
+                // The workflow will use its own trigger logic based on the event
+              }
+            });
+            
+            // Wait a moment for the workflow to start
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            
+            // Get the workflow run ID
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
+              owner: 'BaseRock-AI',
+              repo: 'learning-engine',
+              workflow_id: 'upload-all-services.yml',
+              per_page: 1
+            });
+            
+            if (runs.workflow_runs.length > 0) {
+              core.setOutput('workflow_run_id', runs.workflow_runs[0].id);
+              console.log(`Triggered Learning Engine workflow run: ${runs.workflow_runs[0].id}`);
+            } else {
+              throw new Error('Failed to get workflow run ID');
+            }
+
+  trigger-integration-testing:
+    runs-on: ubuntu-latest
+    outputs:
+      workflow_run_id: ${{ steps.trigger.outputs.workflow_run_id }}
+    steps:
+      - name: Trigger Integration Testing Workflow
+        id: trigger
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: workflow } = await github.rest.actions.createWorkflowDispatch({
+              owner: 'BaseRock-AI',
+              repo: 'integration-testing',
+              workflow_id: 'upload-all-services.yml',
+              ref: 'main',
+              inputs: {
+                // The workflow will use its own trigger logic based on the event
+              }
+            });
+            
+            // Wait a moment for the workflow to start
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            
+            // Get the workflow run ID
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
+              owner: 'BaseRock-AI',
+              repo: 'integration-testing',
+              workflow_id: 'upload-all-services.yml',
+              per_page: 1
+            });
+            
+            if (runs.workflow_runs.length > 0) {
+              core.setOutput('workflow_run_id', runs.workflow_runs[0].id);
+              console.log(`Triggered Integration Testing workflow run: ${runs.workflow_runs[0].id}`);
+            } else {
+              throw new Error('Failed to get workflow run ID');
+            }
+
+  wait-for-learning-engine:
+    needs: trigger-learning-engine
+    runs-on: ubuntu-latest
+    outputs:
+      django_tag: ${{ steps.get-tags.outputs.django_tag }}
+      celery_tag: ${{ steps.get-tags.outputs.celery_tag }}
+      upcaster_tag: ${{ steps.get-tags.outputs.upcaster_tag }}
+    steps:
+      - name: Wait for Learning Engine Workflow to Complete
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const maxWaitTime = 30 * 60 * 1000; // 30 minutes
+            const checkInterval = 30 * 1000; // 30 seconds
+            const startTime = Date.now();
+            
+            while (Date.now() - startTime < maxWaitTime) {
+              const { data: run } = await github.rest.actions.getWorkflowRun({
+                owner: 'BaseRock-AI',
+                repo: 'learning-engine',
+                run_id: ${{ needs.trigger-learning-engine.outputs.workflow_run_id }}
+              });
+              
+              console.log(`Learning Engine workflow status: ${run.status} (${run.conclusion || 'running'})`);
+              
+              if (run.status === 'completed') {
+                if (run.conclusion === 'success') {
+                  console.log('Learning Engine workflow completed successfully!');
+                  break;
+                } else {
+                  throw new Error(`Learning Engine workflow failed with conclusion: ${run.conclusion}`);
+                }
+              }
+              
+              await new Promise(resolve => setTimeout(resolve, checkInterval));
+            }
+            
+            if (Date.now() - startTime >= maxWaitTime) {
+              throw new Error('Learning Engine workflow timed out');
+            }
+
+      - name: Get Learning Engine Tags
+        id: get-tags
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the latest tags from the learning-engine repository
+            const { data: tags } = await github.rest.repos.listTags({
+              owner: 'BaseRock-AI',
+              repo: 'learning-engine',
+              per_page: 10
+            });
+            
+            // Find the latest tags for each service
+            let djangoTag = '';
+            let celeryTag = '';
+            let upcasterTag = '';
+            
+            // The learning-engine workflow creates tags without prefix
+            // We'll get the latest tag
+            if (tags.length > 0) {
+              const latestTag = tags[0].name;
+              djangoTag = latestTag;
+              celeryTag = latestTag;
+              upcasterTag = latestTag;
+            }
+            
+            core.setOutput('django_tag', djangoTag);
+            core.setOutput('celery_tag', celeryTag);
+            core.setOutput('upcaster_tag', upcasterTag);
+            
+            console.log(`Learning Engine Tags - Django: ${djangoTag}, Celery: ${celeryTag}, Upcaster: ${upcasterTag}`);
+
+  wait-for-integration-testing:
+    needs: trigger-integration-testing
+    runs-on: ubuntu-latest
+    outputs:
+      flink_tag: ${{ steps.get-tags.outputs.flink_tag }}
+      learning_engine_service_tag: ${{ steps.get-tags.outputs.learning_engine_service_tag }}
+      client_tag: ${{ steps.get-tags.outputs.client_tag }}
+    steps:
+      - name: Wait for Integration Testing Workflow to Complete
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const maxWaitTime = 30 * 60 * 1000; // 30 minutes
+            const checkInterval = 30 * 1000; // 30 seconds
+            const startTime = Date.now();
+            
+            while (Date.now() - startTime < maxWaitTime) {
+              const { data: run } = await github.rest.actions.getWorkflowRun({
+                owner: 'BaseRock-AI',
+                repo: 'integration-testing',
+                run_id: ${{ needs.trigger-integration-testing.outputs.workflow_run_id }}
+              });
+              
+              console.log(`Integration Testing workflow status: ${run.status} (${run.conclusion || 'running'})`);
+              
+              if (run.status === 'completed') {
+                if (run.conclusion === 'success') {
+                  console.log('Integration Testing workflow completed successfully!');
+                  break;
+                } else {
+                  throw new Error(`Integration Testing workflow failed with conclusion: ${run.conclusion}`);
+                }
+              }
+              
+              await new Promise(resolve => setTimeout(resolve, checkInterval));
+            }
+            
+            if (Date.now() - startTime >= maxWaitTime) {
+              throw new Error('Integration Testing workflow timed out');
+            }
+
+      - name: Get Integration Testing Tags
+        id: get-tags
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the latest tags from the integration-testing repository
+            const { data: tags } = await github.rest.repos.listTags({
+              owner: 'BaseRock-AI',
+              repo: 'integration-testing',
+              per_page: 20
+            });
+            
+            // Find the latest tags for each service
+            let flinkTag = '';
+            let learningEngineServiceTag = '';
+            let clientTag = '';
+            
+            // The integration-testing workflow creates tags with prefixes
+            for (const tag of tags) {
+              if (tag.name.startsWith('flink-') && !flinkTag) {
+                flinkTag = tag.name.replace('flink-', '');
+              } else if (tag.name.startsWith('learning-engine-service-') && !learningEngineServiceTag) {
+                learningEngineServiceTag = tag.name.replace('learning-engine-service-', '');
+              } else if (tag.name.startsWith('client-') && !clientTag) {
+                clientTag = tag.name.replace('client-', '');
+              }
+              
+              // Break if we found all tags
+              if (flinkTag && learningEngineServiceTag && clientTag) {
+                break;
+              }
+            }
+            
+            core.setOutput('flink_tag', flinkTag);
+            core.setOutput('learning_engine_service_tag', learningEngineServiceTag);
+            core.setOutput('client_tag', clientTag);
+            
+            console.log(`Integration Testing Tags - Flink: ${flinkTag}, Learning Engine Service: ${learningEngineServiceTag}, Client: ${clientTag}`);
+
+  summary:
+    needs: [wait-for-learning-engine, wait-for-integration-testing]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display All Service Tags
+        run: |
+          echo "🎉 All workflows completed successfully!"
+          echo ""
+          echo "📋 Complete Service Tags Summary:"
+          echo "=================================="
+          echo ""
+          echo "🏭 Learning Engine Repository Services:"
+          echo "  • Django Server: ${{ needs.wait-for-learning-engine.outputs.django_tag }}"
+          echo "  • Celery Worker: ${{ needs.wait-for-learning-engine.outputs.celery_tag }}"
+          echo "  • Upcaster: ${{ needs.wait-for-learning-engine.outputs.upcaster_tag }}"
+          echo ""
+          echo "🔧 Integration Testing Repository Services:"
+          echo "  • Flink Job: ${{ needs.wait-for-integration-testing.outputs.flink_tag }}"
+          echo "  • Learning Engine Service: ${{ needs.wait-for-integration-testing.outputs.learning_engine_service_tag }}"
+          echo "  • Client: ${{ needs.wait-for-integration-testing.outputs.client_tag }}"
+          echo ""
+          echo "🐳 Docker Images:"
+          echo "=================="
+          echo "Learning Engine Services:"
+          echo "  • gcr.io/production-385606/le-django-server:${{ needs.wait-for-learning-engine.outputs.django_tag }}"
+          echo "  • gcr.io/production-385606/celery-worker:${{ needs.wait-for-learning-engine.outputs.celery_tag }}"
+          echo "  • gcr.io/production-385606/upcaster:${{ needs.wait-for-learning-engine.outputs.upcaster_tag }}"
+          echo ""
+          echo "Integration Testing Services:"
+          echo "  • gcr.io/production-385606/flinkjob-rabbitmq-aggregation:${{ needs.wait-for-integration-testing.outputs.flink_tag }}"
+          echo "  • gcr.io/production-385606/baserock-backend/learning-engine-service:${{ needs.wait-for-integration-testing.outputs.learning_engine_service_tag }}"
+          echo "  • gcr.io/production-385606/client:${{ needs.wait-for-integration-testing.outputs.client_tag }}"
+          echo ""
+          echo "✅ All services have been built and tagged successfully!" 
