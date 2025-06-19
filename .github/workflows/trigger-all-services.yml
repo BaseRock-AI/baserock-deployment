@@ -291,93 +291,185 @@ jobs:
   debug-integration-testing:
     runs-on: ubuntu-latest
     steps:
+      - name: Check repository access
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              const { data: repo } = await github.rest.repos.get({
+                owner: 'BaseRock-AI',
+                repo: 'integration-testing'
+              });
+              console.log(`✅ Repository accessible: ${repo.full_name}`);
+              console.log(`   Visibility: ${repo.visibility}`);
+              console.log(`   Private: ${repo.private}`);
+            } catch (error) {
+              console.log(`❌ Repository not accessible: ${error.message}`);
+              console.log(`   Status: ${error.status}`);
+            }
+      - name: List accessible repositories
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              const { data: repos } = await github.rest.repos.listForOrg({
+                org: 'BaseRock-AI',
+                per_page: 20
+              });
+              console.log('Accessible repositories in BaseRock-AI:');
+              for (const repo of repos) {
+                console.log(`- ${repo.name} (${repo.visibility})`);
+              }
+            } catch (error) {
+              console.log(`❌ Cannot list org repositories: ${error.message}`);
+            }
       - name: List workflows in integration-testing
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: workflows } = await github.rest.actions.listRepoWorkflows({
-              owner: 'BaseRock-AI',
-              repo: 'integration-testing'
-            });
-            console.log('Available workflows in integration-testing:');
-            for (const wf of workflows.workflows) {
-              console.log(`- ${wf.name} (id: ${wf.id}, path: ${wf.path})`);
+            try {
+              const { data: workflows } = await github.rest.actions.listRepoWorkflows({
+                owner: 'BaseRock-AI',
+                repo: 'integration-testing'
+              });
+              console.log('Available workflows in integration-testing:');
+              for (const wf of workflows.workflows) {
+                console.log(`- ${wf.name} (id: ${wf.id}, path: ${wf.path})`);
+              }
+            } catch (error) {
+              console.log(`❌ Cannot list workflows: ${error.message}`);
             }
       - name: List branches in integration-testing
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: branches } = await github.rest.repos.listBranches({
-              owner: 'BaseRock-AI',
-              repo: 'integration-testing',
-              per_page: 100
-            });
-            console.log('Branches in integration-testing:');
-            for (const branch of branches) {
-              console.log(`- ${branch.name}`);
+            try {
+              const { data: branches } = await github.rest.repos.listBranches({
+                owner: 'BaseRock-AI',
+                repo: 'integration-testing',
+                per_page: 100
+              });
+              console.log('Branches in integration-testing:');
+              for (const branch of branches) {
+                console.log(`- ${branch.name}`);
+              }
+            } catch (error) {
+              console.log(`❌ Cannot list branches: ${error.message}`);
             }
       - name: List workflow runs for upload-all-services.yml in integration-testing
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: runs } = await github.rest.actions.listWorkflowRuns({
-              owner: 'BaseRock-AI',
-              repo: 'integration-testing',
-              workflow_id: 'upload-all-services.yml',
-              branch: 'SM-1223/consolidated-push-tags-for-service',
-              per_page: 5
-            });
-            console.log('Recent workflow runs:');
-            for (const run of runs.workflow_runs) {
-              console.log(`- id: ${run.id}, status: ${run.status}, conclusion: ${run.conclusion}, branch: ${run.head_branch}`);
+            try {
+              const { data: runs } = await github.rest.actions.listWorkflowRuns({
+                owner: 'BaseRock-AI',
+                repo: 'integration-testing',
+                workflow_id: 'upload-all-services.yml',
+                branch: 'SM-1223/consolidated-push-tags-for-service',
+                per_page: 5
+              });
+              console.log('Recent workflow runs:');
+              for (const run of runs.workflow_runs) {
+                console.log(`- id: ${run.id}, status: ${run.status}, conclusion: ${run.conclusion}, branch: ${run.head_branch}`);
+              }
+            } catch (error) {
+              console.log(`❌ Cannot list workflow runs: ${error.message}`);
             }
 
   debug-learning-engine:
     runs-on: ubuntu-latest
     steps:
+      - name: Check repository access
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              const { data: repo } = await github.rest.repos.get({
+                owner: 'BaseRock-AI',
+                repo: 'learning-engine'
+              });
+              console.log(`✅ Repository accessible: ${repo.full_name}`);
+              console.log(`   Visibility: ${repo.visibility}`);
+              console.log(`   Private: ${repo.private}`);
+            } catch (error) {
+              console.log(`❌ Repository not accessible: ${error.message}`);
+              console.log(`   Status: ${error.status}`);
+            }
+      - name: List accessible repositories
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              const { data: repos } = await github.rest.repos.listForOrg({
+                org: 'BaseRock-AI',
+                per_page: 20
+              });
+              console.log('Accessible repositories in BaseRock-AI:');
+              for (const repo of repos) {
+                console.log(`- ${repo.name} (${repo.visibility})`);
+              }
+            } catch (error) {
+              console.log(`❌ Cannot list org repositories: ${error.message}`);
+            }
       - name: List workflows in learning-engine
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: workflows } = await github.rest.actions.listRepoWorkflows({
-              owner: 'BaseRock-AI',
-              repo: 'learning-engine'
-            });
-            console.log('Available workflows in learning-engine:');
-            for (const wf of workflows.workflows) {
-              console.log(`- ${wf.name} (id: ${wf.id}, path: ${wf.path})`);
+            try {
+              const { data: workflows } = await github.rest.actions.listRepoWorkflows({
+                owner: 'BaseRock-AI',
+                repo: 'learning-engine'
+              });
+              console.log('Available workflows in learning-engine:');
+              for (const wf of workflows.workflows) {
+                console.log(`- ${wf.name} (id: ${wf.id}, path: ${wf.path})`);
+              }
+            } catch (error) {
+              console.log(`❌ Cannot list workflows: ${error.message}`);
             }
       - name: List branches in learning-engine
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: branches } = await github.rest.repos.listBranches({
-              owner: 'BaseRock-AI',
-              repo: 'learning-engine',
-              per_page: 100
-            });
-            console.log('Branches in learning-engine:');
-            for (const branch of branches) {
-              console.log(`- ${branch.name}`);
+            try {
+              const { data: branches } = await github.rest.repos.listBranches({
+                owner: 'BaseRock-AI',
+                repo: 'learning-engine',
+                per_page: 100
+              });
+              console.log('Branches in learning-engine:');
+              for (const branch of branches) {
+                console.log(`- ${branch.name}`);
+              }
+            } catch (error) {
+              console.log(`❌ Cannot list branches: ${error.message}`);
             }
       - name: List workflow runs for upload-all-services.yml in learning-engine
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: runs } = await github.rest.actions.listWorkflowRuns({
-              owner: 'BaseRock-AI',
-              repo: 'learning-engine',
-              workflow_id: 'upload-all-services.yml',
-              branch: 'SM-1223/consolidated-push-tags-for-service',
-              per_page: 5
-            });
-            console.log('Recent workflow runs:');
-            for (const run of runs.workflow_runs) {
-              console.log(`- id: ${run.id}, status: ${run.status}, conclusion: ${run.conclusion}, branch: ${run.head_branch}`);
+            try {
+              const { data: runs } = await github.rest.actions.listWorkflowRuns({
+                owner: 'BaseRock-AI',
+                repo: 'learning-engine',
+                workflow_id: 'upload-all-services.yml',
+                branch: 'SM-1223/consolidated-push-tags-for-service',
+                per_page: 5
+              });
+              console.log('Recent workflow runs:');
+              for (const run of runs.workflow_runs) {
+                console.log(`- id: ${run.id}, status: ${run.status}, conclusion: ${run.conclusion}, branch: ${run.head_branch}`);
+              }
+            } catch (error) {
+              console.log(`❌ Cannot list workflow runs: ${error.message}`);
             } 
