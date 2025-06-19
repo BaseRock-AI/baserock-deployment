@@ -33,7 +33,7 @@ jobs:
               owner: 'BaseRock-AI',
               repo: 'learning-engine',
               workflow_id: 'upload-all-services.yml',
-              ref: 'main',
+              ref: 'SM-1223/consolidated-push-tags-for-service',
               inputs: {
                 // The workflow will use its own trigger logic based on the event
               }
@@ -72,7 +72,7 @@ jobs:
               owner: 'BaseRock-AI',
               repo: 'integration-testing',
               workflow_id: 'upload-all-services.yml',
-              ref: 'main',
+              ref: 'SM-1223/consolidated-push-tags-for-service',
               inputs: {
                 // The workflow will use its own trigger logic based on the event
               }
