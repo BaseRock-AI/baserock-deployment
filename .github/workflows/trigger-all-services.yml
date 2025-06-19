@@ -183,7 +183,7 @@ jobs:
                 const { data: tagData } = await github.rest.repos.listTags({
                   owner: 'BaseRock-AI',
                   repo: 'learning-engine',
-                  per_page: 10
+                  per_page: 20
                 });
                 
                 tags = tagData;
@@ -208,13 +208,20 @@ jobs:
             let celeryTag = '';
             let upcasterTag = '';
             
-            // The learning-engine workflow creates tags without prefix
-            // We'll get the latest tag
-            if (tags.length > 0) {
-              const latestTag = tags[0].name;
-              djangoTag = latestTag;
-              celeryTag = latestTag;
-              upcasterTag = latestTag;
+            // Look for service-specific tags
+            for (const tag of tags) {
+              if (tag.name.startsWith('le-django-server-') && !djangoTag) {
+                djangoTag = tag.name.replace('le-django-server-', '');
+              } else if (tag.name.startsWith('celery-worker-') && !celeryTag) {
+                celeryTag = tag.name.replace('celery-worker-', '');
+              } else if (tag.name.startsWith('upcaster-') && !upcasterTag) {
+                upcasterTag = tag.name.replace('upcaster-', '');
+              }
+              
+              // Break if we found all tags
+              if (djangoTag && celeryTag && upcasterTag) {
+                break;
+              }
             }
             
             core.setOutput('django_tag', djangoTag);
@@ -381,25 +388,25 @@ jobs:
           echo "=================================="
           echo ""
           echo "🏭 Learning Engine Repository Services (BaseRock-AI):"
-          echo "  • Django Server: ${{ needs.wait-for-learning-engine.outputs.django_server_tag }}"
-          echo "  • Celery Worker: ${{ needs.wait-for-learning-engine.outputs.celery_worker_tag }}"
+          echo "  • Django Server: ${{ needs.wait-for-learning-engine.outputs.django_tag }}"
+          echo "  • Celery Worker: ${{ needs.wait-for-learning-engine.outputs.celery_tag }}"
           echo "  • Upcaster: ${{ needs.wait-for-learning-engine.outputs.upcaster_tag }}"
           echo ""
           echo "🔧 Integration Testing Repository Services (BaseRock-AI):"
-          echo "  • Flink Job: ${{ needs.wait-for-integration-testing.outputs.flink_job_tag }}"
-          echo "  • Learning Engine Service: ${{ needs.wait-for-integration-testing.outputs.learning_engine_tag }}"
+          echo "  • Flink Job: ${{ needs.wait-for-integration-testing.outputs.flink_tag }}"
+          echo "  • Learning Engine Service: ${{ needs.wait-for-integration-testing.outputs.learning_engine_service_tag }}"
           echo "  • Client: ${{ needs.wait-for-integration-testing.outputs.client_tag }}"
           echo ""
           echo "🐳 Docker Images:"
           echo "=================="
           echo "Learning Engine Services:"
-          echo "  • gcr.io/production-385606/le-django-server:${{ needs.wait-for-learning-engine.outputs.django_server_tag }}"
-          echo "  • gcr.io/production-385606/celery-worker:${{ needs.wait-for-learning-engine.outputs.celery_worker_tag }}"
+          echo "  • gcr.io/production-385606/le-django-server:${{ needs.wait-for-learning-engine.outputs.django_tag }}"
+          echo "  • gcr.io/production-385606/celery-worker:${{ needs.wait-for-learning-engine.outputs.celery_tag }}"
           echo "  • gcr.io/production-385606/upcaster:${{ needs.wait-for-learning-engine.outputs.upcaster_tag }}"
           echo ""
           echo "Integration Testing Services:"
-          echo "  • gcr.io/production-385606/flinkjob-rabbitmq-aggregation:${{ needs.wait-for-integration-testing.outputs.flink_job_tag }}"
-          echo "  • gcr.io/production-385606/baserock-backend/learning-engine-service:${{ needs.wait-for-integration-testing.outputs.learning_engine_tag }}"
+          echo "  • gcr.io/production-385606/flinkjob-rabbitmq-aggregation:${{ needs.wait-for-integration-testing.outputs.flink_tag }}"
+          echo "  • gcr.io/production-385606/baserock-backend/learning-engine-service:${{ needs.wait-for-integration-testing.outputs.learning_engine_service_tag }}"
           echo "  • gcr.io/production-385606/client:${{ needs.wait-for-integration-testing.outputs.client_tag }}"
           echo ""
           echo "📝 All tags have been pushed to GitHub releases."
