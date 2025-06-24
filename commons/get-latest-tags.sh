@@ -11,6 +11,15 @@ if [[ -z "${BASH_VERSION:-}" ]]; then
   exit 1
 fi
 
+# Detect OS for sed compatibility
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
+  SED_CMD="sed -i '' -E"
+else
+  # Linux and other Unix-like systems
+  SED_CMD="sed -i -E"
+fi
+
 # Declare associative map: image -> environment variable name
 declare -A IMAGE_TO_ENV_MAP
 IMAGE_TO_ENV_MAP=(
@@ -41,11 +50,11 @@ for image in "${!IMAGE_TO_ENV_MAP[@]}"; do
   new_image="gcr.io/$PROJECT/$image:$latest_tag"
 
   if [[ "$env_var" == "BACKEND_IMAGE" ]]; then
-    sed -i '' -E "s|^(export BACKEND_IMAGE=\").*\"|\1gcr.io/$PROJECT/$image\"|" "$VARS_FILE"
-    sed -i '' -E "s|^(export BACKEND_TAG=\").*\"|\1$latest_tag\"|" "$VARS_FILE"
+    $SED_CMD "s|^(export BACKEND_IMAGE=\").*\"|\1gcr.io/$PROJECT/$image\"|" "$VARS_FILE"
+    $SED_CMD "s|^(export BACKEND_TAG=\").*\"|\1$latest_tag\"|" "$VARS_FILE"
     echo "✅ Updated BACKEND_IMAGE + BACKEND_TAG with $latest_tag"
   else
-    sed -i '' -E "s|^(export $env_var=\").*\"|\1$new_image\"|" "$VARS_FILE"
+    $SED_CMD "s|^(export $env_var=\").*\"|\1$new_image\"|" "$VARS_FILE"
     echo "✅ Updated $env_var with $new_image"
   fi
 done
