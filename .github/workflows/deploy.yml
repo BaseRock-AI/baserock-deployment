@@ -45,6 +45,11 @@ jobs:
       with:
         version: 'latest'
         
+    - name: Install gke-gcloud-auth-plugin
+      run: |
+        gcloud components install gke-gcloud-auth-plugin
+        echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
+        
     - name: Setup Helm
       uses: azure/setup-helm@v3
       with:
@@ -76,6 +81,7 @@ jobs:
       env:
         # Add any environment variables needed for deployment
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
+        USE_GKE_GCLOUD_AUTH_PLUGIN: True
         
     - name: Deploy status
       run: |
