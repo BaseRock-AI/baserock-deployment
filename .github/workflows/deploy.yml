@@ -21,7 +21,6 @@ on:
         - gcp
         - aws
         - minikube
-  push:
 
 jobs:
   deploy:
