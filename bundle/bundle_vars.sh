@@ -7,7 +7,7 @@ export IMAGES=(
   "${ADMIN_PORTAL_IMAGE}"
   "${TODO_WEB_APP_IMAGE}"
   "${TODO_WEB_SERVICE_IMAGE}"
-  "${BACKEND_IMAGE}:${BACKEND_TAG}"
+  "${BACKEND_IMAGE}"
 )
 
 export DEST_DIR="./bundle"
@@ -21,6 +21,5 @@ export LE_SERVICE_IMAGE="gcr.io/production-385606/baserock-backend/learning-engi
 export ADMIN_PORTAL_IMAGE="gcr.io/production-385606/admin-portal-ui:0.12.1-SM-697.1"
 export TODO_WEB_APP_IMAGE="gcr.io/production-385606/todo-web-app:0.0.1"
 export TODO_WEB_SERVICE_IMAGE="gcr.io/production-385606/todo-web-service:0.0.1"
-export BACKEND_IMAGE="gcr.io/production-385606/sapient-backend/facade-service"
-export BACKEND_TAG="1.182.0"
+export BACKEND_IMAGE="gcr.io/production-385606/sapient-backend/facade-service:1.182.0"
 

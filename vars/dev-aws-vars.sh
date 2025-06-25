@@ -1,3 +1,6 @@
+chmod +x docker_utils.sh
+source ./vars/get-latest-tags.sh
+
 # -- gke --#
 export EKS_CLUSTER="<>"
 export AWS_REGION="<>"
@@ -21,8 +24,7 @@ export LE_SERVICE_IMAGE="vikasbaserock/learning-engine-service:latest"
 export ADMIN_PORTAL_IMAGE="vikasbaserock/admin-portal-ui:latest"
 export TODO_WEB_APP_IMAGE="vikasbaserock/todo-web-app:latest"
 export TODO_WEB_SERVICE_IMAGE="vikasbaserock/todo-web-service:latest"
-export BACKEND_IMAGE="vikasbaserock/baserock-facade-service"
-export BACKEND_TAG="latest"
+export BACKEND_IMAGE="vikasbaserock/baserock-facade-service:latest"
 export CELERY_WORKER_IMAGE="vikas-baserock/celery-worker:latest"
 
 #-- backend-extras--#

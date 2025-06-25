@@ -5,8 +5,7 @@ helm upgrade --install "${HELM_RELEASE}" ./backend/baserock-backend \
     -f backend/baserock-backend/values-commons.yaml \
     -f "${VALUES_YAML}" \
     --namespace "${NAMESPACE}" \
-    --set image.repository="${BACKEND_IMAGE}" \
-    --set image.tag="${BACKEND_TAG}" \
+    --set image.value="${BACKEND_IMAGE}" \
     --set image.pullPolicy="${BACKEND_PULL_POLICY}" \
     --set ingress.enabled=true \
     --set ingress.tls[0].hosts[0]="${DOMAIN}" \

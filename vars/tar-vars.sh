@@ -20,8 +20,7 @@ export LE_SERVICE_IMAGE="vikasbaserock/learning-engine-service:0.163.0"
 export ADMIN_PORTAL_IMAGE="vikasbaserock/admin-portal-ui:0.12.1-SM-697.1"
 export TODO_WEB_APP_IMAGE="vikasbaserock/todo-web-app:0.0.1"
 export TODO_WEB_SERVICE_IMAGE="vikasbaserock/todo-web-service:0.0.1"
-export BACKEND_IMAGE="vikasbaserock/baserock-facade-service"
-export BACKEND_TAG="1.182.0"
+export BACKEND_IMAGE="vikasbaserock/baserock-facade-service:1.182.0"
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-gcp.yaml"
 

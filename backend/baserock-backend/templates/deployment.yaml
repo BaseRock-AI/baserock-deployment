@@ -25,7 +25,7 @@ spec:
     {{- end }}
       containers:
         - name: baserock-backend
-          image: {{ .Values.image.repository}}:{{ .Values.image.tag}}
+          image: {{ .Values.image.value}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 8080
