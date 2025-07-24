@@ -1,0 +1,152 @@
+name: Trigger service tags and Deploy Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - prod
+        - minikube
+      cloud_provider:
+        description: 'Cloud provider'
+        required: true
+        default: 'gcp'
+        type: choice
+        options:
+        - gcp
+        - aws
+        - minikube
+
+jobs:
+  trigger-services:
+    runs-on: ubuntu-latest
+    outputs:
+      workflow-run-id: ${{ steps.trigger.outputs.workflow-run-id }}
+    steps:
+      - name: Trigger All Services Workflow
+        id: trigger
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: workflowRun } = await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'trigger-all-services.yml',
+              ref: context.ref,
+              inputs: {
+                environment: '${{ github.event.inputs.environment }}',
+                cloud_provider: '${{ github.event.inputs.cloud_provider }}'
+              }
+            });
+            
+            console.log('Triggered workflow run ID:', workflowRun.id);
+            core.setOutput('workflow-run-id', workflowRun.id);
+            
+            // Wait a bit for the workflow to start
+            await new Promise(resolve => setTimeout(resolve, 10000));
+            
+            // Poll for completion
+            let completed = false;
+            let attempts = 0;
+            const maxAttempts = 60; // 10 minutes with 10-second intervals
+            
+            while (!completed && attempts < maxAttempts) {
+              const { data: run } = await github.rest.actions.getWorkflowRun({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: workflowRun.id
+              });
+              
+              console.log(`Workflow status: ${run.status} (${run.conclusion || 'running'})`);
+              
+              if (run.status === 'completed') {
+                if (run.conclusion === 'success') {
+                  console.log('✅ All services workflow completed successfully!');
+                  completed = true;
+                } else {
+                  console.log(`❌ All services workflow failed with conclusion: ${run.conclusion}`);
+                  core.setFailed(`All services workflow failed: ${run.conclusion}`);
+                  return;
+                }
+              } else {
+                attempts++;
+                await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
+              }
+            }
+            
+            if (!completed) {
+              core.setFailed('All services workflow did not complete within the expected time');
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    needs: trigger-services
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Google Auth for Image Tags
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_PROD_IMAGE_UPLOAD_SERVICE_ACCOUNT }}
+          project_id: production-385606
+          
+      - name: Setup Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+          
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+          
+      - name: Install gke-gcloud-auth-plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin
+          echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
+          
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'latest'
+          
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Make scripts executable
+        run: |
+          chmod +x commons/get-latest-tags.sh
+          chmod +x deploy.sh
+          chmod +x script.sh
+          
+      - name: Update latest tags
+        run: ./commons/get-latest-tags.sh
+        
+      - name: Google Auth for Deployment
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_DEV_IMAGE_UPLOAD_SERVICE_ACCOUNT }}
+          project_id: development-375212
+          
+      - name: Deploy with predefined inputs
+        run: |
+          # Create input for deploy.sh
+          # Inputs: 1 (gcp), 2 (dev), 2 (Service Redeploy), 2 (Cloud Based), 2 (No cert manager), 1 (LoadBalancer)
+          printf "1\n2\n2\n2\n2\n1\n" | ./deploy.sh
+        env:
+          # Add any environment variables needed for deployment
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+          USE_GKE_GCLOUD_AUTH_PLUGIN: True
+          
+      - name: Deploy status
+        run: |
+          echo "✅ Combined deployment workflow completed successfully!"
+          echo "Environment: ${{ github.event.inputs.environment }}"
+          echo "Cloud Provider: ${{ github.event.inputs.cloud_provider }}"
+          echo "All services workflow run ID: ${{ needs.trigger-services.outputs.workflow-run-id }}" 

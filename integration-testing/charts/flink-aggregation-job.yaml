@@ -7,6 +7,7 @@ metadata:
 type: Opaque
 stringData:
   MQ_HOST: "${MQ_HOST_NAME}"
+  MQ_PORT: "${MQ_PORT}"
   MQ_VIRTUAL_HOST: "/"
   MQ_USERNAME: "${MQ_USERNAME}"
   MQ_PASSWORD: "${MQ_PASSWORD}"
@@ -16,6 +17,7 @@ stringData:
   MONGO_DB_USER: "${MONGO_DB_USER}"
   DB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
   COLLECT_INPUT_DATA: "true"
+  MQ_QUEUE: "${MQ_QUEUE}"
 ---
 # --- flink-job ---
 apiVersion: flink.apache.org/v1beta1
