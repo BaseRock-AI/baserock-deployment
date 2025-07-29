@@ -63,6 +63,7 @@ config:
   USER_ORG_PAGINATION_PAGE_NUMBER: "0"
   USER_ORG_PAGINATION_PAGE_SIZE: "20"
   PLUGIN_ID: "21709"
+  DB_SSL_MODE: "disable"
 
 # Application secrets
 secrets:

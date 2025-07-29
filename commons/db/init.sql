@@ -68,8 +68,18 @@ CREATE TABLE IF NOT EXISTS public.organization
     enable_codeless_testing boolean DEFAULT true,
     use_llm boolean DEFAULT true,
     obfuscate_code boolean DEFAULT false,
+    llm_api_key character varying(1000),
+    llm_api_key_type character varying(50),
     CONSTRAINT organization_pkey PRIMARY KEY (id)
-    ) TABLESPACE pg_default;
+) TABLESPACE pg_default;
+
+-- Create index on llm_api_key_type for better query performance
+CREATE INDEX IF NOT EXISTS idx_organization_llm_api_key_type ON public.organization(llm_api_key_type);
+
+ALTER TABLE IF EXISTS public.organization
+    OWNER to postgres;
+
+GRANT ALL ON TABLE public.organization TO postgres;
 
 ALTER TABLE IF EXISTS public.usage_credit_limit_codeless
     OWNER to postgres;
