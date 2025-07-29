@@ -19,6 +19,7 @@ stringData:
   VOYAGE_API_KEY: "${VOYAGE_API_KEY}"
   VOYAGE_MODEL_NAME: "${VOYAGE_MODEL_NAME}"
   MAX_WORKERS: "${MAX_WORKERS}"
+  LLM_PROVIDER: "${LLM_PROVIDER}"
 ---
 # --- CronJob ---
 apiVersion: batch/v1

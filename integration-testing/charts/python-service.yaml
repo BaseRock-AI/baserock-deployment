@@ -20,6 +20,7 @@ stringData:
   VOYAGE_MODEL_NAME: "${VOYAGE_MODEL_NAME}"
   MAX_WORKERS: "${MAX_WORKERS}"
   JWT_PUBLIC_KEY: "${TOKEN_PUBLIC_KEY}"
+  LLM_PROVIDER: "${LLM_PROVIDER}"
 ---
 # --- deployment-django.yml ---
 apiVersion: apps/v1

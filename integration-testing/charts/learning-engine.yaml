@@ -26,6 +26,7 @@ stringData:
   REDIS_URL: "${REDIS_URL_LE}"
   CELERY_QUEUE: "${CELERY_QUEUE_NAME}"
   TOKEN_PUBLIC_KEY: "${TOKEN_PUBLIC_KEY}"
+  JWT_PUBLIC_KEY: "${JWT_PUBLIC_KEY}"
 ---
 # --- lerning-engine-service ---
 apiVersion: apps/v1
