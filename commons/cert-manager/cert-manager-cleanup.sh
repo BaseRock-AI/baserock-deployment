@@ -1,6 +1,8 @@
 source ./commons/messaging.sh
 
 
+echo "CERT MANAGER CLEANUP"
+
 kubectl delete clusterrole cert-manager cert-manager-cainjector cert-manager-webhook cert-manager-controller-issuers cert-manager-controller-clusterissuers \
  cert-manager-controller-certificates cert-manager-cluster-view cert-manager-controller-approve:cert-manager-io cert-manager-controller-certificatesigningrequests \
   cert-manager-controller-challenges cert-manager-controller-ingress-shim cert-manager-controller-orders cert-manager-edit cert-manager-view cert-manager-webhook:subjectaccessreviews

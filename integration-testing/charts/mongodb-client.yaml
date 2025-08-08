@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: ${MONGO_DEPLOYMENT}-express
-          image: mongo-express:1.0.2-20-alpine3.19
+          image: ${MONGO_EXPRESS_IMAGE}
           imagePullPolicy: Always
           env:
             - name: ME_CONFIG_BASICAUTH_USERNAME

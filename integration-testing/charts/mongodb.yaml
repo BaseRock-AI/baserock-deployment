@@ -42,9 +42,10 @@ spec:
       labels:
         app: mongodb
     spec:
+      ${IMAGE_PULL_SECRET_BLOCK}
       containers:
         - name: mongodb
-          image: mongo:8.0.0
+          image: ${MONGODB_IMAGE}
           ports:
             - containerPort: 27017 # MongoDB default port
           envFrom:
@@ -87,35 +88,3 @@ spec:
       targetPort: 27017
   type: ClusterIP
 
----
-# --- mongodb-alias-service ---
-apiVersion: v1
-kind: Service
-metadata:
-  namespace: ${NAMESPACE}
-  name: mongodb
-  labels:
-    app: mongodb
-spec:
-  selector:
-    app: mongodb
-  ports:
-    - port: 27017
-      targetPort: 27017
-  type: ClusterIP
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongodb-test-service
-  namespace: ${NAMESPACE}
-spec:
-  type: LoadBalancer
-  ports:
-    - name: amqp
-      port: 27017
-      targetPort: 27017
-  selector:
-    app: mongodb

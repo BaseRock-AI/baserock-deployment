@@ -42,33 +42,31 @@ export LE_SERVICE_IMAGE="${AWS_REPO_NAME}/learning-engine-service:latest"
 export ADMIN_PORTAL_IMAGE="${AWS_REPO_NAME}/admin-portal-ui:latest"
 export TODO_WEB_APP_IMAGE="${AWS_REPO_NAME}/todo-web-app:latest"
 export TODO_WEB_SERVICE_IMAGE="${AWS_REPO_NAME}/todo-web-service:latest"
-export BACKEND_IMAGE="${AWS_REPO_NAME}/baserock-facade-service"
+export BACKEND_IMAGE="${AWS_REPO_NAME}/facade-service"
 export BACKEND_TAG="latest"
 export CELERY_WORKER_IMAGE="${AWS_REPO_NAME}/celery-worker:latest"
-
+export MONGODB_IMAGE="${AWS_REPO_NAME}/mongo:latest"
+export POSTGRES_IMAGE="${AWS_REPO_NAME}/bitnami/postgresql:latest"
+export POSTGRES_IMAGE=""
+export RABBITMQ_IMAGE="${AWS_REPO_NAME}/rabbitmq:latest"
+export REDIS_IMAGE="${AWS_REPO_NAME}/bitnami/redis:latest"
+export MONGO_EXPRESS_IMAGE="${AWS_REPO_NAME}/mongo-express:latest"
+export CERT_MANAGER_CONTROLLER_IMAGE="${AWS_REPO_NAME}/cert-manager-controller:latest"
+export CERT_MANAGER_WEBHOOK_IMAGE="${AWS_REPO_NAME}/cert-manager-webhook"
+export CERT_MANAGER_CAINJECTOR_IMAGE="${AWS_REPO_NAME}/cert-manager-cainjector"
+export CERT_MANAGER_ACMESOLVER_IMAGE="${AWS_REPO_NAME}/cert-manager-acmesolver"
+export CERT_MANAGER_STARTUPIPCHECK_IMAGE="${AWS_REPO_NAME}/cert-manager-startupapicheck"
+export CERT_MANAGER_VERSION="latest"
+export INGRESS_CONTROLLER_IMAGE="${AWS_REPO_NAME}/ingress-nginx/controller"
+export INGRESS_CERTGEN_IMAGE="${AWS_REPO_NAME}/ingress-nginx/kube-webhook-certgen"
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-aws-dev.yaml"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="dev"
 
+export INGRESS_CLASS="alb"
+export AWS_NLB_NAME="awsonprem"
 
-kubectl delete secret "${IMAGE_PULL_SECRET}" -n "${NAMESPACE}"
 
-if [ -n "$AWS_ACCESS_KEY_ID" ]; then
-  echo "Using manually provided Docker credentials..."
-  kubectl create secret docker-registry "${IMAGE_PULL_SECRET}" \
-    --docker-server="${IMAGE_PULL_SECRET_SERVER}" \
-    --docker-username="${IMAGE_PULL_USERNAME}" \
-    --docker-password="${IMAGE_PULL_PASSWORD}" \
-    --docker-email="${IMAGE_PULL_EMAIL}" \
-    -n "${NAMESPACE}"
-else
-  echo "Using AWS ECR credentials..."
-  kubectl create secret docker-registry aws-pull-secret \
-    --docker-server="${IMAGE_PULL_SECRET_SERVER}" \
-    --docker-username="${IMAGE_PULL_USERNAME}" \
-    --docker-password="${IMAGE_PULL_PASSWORD}" \
-    --docker-email=${IMAGE_PULL_EMAIL} \
-    -n "${NAMESPACE}"
-fi
+

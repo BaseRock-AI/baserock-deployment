@@ -27,9 +27,10 @@ spec:
       labels:
         app: rabbitmq
     spec:
+      ${IMAGE_PULL_SECRET_BLOCK}
       containers:
         - name: rabbitmq
-          image: rabbitmq:4.0.2-management
+          image: ${RABBITMQ_IMAGE}
           ports:
             - containerPort: ${RABBITMQ_PORT} # Port for AMQP protocol
               protocol: ${RABBITMQ_PROTOCOL}

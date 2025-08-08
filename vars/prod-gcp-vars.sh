@@ -44,17 +44,23 @@ export TODO_WEB_SERVICE_IMAGE="gcr.io/production-385606/todo-web-service:0.0.1"
 export BACKEND_IMAGE="gcr.io/production-385606/sapient-backend/facade-service"
 export BACKEND_TAG="1.182.0"
 export CELERY_WORKER_IMAGE="gcr.io/production-385606/celery-worker:celery-worker-0.318.0"
+export MONGODB_IMAGE="mongo:8.0.0"
+export POSTGRES_IMAGE="bitnami/postgresql:16.1.0-debian-11-r25"
+export RABBITMQ_IMAGE="rabbitmq:4.0.2-management"
+export REDIS_IMAGE="bitnami/redis:7.2.4"
+export MONGO_EXPRESS_IMAGE="mongo-express:1.0.2-20-alpine3.19"
+export CERT_MANAGER_CONTROLLER_IMAGE="quay.io/jetstack/cert-manager-controller"
+export CERT_MANAGER_WEBHOOK_IMAGE="quay.io/jetstack/cert-manager-webhook"
+export CERT_MANAGER_CAINJECTOR_IMAGE="quay.io/jetstack/cert-manager-cainjector"
+export CERT_MANAGER_ACMESOLVER_IMAGE="quay.io/jetstack/cert-manager-acmesolver"
+export CERT_MANAGER_STARTUPIPCHECK_IMAGE="quay.io/jetstack/cert-manager-startupapicheck"
+export INGRESS_CONTROLLER_IMAGE="registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20220916-gd32f8c343@sha256:39c5b2e3310dc4264d638ad28d9d1d96c4cbb2b2dcfb52368fe4e3c63f61e10f"
+export INGRESS_CERTGEN_IMAGE="registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20220916-gd32f8c343@sha256:39c5b2e3310dc4264d638ad28d9d1d96c4cbb2b2dcfb52368fe4e3c63f61e10f"
+export CERT_MANAGER_VERSION="v1.15.3"
+export INGRESS_CLASS="nginx"
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-gcp-prod.yaml"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"
 
-kubectl delete secret "${IMAGE_PULL_SECRET}" -n "${NAMESPACE}"
-
-kubectl create secret docker-registry "${IMAGE_PULL_SECRET}" \
-  --docker-server=${IMAGE_PULL_SECRET_SERVER} \
-  --docker-username=${IMAGE_PULL_USERNAME} \
-  --docker-password=${IMAGE_PULL_PASSWORD} \
-  --docker-email=${IMAGE_PULL_EMAIL} \
-  -n ${NAMESPACE}

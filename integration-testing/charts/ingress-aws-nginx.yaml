@@ -1,0 +1,95 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: client-ingress
+  namespace: ${NAMESPACE}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-eip-allocations: ${EIP_ALLOCATION_ID}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    cert-manager.io/issuer: "letsencrypt-production"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ${DOMAIN}
+      secretName: ${CERTIFICATE_NAME}
+  rules:
+    - host: ${DOMAIN}
+      http:
+        paths:
+          - path: ${CLIENT_BASE_URL}
+            pathType: Prefix
+            backend:
+              service:
+                name: ${CLIENT_DEPLOYMENT}-service
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: le-service-ingress
+  namespace: ${NAMESPACE}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-eip-allocations: ${EIP_ALLOCATION_ID}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    cert-manager.io/issuer: "letsencrypt-production"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ${DOMAIN}
+      secretName: ${CERTIFICATE_NAME}
+  rules:
+    - host: ${DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: learning-engine-service
+                port:
+                  number: 80
+            path: ${LE_SERVICE_BASE_URL}
+            pathType: Prefix
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: le-django-service-ingress
+  namespace: ${NAMESPACE}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-eip-allocations: ${EIP_ALLOCATION_ID}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    cert-manager.io/issuer: "letsencrypt-production"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ${DOMAIN}
+      secretName: ${CERTIFICATE_NAME}
+  rules:
+    - host: ${DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: python-service
+                port:
+                  number: 80
+            path: "/it/leDjangoService/(.*)"
+            pathType: Prefix

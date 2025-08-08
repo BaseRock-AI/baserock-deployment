@@ -4,17 +4,18 @@ export AWS_REGION="<>"
 export AWS_ACCOUNT_ID="<>"
 export DOMAIN="<>"
 export DOMAIN_PORT=""
-export STATIC_IP_ADDRESS="<>"
+export EIP_ALLOCATION_ID="<>"
 export CERTIFICATE_NAME="<>"
-export AWS_ACCESS_KEY_ID=""
-export AWS_SECRET_ACCESS_KEY=""
+export AWS_ACCESS_KEY_ID="<>"
+export AWS_SECRET_ACCESS_KEY="<>"
 export AWS_DEFAULT_REGION="${AWS_REGION}"
 export IMAGE_PULL_SECRET="aws-pull-secret"
-export IMAGE_PULL_SECRET_SERVER="<aws_account_id>.dkr.ecr.<region>.amazonaws.com"
+export IMAGE_PULL_SECRET_SERVER="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 export IMAGE_PULL_USERNAME="AWS"
 export IMAGE_PULL_PASSWORD="$(aws ecr get-login-password --region ${AWS_REGION})"
-export IMAGE_PULL_EMAIL="<EMAIL>"
-
+export IMAGE_PULL_EMAIL="<>"
+export AWS_NLB_NAME="<>"
+export INGRESS_CLASS="nginx"
 #-- config --#
 export LLM_API_KEY="<Anthropic-key>"
 export VOYAGE_API_KEY="<Voyage-key>"
@@ -35,7 +36,7 @@ export BITBUCKET_REDIRECT_URI="<>"
 
 
 # -- images --#
-export AWS_REPO_NAME="<AWS_REPO_NAME>"
+export AWS_REPO_NAME="062853520136.dkr.ecr.us-east-1.amazonaws.com/baserock/onprem"
 export CLIENT_IMAGE="${AWS_REPO_NAME}/client:latest"
 export UPCASTER_IMAGE="${AWS_REPO_NAME}/upcaster:latest"
 export FLINK_IMAGE="${AWS_REPO_NAME}/flinkjob-rabbitmq-aggregation:latest"
@@ -44,34 +45,25 @@ export LE_SERVICE_IMAGE="${AWS_REPO_NAME}/learning-engine-service:latest"
 export ADMIN_PORTAL_IMAGE="${AWS_REPO_NAME}/admin-portal-ui:latest"
 export TODO_WEB_APP_IMAGE="${AWS_REPO_NAME}/todo-web-app:latest"
 export TODO_WEB_SERVICE_IMAGE="${AWS_REPO_NAME}/todo-web-service:latest"
-export BACKEND_IMAGE="${AWS_REPO_NAME}/baserock-facade-service"
+export BACKEND_IMAGE="${AWS_REPO_NAME}/facade-service"
 export BACKEND_TAG="latest"
 export CELERY_WORKER_IMAGE="${AWS_REPO_NAME}/celery-worker:latest"
+export MONGODB_IMAGE="${AWS_REPO_NAME}/mongo:latest"
+export POSTGRES_IMAGE="${AWS_REPO_NAME}/postgresql:latest"
+export RABBITMQ_IMAGE="${AWS_REPO_NAME}/rabbitmq:latest"
+export REDIS_IMAGE="${AWS_REPO_NAME}/redis:latest"
+export MONGO_EXPRESS_IMAGE="${AWS_REPO_NAME}/mongo-express:latest"
+export CERT_MANAGER_CONTROLLER_IMAGE="${AWS_REPO_NAME}/cert-manager-controller"
+export CERT_MANAGER_WEBHOOK_IMAGE="${AWS_REPO_NAME}/cert-manager-webhook"
+export CERT_MANAGER_CAINJECTOR_IMAGE="${AWS_REPO_NAME}/cert-manager-cainjector"
+export CERT_MANAGER_ACMESOLVER_IMAGE="${AWS_REPO_NAME}/cert-manager-acmesolver"
+export CERT_MANAGER_STARTUPIPCHECK_IMAGE="${AWS_REPO_NAME}/cert-manager-startupapicheck"
+export INGRESS_CONTROLLER_IMAGE="${AWS_REPO_NAME}/ingress-nginx/controller:latest"
+export INGRESS_CERTGEN_IMAGE="${AWS_REPO_NAME}/ingress-nginx/kube-webhook-certgen:latest"
+export CERT_MANAGER_VERSION="latest"
 
 #-- backend-extras--#
-export VALUES_YAML="backend/baserock-backend/values-aws-prod.yaml"
+export VALUES_YAML="backend/baserock-backend/values-aws-prod-nginx.yaml"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"
-
-
-kubectl delete secret "${IMAGE_PULL_SECRET}" -n "${NAMESPACE}"
-
-if [ -z "$AWS_ACCESS_KEY_ID" ]; then
-  echo "Using manually provided Docker credentials..."
-
-  kubectl create secret docker-registry "${IMAGE_PULL_SECRET}" \
-    --docker-server="${IMAGE_PULL_SECRET_SERVER}" \
-    --docker-username="${IMAGE_PULL_USERNAME}" \
-    --docker-password="${IMAGE_PULL_PASSWORD}" \
-    --docker-email="${IMAGE_PULL_EMAIL}" \
-    -n "${NAMESPACE}"
-else
-  echo "Using AWS ECR credentials..."
-  kubectl create secret docker-registry aws-pull-secret \
-    --docker-server="${IMAGE_PULL_SECRET_SERVER}" \
-    --docker-username="${IMAGE_PULL_USERNAME}" \
-    --docker-password="${IMAGE_PULL_PASSWORD}" \
-    --docker-email=${IMAGE_PULL_EMAIL} \
-    -n "${NAMESPACE}"
-fi
