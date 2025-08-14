@@ -3,9 +3,6 @@ export CERT_MANAGER_NAMESPACE="cert-manager-baserock"
 export INGRESS_NAMESPACE="ingress-nginx"
 export NAMESPACE="onpremise-baserock"
 
-#--api keys--#
-export LLM_MODEL_NAME="claude-3-5-sonnet-20241022"
-export VOYAGE_MODEL_NAME="voyage-3"
 #-- mongo --#
 export UPCASTED_COLLECTION="testUpcastedSchemaSpec"
 export MONGO_DB_PASSWORD="teste"
@@ -87,7 +84,6 @@ export TOKEN_PUBLIC_KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0rSZXNpxsCo
 export REDIS_URL="baserock-backend-redis-master.${NAMESPACE}.svc.cluster.local:6379"
 export REDIS_URL_LE="redis://${REDIS_URL}/0"
 export CELERY_QUEUE_NAME="celery_job_queue"
-export LLM_PROVIDER="anthropic"
 
 #-- backend-extras--#
 export HELM_RELEASE="baserock-backend"

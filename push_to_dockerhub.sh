@@ -35,11 +35,11 @@ IMAGE_PATHS=(
 
 # Corresponding tags for each image
 TAGS=(
-#  "0.347.1-release-07-25-2025.0"
-#  "0.347.1-release-07-25-2025.0"
-#  "0.217.1-release-07-25-2025.0"
-#  "0.92.1-release-07-25-2025.0"
-#  "0.352.1-lumberfi-logs.0"
+#  "0.363.3-release-08-12-2025.0"
+#  "0.363.3-release-08-12-2025.1"
+#  "0.218.1-release-08-12-2025.0"
+#  "0.97.1-release-08-12-2025.1"
+#  "0.363.3-release-08-12-2025.2"
 #  "1.215.0"
 #  "0.12.1-SM-697.1"
 #  "0.58.21-release-07-23-2025.0"
@@ -97,7 +97,7 @@ for REPO in "${DOCKERHUB_REPOS[@]}"; do
   aws ecr create-repository --repository-name "$ECR_REGISTRY_NAME/$REPO" --region us-east-1 2>/dev/null || echo "Repository $REPO already exists"
 done
 
-#export DOCKER_DEFAULT_PLATFORM="linux/amd64"
+export DOCKER_DEFAULT_PLATFORM="linux/amd64"
 
 for i in "${!IMAGE_PATHS[@]}"; do
   GCR_PATH="${IMAGE_PATHS[$i]}"
@@ -107,7 +107,7 @@ for i in "${!IMAGE_PATHS[@]}"; do
   GCR_IMAGE="$GCR_PATH:$TAG"
   DOCKERHUB_IMAGE="$DOCKERHUB_ACC/$REPO"
   ECR_IMAGE="$ECR_REGISTRY/$ECR_REGISTRY_NAME/$REPO"
-  "062853520136.dkr.ecr.us-east-1.amazonaws.com/baserock/onprem/ingress-nginx/controller:latest"
+
   echo "Processing $GCR_IMAGE..."
   docker pull "$GCR_IMAGE"
   

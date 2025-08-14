@@ -178,10 +178,12 @@ print_status "INGRESS_TYPE Type: $INGRESS_TYPE"
 print_status "INGRESS_INSTALL_TYPE Type: $INGRESS_INSTALL_TYPE"
 print_status "CERTIFICATE_OPTION_TYPE Type: $CERTIFICATE_OPTION_TYPE"
 
-
+export VARS_FILE="${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}-vars.sh"
 # shellcheck source=./commons/vars/dev-gcp-vars.sh
-source ./vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
+# shellcheck disable=SC1090
+source ./vars/"$VARS_FILE"
 source ./vars/common-vars.sh
+source ./vars/image-vars.sh
 
 printenv
 
