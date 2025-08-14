@@ -5,7 +5,7 @@ print_status "Switching context"
 kubectl config use-context "$CONTEXT"
 
 print_status "Authenticating with GCP..."
-gcloud config set project "$PROJECT_ID"
+#gcloud config set project "$PROJECT_ID"
 
 # Connect to GKE
 print_status "Connecting to GKE cluster: $GKE_CLUSTER in region $GKE_REGION..."

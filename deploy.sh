@@ -117,10 +117,12 @@ print_status "CERT_TYPE_OPTION Type: $CERT_TYPE_OPTION"
 print_status "CERT_MANAGER_OPTION_TYPE Type: $CERT_MANAGER_OPTION_TYPE"
 print_status "INGRESS_TYPE Type: $INGRESS_TYPE"
 
-
+export VARS_FILE="${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}-vars.sh"
 # shellcheck source=./commons/vars/dev-gcp-vars.sh
-source ./vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
+# shellcheck disable=SC1090
+source ./vars/"$VARS_FILE"
 source ./vars/common-vars.sh
+source ./vars/image-vars.sh
 
 chmod +x script.sh
 ./script.sh
