@@ -1,11 +1,11 @@
 # -- gke --#
-export EKS_CLUSTER="<>"
-export AWS_REGION="<>"
-export AWS_ACCOUNT_ID="<>"
-export DOMAIN="<>"
+export EKS_CLUSTER="web-quickstart"
+export AWS_REGION="us-east-1"
+export AWS_ACCOUNT_ID="062853520136"
+export DOMAIN="awsonprem.baserock.ai"
 export DOMAIN_PORT=""
-export STATIC_IP_ADDRESS="<>"
-export CERTIFICATE_NAME="<>"
+export STATIC_IP_ADDRESS="44.206.13.101"
+export CERTIFICATE_NAME="arn:aws:acm:us-east-1:062853520136:certificate/d13948d7-4615-4e8f-bb7d-67b38b6224c9"
 export AWS_ACCESS_KEY_ID=""
 export AWS_SECRET_ACCESS_KEY=""
 export AWS_DEFAULT_REGION="${AWS_REGION}"
@@ -18,8 +18,12 @@ export IMAGE_PULL_EMAIL="<EMAIL>"
 #-- config --#
 export LLM_API_KEY="<Anthropic-key>"
 export VOYAGE_API_KEY="<Voyage-key>"
-export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
-export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
+export LLM_PROVIDER="anthropic"
+
+export BEDROCK_LLM_MODEL_NAME="<>"
+export BEDROCK_BASIC_MODEL_NAME="<>"
+export BEDROCK_BASIC_MAX_TOKENS="<>"
+export BEDROCK_ADVANCED_MAX_TOKENS="<>"
 
 #-optional-#
 export GITHUB_APP_ID="<GITHUB-APP-DETAILS>"
@@ -28,28 +32,18 @@ export GITHUB_CLIENT_ID="<>"
 export GITHUB_CLIENT_SECRET="<>"
 export GITHUB_PRIVATE_KEY="<>"
 
-export BITBUCKET_CLIENT_ID="<>"
+export BITBUCKET_CLIENT_ID="<BITBUCKET-APP-DETAILS>"
 export BITBUCKET_CLIENT_SECRET="<>"
 export BITBUCKET_INSTALLATION_URL="<>"
-export BITBUCKET_REDIRECT_URI="<>"
 
 
 # -- images --#
-export AWS_REPO_NAME="<AWS_REPO_NAME>"
-export CLIENT_IMAGE="${AWS_REPO_NAME}/client:latest"
-export UPCASTER_IMAGE="${AWS_REPO_NAME}/upcaster:latest"
-export FLINK_IMAGE="${AWS_REPO_NAME}/flinkjob-rabbitmq-aggregation:latest"
-export DJANGO_IMAGE="${AWS_REPO_NAME}/le-django-server:latest"
-export LE_SERVICE_IMAGE="${AWS_REPO_NAME}/learning-engine-service:latest"
-export ADMIN_PORTAL_IMAGE="${AWS_REPO_NAME}/admin-portal-ui:latest"
-export TODO_WEB_APP_IMAGE="${AWS_REPO_NAME}/todo-web-app:latest"
-export TODO_WEB_SERVICE_IMAGE="${AWS_REPO_NAME}/todo-web-service:latest"
-export BACKEND_IMAGE="${AWS_REPO_NAME}/baserock-facade-service"
-export BACKEND_TAG="latest"
-export CELERY_WORKER_IMAGE="${AWS_REPO_NAME}/celery-worker:latest"
+export REPO_NAME="062853520136.dkr.ecr.us-east-1.amazonaws.com/baserock/onprem"
 
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-aws-prod.yaml"
+export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
+export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"

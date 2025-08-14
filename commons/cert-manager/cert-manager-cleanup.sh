@@ -7,6 +7,9 @@ kubectl delete clusterrole cert-manager cert-manager-cainjector cert-manager-web
 kubectl delete clusterrolebinding cert-manager cert-manager-cainjector cert-manager-webhook cert-manager-controller-approve:cert-manager-io cert-manager-controller-certificates cert-manager-controller-certificatesigningrequests cert-manager-controller-challenges cert-manager-controller-clusterissuers \
                          cert-manager-controller-ingress-shim cert-manager-controller-issuers cert-manager-controller-orders cert-manager-webhook:subjectaccessreviews
 
+kubectl delete validatingwebhookconfiguration cert-manager-webhook
+kubectl delete mutatingwebhookconfiguration cert-manager-webhook
+
 kubectl delete crd \
     certificaterequests.cert-manager.io \
     certificates.cert-manager.io \
