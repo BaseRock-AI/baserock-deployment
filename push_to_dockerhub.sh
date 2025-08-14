@@ -19,11 +19,11 @@ IMAGE_PATHS=(
 
 # Corresponding tags for each image
 TAGS=(
-  "0.347.1-release-07-25-2025.0"
-  "0.347.1-release-07-25-2025.0"
-  "0.217.1-release-07-25-2025.0"
-  "0.92.1-release-07-25-2025.0"
-  "0.352.1-lumberfi-logs.0"
+  "0.363.3-release-08-12-2025.0"
+  "0.363.3-release-08-12-2025.1"
+  "0.218.1-release-08-12-2025.0"
+  "0.97.1-release-08-12-2025.1"
+  "0.363.3-release-08-12-2025.2"
   "1.215.0"
 )
 
@@ -76,8 +76,8 @@ for i in "${!IMAGE_PATHS[@]}"; do
   
   # Push to ECR
   echo "📤 Pushing to AWS ECR..."
-  docker push "$ECR_IMAGE:$TAG"
-  docker push "$ECR_IMAGE:latest"
+#  docker push "$ECR_IMAGE:$TAG"
+#  docker push "$ECR_IMAGE:latest"
 
   echo "✔ Finished pushing $REPO to both DockerHub and ECR"
 done

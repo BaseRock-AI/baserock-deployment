@@ -1,29 +1,4 @@
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: celery-worker-service-secret
-  namespace: ${NAMESPACE}
-type: Opaque
-stringData:
-  MONGO_URL: "${MONGO_URL}"
-  LLM_API_KEY: "${LLM_API_KEY}"
-  LLM_MODEL_NAME: "${LLM_MODEL_NAME}"
-  CHROMA_HOST: "${CHROMA_HOST}"
-  CHROMA_TOKEN: "${CHROMA_TOKEN}"
-  DEFINITION_MODE_THRESHOLD: "${DEFINITION_MODE_THRESHOLD}"
-  DOMAIN_NAME: "${DOMAIN}${DOMAIN_PORT}"
-  LLM_ENABLED: "${LLM_ENABLED}"
-  MAX_TEST_CASES: "${MAX_TEST_CASES}"
-  POSITIVE_TEST_RATIO: "${POSITIVE_TEST_RATIO}"
-  VOYAGE_API_KEY: "${VOYAGE_API_KEY}"
-  VOYAGE_MODEL_NAME: "${VOYAGE_MODEL_NAME}"
-  MAX_WORKERS: "${MAX_WORKERS}"
-  REDIS_URL: "${REDIS_URL}"
-  CELERY_QUEUE: "${CELERY_QUEUE_NAME}"
-  LLM_PROVIDER: "${LLM_PROVIDER}"
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -46,7 +21,7 @@ spec:
           imagePullPolicy: Always
           envFrom:
             - secretRef:
-                name: celery-worker-service-secret
+                name: python-secret
           resources:
             limits:
               cpu: ${CELERY_WORKER_CPUS}

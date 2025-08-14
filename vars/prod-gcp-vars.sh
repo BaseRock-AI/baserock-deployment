@@ -16,36 +16,33 @@ export IMAGE_PULL_EMAIL="lumber-image-puller@production-385606.iam.gserviceaccou
 export ADMIN_EMAIL="<>"
 
 #-- config --#
+export LLM_PROVIDER="anthropic"
 export LLM_API_KEY="<Anthropic-key>"
 export VOYAGE_API_KEY="<Voyage-key>"
-export GITHUB_APP_ID="<GITHUB-APP-DETAILS>"
-export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
-export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
+
+export BEDROCK_LLM_MODEL_NAME="<>"
+export BEDROCK_BASIC_MODEL_NAME="<>"
+export BEDROCK_BASIC_MAX_TOKENS="<>"
+export BEDROCK_ADVANCED_MAX_TOKENS="<>"
 
 #-optional-#
+export GITHUB_APP_ID="<GITHUB-APP-DETAILS>"
 export GITHUB_APP_ID_INT="<>"
 export GITHUB_CLIENT_ID="<>"
 export GITHUB_CLIENT_SECRET="<>"
 export GITHUB_PRIVATE_KEY="<>"
 
-export BITBUCKET_CLIENT_ID="<>"
+export BITBUCKET_CLIENT_ID="<BITBUCKET-APP-DETAILS>"
 export BITBUCKET_CLIENT_SECRET="<>"
 export BITBUCKET_INSTALLATION_URL="<>"
 
 # -- images --#
-export CLIENT_IMAGE="gcr.io/production-385606/client:0.53.0"
-export UPCASTER_IMAGE="gcr.io/production-385606/upcaster:0.270.0"
-export FLINK_IMAGE="gcr.io/production-385606/flinkjob-rabbitmq-aggregation:0.48.2-feature-concentric-deployment.1"
-export DJANGO_IMAGE="gcr.io/production-385606/le-django-server:0.269.0"
-export LE_SERVICE_IMAGE="gcr.io/production-385606/baserock-backend/learning-engine-service:0.164.0"
-export ADMIN_PORTAL_IMAGE="gcr.io/production-385606/admin-portal-ui:0.12.1-SM-697.1"
-export TODO_WEB_APP_IMAGE="gcr.io/production-385606/todo-web-app:0.0.1"
-export TODO_WEB_SERVICE_IMAGE="gcr.io/production-385606/todo-web-service:0.0.1"
-export BACKEND_IMAGE="gcr.io/production-385606/sapient-backend/facade-service"
-export BACKEND_TAG="1.182.0"
-export CELERY_WORKER_IMAGE="gcr.io/production-385606/celery-worker:celery-worker-0.318.0"
+export REPO_NAME="vikasbaserock"
+
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-gcp-prod.yaml"
+export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
+export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"

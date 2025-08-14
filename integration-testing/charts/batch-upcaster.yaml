@@ -1,27 +1,4 @@
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: upcaster-secrets
-  namespace: ${NAMESPACE}
-type: Opaque
-stringData:
-  MONGO_URL: "${MONGO_URL}"
-  REDIS_URL: "${REDIS_URL_LE}"
-  LLM_API_KEY: "${LLM_API_KEY}"
-  LLM_MODEL_NAME: "${LLM_MODEL_NAME}"
-  CHROMA_HOST: "${CHROMA_HOST}"
-  CHROMA_TOKEN: "${CHROMA_TOKEN}"
-  DEFINITION_MODE_THRESHOLD: "${DEFINITION_MODE_THRESHOLD}"
-  DOMAIN_NAME: "${DOMAIN}${DOMAIN_PORT}"
-  LLM_ENABLED: "${LLM_ENABLED}"
-  MAX_TEST_CASES: "${MAX_TEST_CASES}"
-  POSITIVE_TEST_RATIO: "${POSITIVE_TEST_RATIO}"
-  VOYAGE_API_KEY: "${VOYAGE_API_KEY}"
-  VOYAGE_MODEL_NAME: "${VOYAGE_MODEL_NAME}"
-  MAX_WORKERS: "${MAX_WORKERS}"
-  LLM_PROVIDER: "${LLM_PROVIDER}"
----
 # --- CronJob ---
 apiVersion: batch/v1
 kind: CronJob
@@ -48,7 +25,7 @@ spec:
                       fieldPath: metadata.name
               envFrom:
                 - secretRef:
-                    name: upcaster-secrets
+                    name: python-secret
               resources:
                 limits:
                   cpu: ${UPCASTER_CPUS}
