@@ -6,13 +6,15 @@ export DOMAIN="<>"
 export DOMAIN_PORT=""
 export STATIC_IP_ADDRESS="<>"
 export CERTIFICATE_NAME="<>"
+export AWS_ACCESS_KEY_ID=""
+export AWS_SECRET_ACCESS_KEY=""
+export AWS_DEFAULT_REGION="${AWS_REGION}"
 export IMAGE_PULL_SECRET="aws-pull-secret"
-export IMAGE_PULL_SECRET_SERVER="<aws_account_id>.dkr.ecr.${AWS_REGION}.amazonaws.com"
+export IMAGE_PULL_SECRET_SERVER="<aws_account_id>.dkr.ecr.<region>.amazonaws.com"
 export IMAGE_PULL_USERNAME="AWS"
 export IMAGE_PULL_PASSWORD="$(aws ecr get-login-password --region ${AWS_REGION})"
 export IMAGE_PULL_EMAIL="<EMAIL>"
-export AWS_ACCESS_KEY_ID=""
-export AWS_SECRET_ACCESS_KEY=""
+
 #-- config --#
 export LLM_API_KEY="<Anthropic-key>"
 export VOYAGE_API_KEY="<Voyage-key>"
@@ -47,16 +49,17 @@ export BACKEND_TAG="latest"
 export CELERY_WORKER_IMAGE="${AWS_REPO_NAME}/celery-worker:latest"
 
 #-- backend-extras--#
-export VALUES_YAML="backend/baserock-backend/values-aws-dev.yaml"
+export VALUES_YAML="backend/baserock-backend/values-aws-prod.yaml"
 
 #-- todo-web-service --#
-export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="dev"
+export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"
 
 
 kubectl delete secret "${IMAGE_PULL_SECRET}" -n "${NAMESPACE}"
 
-if [ -n "$AWS_ACCESS_KEY_ID" ]; then
+if [ -z "$AWS_ACCESS_KEY_ID" ]; then
   echo "Using manually provided Docker credentials..."
+
   kubectl create secret docker-registry "${IMAGE_PULL_SECRET}" \
     --docker-server="${IMAGE_PULL_SECRET_SERVER}" \
     --docker-username="${IMAGE_PULL_USERNAME}" \
