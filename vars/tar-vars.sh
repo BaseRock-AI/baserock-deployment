@@ -11,6 +11,17 @@ export IMAGE_PULL_USERNAME="<>"
 export IMAGE_PULL_PASSWORD="<>"
 export IMAGE_PULL_EMAIL="<>"
 
+#-- config --#
+export LLM_API_KEY="<>"
+export VOYAGE_API_KEY="<>"
+export GITHUB_APP_ID="<>"
+export GITHUB_APP_ID_INT="<>"
+export GITHUB_CLIENT_ID="<>"
+export GITHUB_CLIENT_SECRET="<>"
+export GITHUB_PRIVATE_KEY="<>"
+export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
+export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
+
 # -- images --#
 export CLIENT_IMAGE="vikasbaserock/client-dev-onprem:0.0.1-SM-816-Retest-integration-on-prem-deployment.0"
 export UPCASTER_IMAGE="vikasbaserock/upcaster:0.264.0"

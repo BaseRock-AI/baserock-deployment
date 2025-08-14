@@ -27,6 +27,8 @@ spec:
               value: "${REACT_APP_API_URL}/it/leService"
             - name: REACT_APP_REDIRECT_BASE_URL
               value: "${REACT_APP_REDIRECT_BASE_URL}"
+            - name: REACT_APP_API_URL_DJANGO
+              value: "${REACT_APP_API_URL}/it/leDjangoService"
             - name: PUBLIC_URL
               value: "/it/catalog"
           resources:

@@ -7,6 +7,7 @@ metadata:
 type: Opaque
 stringData:
   MONGO_URL: "${MONGO_URL}"
+  REDIS_URL: "${REDIS_URL_LE}"
   LLM_API_KEY: "${LLM_API_KEY}"
   LLM_MODEL_NAME: "${LLM_MODEL_NAME}"
   CHROMA_HOST: "${CHROMA_HOST}"
@@ -19,6 +20,7 @@ stringData:
   VOYAGE_API_KEY: "${VOYAGE_API_KEY}"
   VOYAGE_MODEL_NAME: "${VOYAGE_MODEL_NAME}"
   MAX_WORKERS: "${MAX_WORKERS}"
+  LLM_PROVIDER: "${LLM_PROVIDER}"
 ---
 # --- CronJob ---
 apiVersion: batch/v1
