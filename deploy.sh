@@ -119,10 +119,10 @@ print_status "INGRESS_TYPE Type: $INGRESS_TYPE"
 
 export VARS_FILE="${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}-vars.sh"
 # shellcheck source=./commons/vars/dev-gcp-vars.sh
+# shellcheck disable=SC1090
+source ./vars/"$VARS_FILE"
 source ./vars/common-vars.sh
 source ./vars/image-vars.sh
-source ./vars/VARS_FILE
-
 
 chmod +x script.sh
 ./script.sh
