@@ -1,6 +1,6 @@
 # -- gke --#
 export BUCKET_NAME="gs://docker-images-baserock-server"
-export GKE_CLUSTER="on-prem-cluster"
+export GKE_CLUSTER="private-on-prem-1"
 export GKE_REGION="us-central1"
 export PROJECT_ID="production-385606"
 export DOMAIN="app.onprem.baserock.ai"
@@ -13,7 +13,7 @@ export IMAGE_PULL_USERNAME="_json_key"
 export IMAGE_PULL_PASSWORD="$(cat commons/aws/key.json)"
 export IMAGE_PULL_EMAIL="lumber-image-puller@production-385606.iam.gserviceaccount.com"
 
-export ADMIN_EMAIL="<>"
+export ADMIN_EMAIL="rishi@baserock.ai"
 
 #-- config --#
 export LLM_PROVIDER="anthropic"
@@ -39,7 +39,7 @@ export BITBUCKET_CLIENT_SECRET="<>"
 export BITBUCKET_INSTALLATION_URL="<>"
 
 # -- images --#
-export REPO_NAME="vikasbaserock"
+export REPO_NAME="gcr.io/production-385606"
 
 #-- backend-extras--#
 export VALUES_YAML="backend/baserock-backend/values-gcp-prod.yaml"
