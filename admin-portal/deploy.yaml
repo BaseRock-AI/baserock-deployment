@@ -12,6 +12,7 @@ data:
   REACT_APP_API_URL: "${REACT_APP_API_URL}"
   DOMAIN_NAME: "${DOMAIN_NAME}"
   PUBLIC_URL: "/admin-portal"
+  OAUTH_ENABLED: "false"
 ---
 apiVersion: v1
 kind: Service
