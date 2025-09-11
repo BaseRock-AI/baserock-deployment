@@ -12,4 +12,4 @@ export CELERY_WORKER_IMAGE="${REPO_NAME}/celery-worker:0.386.3-release-08-21-202
 
 #-- llm versions--#
 export LLM_MODEL_NAME="claude-3-5-sonnet-20241022"
-export VOYAGE_MODEL_NAME=voyage-3"
+export VOYAGE_MODEL_NAME="voyage-3"
