@@ -95,7 +95,7 @@ DOCKERHUB_REPOS=(
 
 # Authenticate to AWS ECR
 echo "🔐 Authenticating to AWS ECR..."
-#aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
 echo "🔐 Authenticated to AWS ECR..."
 
 # Create ECR repositories if they don't exist
