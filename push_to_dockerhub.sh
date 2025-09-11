@@ -8,94 +8,102 @@ ECR_REGISTRY_NAME="baserock/onprem"
 
 # Image paths (relative to GCR_PREFIX)
 IMAGE_PATHS=(
-#  "gcr.io/production-385606/le-django-server"
-#  "gcr.io/production-385606/upcaster"
-#  "gcr.io/production-385606/baserock-backend/learning-engine-service"
-#  "gcr.io/production-385606/client"
-#  "gcr.io/production-385606/celery-worker"
-#  "gcr.io/production-385606/sapient-backend/facade-service"
-#  "gcr.io/production-385606/admin-portal-ui"
-#  "gcr.io/production-385606/flinkjob-rabbitmq-aggregation"
-#  "gcr.io/production-385606/todo-web-service"
-#  "gcr.io/production-385606/todo-web-app"
-#  "mongo"
-#  "bitnami/postgresql"
-#  "rabbitmq"
-#  "bitnami/redis"
-#  "mongo-express"
-#  "quay.io/jetstack/cert-manager-cainjector"
-#  "quay.io/jetstack/cert-manager-controller"
-#  "quay.io/jetstack/cert-manager-webhook"
-#  "quay.io/jetstack/cert-manager-acmesolver"
-#  "quay.io/jetstack/cert-manager-startupapicheck"
-#  "registry.k8s.io/ingress-nginx/controller"
+  "gcr.io/production-385606/le-django-server"
+  "gcr.io/production-385606/upcaster"
+  "gcr.io/production-385606/baserock-backend/learning-engine-service"
+  "gcr.io/production-385606/client"
+  "gcr.io/production-385606/celery-worker"
+  "gcr.io/production-385606/sapient-backend/facade-service"
+  "gcr.io/production-385606/admin-portal-ui"
+  "gcr.io/production-385606/flinkjob-rabbitmq-aggregation"
+  "gcr.io/production-385606/todo-web-service"
+  "gcr.io/production-385606/todo-web-app"
+  "mongo"
+  "bitnami/postgresql"
+  "rabbitmq"
+  "bitnami/redis"
+  "mongo-express"
+  "quay.io/jetstack/cert-manager-cainjector"
+  "quay.io/jetstack/cert-manager-controller"
+  "quay.io/jetstack/cert-manager-webhook"
+  "quay.io/jetstack/cert-manager-acmesolver"
+  "quay.io/jetstack/cert-manager-startupapicheck"
+  "registry.k8s.io/ingress-nginx/controller"
   "registry.k8s.io/ingress-nginx/kube-webhook-certgen"
-  "registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20220916-gd32f8c343@sha256:39c5b2e3310dc4264d638ad28d9d1d96c4cbb2b2dcfb52368fe4e3c63f61e10f"
+  "ghcr.io/apache/flink-kubernetes-operator"
 )
-
+#   "registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20220916-gd32f8c343@sha256:39c5b2e3310dc4264d638ad28d9d1d96c4cbb2b2dcfb52368fe4e3c63f61e10f"
 # Corresponding tags for each image
+
+
+
 TAGS=(
-#  "0.363.3-release-08-12-2025.0"
-#  "0.363.3-release-08-12-2025.1"
-#  "0.218.1-release-08-12-2025.0"
-#  "0.97.1-release-08-12-2025.1"
-#  "0.363.3-release-08-12-2025.2"
-#  "1.215.0"
-#  "0.12.1-SM-697.1"
-#  "0.58.21-release-07-23-2025.0"
-#  "0.0.2"
-#  "0.0.1"
-#  "8.0.0"
-#  "16.1.0-debian-11-r25"
-#  "4.0.2-management"
-#  "7.2.5-debian-12-r0"
-#  "1.0.2-20-alpine3.19"
-#  "v1.15.3"
-#  "v1.15.3"
-#  "v1.15.3"
-#  "v1.15.3"
-#  "v1.15.3"
+  "0.412.1-release-09-11-2025.4"
+  "0.412.1-release-09-11-2025.5"
+  "0.228.1-release-09-11-2025.0"
+  "0.112.1-release-09-11-2025.0"
+  "0.412.1-release-09-11-2025.3"
+  "1.221.0"
+  "0.12.1-SM-697.1"
+  "0.58.21-release-07-23-2025.0"
+  "0.0.2"
+  "0.0.1"
+  "8.0.0"
+  "16.1.0-debian-11-r25"
+  "4.0.2-management"
+  "7.2.5-debian-12-r0"
+  "1.0.2-20-alpine3.19"
+  "v1.15.3"
+  "v1.15.3"
+  "v1.15.3"
+  "v1.15.3"
+  "v1.15.3"
   "v1.6.3"
   "v20220916-gd32f8c343"
+  "ccb10b8"
 )
 
 # Matching DockerHub repo names (optional override)
+
+
+
 DOCKERHUB_REPOS=(
-#  "le-django-server"
-#  "upcaster"
-#  "learning-engine-service"
-#  "client"
-#  "celery-worker"
-#  "facade-service"
-#  "admin-portal-ui"
-#  "flinkjob-rabbitmq-aggregation"
-#  "todo-web-service"
-#  "todo-web-app"
-#  "mongo"
-#  "postgresql"
-#  "rabbitmq"
-#  "redis"
-#  "mongo-express"
-#  "cert-manager-cainjector"
-#  "cert-manager-controller"
-#  "cert-manager-webhook"
-#  "cert-manager-acmesolver"
-#  "cert-manager-startupapicheck"
+  "le-django-server"
+  "upcaster"
+  "learning-engine-service"
+  "client"
+  "celery-worker"
+  "facade-service"
+  "admin-portal-ui"
+  "flinkjob-rabbitmq-aggregation"
+  "todo-web-service"
+  "todo-web-app"
+  "mongo"
+  "postgresql"
+  "rabbitmq"
+  "redis"
+  "mongo-express"
+  "cert-manager-cainjector"
+  "cert-manager-controller"
+  "cert-manager-webhook"
+  "cert-manager-acmesolver"
+  "cert-manager-startupapicheck"
   "ingress-nginx/controller"
   "ingress-nginx/kube-webhook-certgen"
-
+  "apache/flink-kubernetes-operator"
 )
 
 # Authenticate to AWS ECR
 echo "🔐 Authenticating to AWS ECR..."
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
+#aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
+echo "🔐 Authenticated to AWS ECR..."
 
 # Create ECR repositories if they don't exist
-echo "🏗️  Creating ECR repositories..."
-for REPO in "${DOCKERHUB_REPOS[@]}"; do
-  echo "Creating repository: $ECR_REGISTRY_NAME/$REPO"
-  aws ecr create-repository --repository-name "$ECR_REGISTRY_NAME/$REPO" --region us-east-1 2>/dev/null || echo "Repository $REPO already exists"
-done
+#echo "🏗️  Creating ECR repositories..."
+#for REPO in "${DOCKERHUB_REPOS[@]}"; do
+#  echo "Creating repository: $ECR_REGISTRY_NAME/$REPO"
+#  aws ecr create-repository --repository-name "$ECR_REGISTRY_NAME/$REPO" --region us-east-1 2>/dev/null || echo "Repository $REPO already exists"
+#done
 
 export DOCKER_DEFAULT_PLATFORM="linux/amd64"
 
@@ -105,15 +113,15 @@ for i in "${!IMAGE_PATHS[@]}"; do
   REPO="${DOCKERHUB_REPOS[$i]}"
 
   GCR_IMAGE="$GCR_PATH:$TAG"
-  DOCKERHUB_IMAGE="$DOCKERHUB_ACC/$REPO"
+#  DOCKERHUB_IMAGE="$DOCKERHUB_ACC/$REPO"
   ECR_IMAGE="$ECR_REGISTRY/$ECR_REGISTRY_NAME/$REPO"
 
   echo "Processing $GCR_IMAGE..."
   docker pull "$GCR_IMAGE"
   
   # Tag for DockerHub
-   docker tag "$GCR_IMAGE" "$DOCKERHUB_IMAGE:$TAG"
-   docker tag "$GCR_IMAGE" "$DOCKERHUB_IMAGE:latest"
+#   docker tag "$GCR_IMAGE" "$DOCKERHUB_IMAGE:$TAG"
+#   docker tag "$GCR_IMAGE" "$DOCKERHUB_IMAGE:latest"
 
   # Tag for ECR
    docker tag "$GCR_IMAGE" "$ECR_IMAGE:$TAG"
@@ -121,8 +129,8 @@ for i in "${!IMAGE_PATHS[@]}"; do
   
   # Push to DockerHub
    echo "📤 Pushing to DockerHub..."
-   docker push "$DOCKERHUB_IMAGE:$TAG"
-   docker push "$DOCKERHUB_IMAGE:latest"
+#   docker push "$DOCKERHUB_IMAGE:$TAG"
+#   docker push "$DOCKERHUB_IMAGE:latest"
   
   # Push to ECR
   echo "📤 Pushing to AWS ECR..."

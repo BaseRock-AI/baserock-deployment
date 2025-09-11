@@ -30,3 +30,27 @@ if ! helm status flink-kubernetes-operator -n "${NAMESPACE}" > /dev/null 2>&1; t
 else
   echo "flink-kubernetes-operator is already installed in namespace ${NAMESPACE}."
 fi
+
+if [ -z "$FLINK_OPERATOR_IMAGE" ]; then
+  echo "🚀 Deploying PostgreSQL with default Bitnami image..."
+  helm install flink-kubernetes-operator ./flink-kubernetes-operator -n "${NAMESPACE}" \
+        --set resources.requests.cpu="$FLINK_OPERATOR_CPU_REQUEST" \
+        --set resources.requests.memory="$FLINK_OPERATOR_MEM_REQUEST" \
+        --set resources.limits.cpu="$FLINK_OPERATOR_CPU_LIMIT" \
+        --set resources.limits.memory="$FLINK_OPERATOR_MEM_LIMIT" \
+        --timeout 10m
+
+else
+  echo "🚀 Deploying PostgreSQL with custom image: $POSTGRES_IMAGE"
+  FLINK_OPERATOR_IMAGE_REPO=$(echo "$FLINK_OPERATOR_IMAGE" | cut -d: -f1)
+  FLINK_OPERATOR_IMAGE_TAG=$(echo "$FLINK_OPERATOR_IMAGE" | cut -d: -f2)
+
+  helm install flink-kubernetes-operator ./flink-kubernetes-operator -n "${NAMESPACE}" \
+        --set resources.requests.cpu="$FLINK_OPERATOR_CPU_REQUEST" \
+        --set resources.requests.memory="$FLINK_OPERATOR_MEM_REQUEST" \
+        --set resources.limits.cpu="$FLINK_OPERATOR_CPU_LIMIT" \
+        --set resources.limits.memory="$FLINK_OPERATOR_MEM_LIMIT" \
+        --set image.repository="$FLINK_OPERATOR_IMAGE_REPO" \
+        --set image.tag="$FLINK_OPERATOR_IMAGE_TAG" \
+        --timeout 10m
+fi
