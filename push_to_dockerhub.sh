@@ -5,8 +5,8 @@ set -e
 DOCKERHUB_ACC="vikasbaserock"
 ECR_REGISTRY="062853520136.dkr.ecr.us-east-1.amazonaws.com"
 ECR_REGISTRY_NAME="baserock/onprem"
+GCR_REGISTRY="gcr.io/production-385606"
 
-# Image paths (relative to GCR_PREFIX)
 IMAGE_PATHS=(
   "gcr.io/production-385606/le-django-server"
   "gcr.io/production-385606/upcaster"
@@ -19,9 +19,9 @@ IMAGE_PATHS=(
   "gcr.io/production-385606/todo-web-service"
   "gcr.io/production-385606/todo-web-app"
   "mongo"
-  "bitnami/postgresql"
+  "swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/bitnami/postgresql"
   "rabbitmq"
-  "bitnami/redis"
+  "swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/bitnami/redis"
   "mongo-express"
   "quay.io/jetstack/cert-manager-cainjector"
   "quay.io/jetstack/cert-manager-controller"
@@ -105,27 +105,38 @@ echo "🔐 Authenticated to AWS ECR..."
 #  aws ecr create-repository --repository-name "$ECR_REGISTRY_NAME/$REPO" --region us-east-1 2>/dev/null || echo "Repository $REPO already exists"
 #done
 
-export DOCKER_DEFAULT_PLATFORM="linux/amd64"
+#export DOCKER_DEFAULT_PLATFORM="linux/amd64"
 
 for i in "${!IMAGE_PATHS[@]}"; do
-  GCR_PATH="${IMAGE_PATHS[$i]}"
+  IMAGE_PATH="${IMAGE_PATHS[$i]}"
   TAG="${TAGS[$i]}"
   REPO="${DOCKERHUB_REPOS[$i]}"
 
-  GCR_IMAGE="$GCR_PATH:$TAG"
+  IMAGE_WITH_TAG="$IMAGE_PATH:$TAG"
 #  DOCKERHUB_IMAGE="$DOCKERHUB_ACC/$REPO"
   ECR_IMAGE="$ECR_REGISTRY/$ECR_REGISTRY_NAME/$REPO"
+  GCR_IMAGE="$GCR_REGISTRY/$REPO"
 
-  echo "Processing $GCR_IMAGE..."
-  docker pull "$GCR_IMAGE"
+  echo "Processing $IMAGE_WITH_TAG..."
+  docker pull "$IMAGE_WITH_TAG"
   
   # Tag for DockerHub
-#   docker tag "$GCR_IMAGE" "$DOCKERHUB_IMAGE:$TAG"
-#   docker tag "$GCR_IMAGE" "$DOCKERHUB_IMAGE:latest"
+#   docker tag "$IMAGE_WITH_TAG" "$DOCKERHUB_IMAGE:$TAG"
+#   docker tag "$IMAGE_WITH_TAG" "$DOCKERHUB_IMAGE:latest"
 
   # Tag for ECR
-   docker tag "$GCR_IMAGE" "$ECR_IMAGE:$TAG"
-   docker tag "$GCR_IMAGE" "$ECR_IMAGE:latest"
+  echo $IMAGE_WITH_TAG
+  echo $GCR_IMAGE
+   if [[ "$IMAGE_WITH_TAG" != *"$GCR_REGISTRY"* ]]; then
+       echo "Image is NOT from the GCR registry"
+       docker tag "$IMAGE_WITH_TAG" "$GCR_IMAGE:$TAG"
+       docker tag "$IMAGE_WITH_TAG" "$GCR_IMAGE:latest"
+       docker push "$GCR_IMAGE:$TAG"
+       docker push "$GCR_IMAGE:latest"
+   fi
+
+   docker tag "$IMAGE_WITH_TAG" "$ECR_IMAGE:$TAG"
+   docker tag "$IMAGE_WITH_TAG" "$ECR_IMAGE:latest"
   
   # Push to DockerHub
    echo "📤 Pushing to DockerHub..."
