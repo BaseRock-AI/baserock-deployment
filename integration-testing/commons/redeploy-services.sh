@@ -1,5 +1,4 @@
-chmod +x integration-testing/commons/delete-secrets.sh
-./integration-testing/commons/delete-secrets.sh
+
 envsubst < integration-testing/charts/python-secret.yaml | kubectl apply -n "${NAMESPACE}" -f -
 envsubst < integration-testing/charts/python-service.yaml | kubectl apply -n "${NAMESPACE}" -f -
 envsubst < integration-testing/charts/learning-engine.yaml | kubectl apply -n "${NAMESPACE}" -f -

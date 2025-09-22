@@ -30,9 +30,9 @@ else
     --set service.ports.redis=6379 \
     --set auth.enabled=false \
     --set master.persistence.enabled=false \
-    --set master.image.registry="" \
-    --set master.image.repository="$REDIS_IMAGE_REPO" \
-    --set master.image.tag="$REDIS_IMAGE_TAG" \
+    --set image.registry="" \
+    --set image.repository="$REDIS_IMAGE_REPO" \
+    --set image.tag="$REDIS_IMAGE_TAG" \
     --set master.resources.requests.ephemeral-storage=512Mi \
     --set master.resources.limits.ephemeral-storage=1Gi \
     --set master.resources.requests.cpu="${REDIS_CPUS}" \

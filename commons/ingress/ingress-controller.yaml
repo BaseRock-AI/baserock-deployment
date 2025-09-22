@@ -493,6 +493,7 @@ spec:
       dnsPolicy: ClusterFirst
       nodeSelector:
         kubernetes.io/os: linux
+        kubernetes.io/arch: amd64
       serviceAccountName: ingress-nginx
       terminationGracePeriodSeconds: 300
       volumes:
@@ -540,6 +541,7 @@ spec:
             allowPrivilegeEscalation: false
       nodeSelector:
         kubernetes.io/os: linux
+        kubernetes.io/arch: amd64
       restartPolicy: OnFailure
       securityContext:
         fsGroup: 2000

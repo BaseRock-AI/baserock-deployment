@@ -53,5 +53,6 @@ export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"
+export USE_LATEST_TAGS="false"
 
 

@@ -88,9 +88,9 @@ DOCKERHUB_REPOS=(
   "cert-manager-webhook"
   "cert-manager-acmesolver"
   "cert-manager-startupapicheck"
-  "ingress-nginx/controller"
-  "ingress-nginx/kube-webhook-certgen"
-  "apache/flink-kubernetes-operator"
+  "ingress-nginx-controller"
+  "kube-webhook-certgen"
+  "flink-kubernetes-operator"
 )
 
 # Authenticate to AWS ECR
@@ -105,7 +105,9 @@ echo "🔐 Authenticated to AWS ECR..."
 #  aws ecr create-repository --repository-name "$ECR_REGISTRY_NAME/$REPO" --region us-east-1 2>/dev/null || echo "Repository $REPO already exists"
 #done
 
-#export DOCKER_DEFAULT_PLATFORM="linux/amd64"
+export DOCKER_DEFAULT_PLATFORM="linux/amd64"
+docker buildx create --use
+
 
 for i in "${!IMAGE_PATHS[@]}"; do
   IMAGE_PATH="${IMAGE_PATHS[$i]}"
@@ -113,40 +115,47 @@ for i in "${!IMAGE_PATHS[@]}"; do
   REPO="${DOCKERHUB_REPOS[$i]}"
 
   IMAGE_WITH_TAG="$IMAGE_PATH:$TAG"
-#  DOCKERHUB_IMAGE="$DOCKERHUB_ACC/$REPO"
+  DOCKERHUB_IMAGE="$DOCKERHUB_ACC/$REPO"
   ECR_IMAGE="$ECR_REGISTRY/$ECR_REGISTRY_NAME/$REPO"
   GCR_IMAGE="$GCR_REGISTRY/$REPO"
 
   echo "Processing $IMAGE_WITH_TAG..."
-  docker pull "$IMAGE_WITH_TAG"
-  
-  # Tag for DockerHub
-#   docker tag "$IMAGE_WITH_TAG" "$DOCKERHUB_IMAGE:$TAG"
-#   docker tag "$IMAGE_WITH_TAG" "$DOCKERHUB_IMAGE:latest"
+  docker pull --platform="linux/amd64" "$IMAGE_WITH_TAG"
 
   # Tag for ECR
-  echo $IMAGE_WITH_TAG
-  echo $GCR_IMAGE
-   if [[ "$IMAGE_WITH_TAG" != *"$GCR_REGISTRY"* ]]; then
-       echo "Image is NOT from the GCR registry"
-       docker tag "$IMAGE_WITH_TAG" "$GCR_IMAGE:$TAG"
-       docker tag "$IMAGE_WITH_TAG" "$GCR_IMAGE:latest"
-       docker push "$GCR_IMAGE:$TAG"
-       docker push "$GCR_IMAGE:latest"
-   fi
+  echo "$IMAGE_WITH_TAG"
+  echo "$GCR_IMAGE"
+  if [[ "$IMAGE_WITH_TAG" != *"$GCR_REGISTRY"* ]]; then
+    echo "Image is NOT from the GCR registry"
+    docker tag "$IMAGE_WITH_TAG" "$GCR_IMAGE:$TAG"
+    docker tag "$IMAGE_WITH_TAG" "$GCR_IMAGE:latest"
+    docker buildx imagetools create  --tag "$GCR_IMAGE:$TAG" "$IMAGE_WITH_TAG"
+    docker buildx imagetools create  --tag "$GCR_IMAGE:$TAG" "$IMAGE_WITH_TAG"
+#     docker push "$GCR_IMAGE:$TAG"
+#     docker push "$GCR_IMAGE:latest"
+  fi
+
+  # Tag for DockerHub
+  docker tag "$IMAGE_WITH_TAG" "$DOCKERHUB_IMAGE:$TAG"
+  docker tag "$IMAGE_WITH_TAG" "$DOCKERHUB_IMAGE:latest"
+#
+  # Push to DockerHub
+   echo "📤 Pushing to DockerHub..."
+   docker buildx imagetools create  --tag "$DOCKERHUB_IMAGE:latest" "$IMAGE_WITH_TAG"
+   docker buildx imagetools create  --tag "$DOCKERHUB_IMAGE:$TAG" "$IMAGE_WITH_TAG"
+#   docker push "$DOCKERHUB_IMAGE:$TAG"
+#   docker push "$DOCKERHUB_IMAGE:latest"
+
 
    docker tag "$IMAGE_WITH_TAG" "$ECR_IMAGE:$TAG"
    docker tag "$IMAGE_WITH_TAG" "$ECR_IMAGE:latest"
-  
-  # Push to DockerHub
-   echo "📤 Pushing to DockerHub..."
-#   docker push "$DOCKERHUB_IMAGE:$TAG"
-#   docker push "$DOCKERHUB_IMAGE:latest"
-  
+
   # Push to ECR
   echo "📤 Pushing to AWS ECR..."
-  docker push "$ECR_IMAGE:$TAG"
-  docker push "$ECR_IMAGE:latest"
+  docker buildx imagetools create  --tag "$ECR_IMAGE:$TAG" "$IMAGE_WITH_TAG"
+  docker buildx imagetools create  --tag "$ECR_IMAGE:latest" "$IMAGE_WITH_TAG"
+#  docker push "$ECR_IMAGE:$TAG"
+#  docker push "$ECR_IMAGE:latest"
 
   echo "✔ Finished pushing $REPO to both DockerHub and ECR"
 done

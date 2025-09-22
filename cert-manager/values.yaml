@@ -374,6 +374,7 @@ hostAliases: []
 # +docs:property
 nodeSelector:
   kubernetes.io/os: linux
+  kubernetes.io/arch: amd64
 
 # +docs:ignore
 ingressShim: {}
@@ -751,7 +752,7 @@ webhook:
   # +docs:property
   nodeSelector:
     kubernetes.io/os: linux
-
+    kubernetes.io/arch: amd64
   # A Kubernetes Affinity, if required. For more information, see [Affinity v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core).
   #
   # For example:
@@ -1043,6 +1044,7 @@ cainjector:
   # +docs:property
   nodeSelector:
     kubernetes.io/os: linux
+    kubernetes.io/arch: amd64
 
   # A Kubernetes Affinity, if required. For more information, see [Affinity v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core).
   #
@@ -1242,6 +1244,7 @@ startupapicheck:
   # +docs:property
   nodeSelector:
     kubernetes.io/os: linux
+    kubernetes.io/arch: amd64
 
   # A Kubernetes Affinity, if required. For more information, see [Affinity v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core).
   # For example:

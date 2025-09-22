@@ -45,3 +45,7 @@ export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="dev"
+export USE_LATEST_TAGS="true"
+
+export INGRESS_CLASS="nginx"
+

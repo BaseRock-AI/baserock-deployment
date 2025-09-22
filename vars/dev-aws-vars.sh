@@ -45,6 +45,8 @@ export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
 export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="dev"
+export USE_LATEST_TAGS="false"
+
 
 export INGRESS_CLASS="alb"
 export AWS_NLB_NAME="awsonprem"

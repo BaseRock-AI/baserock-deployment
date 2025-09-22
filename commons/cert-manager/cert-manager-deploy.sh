@@ -1,16 +1,29 @@
 source ./commons/messaging.sh
 
 
-print_status "helm jetstack repo update"
-helm repo add jetstack https://charts.jetstack.io
-helm repo update
 
+echo "
+    CERT_MANAGER_NAMESPACE=${CERT_MANAGER_NAMESPACE}
+    CERT_MANAGER_VERSION=${CERT_MANAGER_VERSION}
+    CERT_CPU_REQUEST=${CERT_CPU_REQUEST}
+    CERT_MEM_REQUEST=${CERT_MEM_REQUEST}
+    CERT_CPU_LIMIT=${CERT_CPU_LIMIT}
+    CERT_MEM_LIMIT=${CERT_MEM_LIMIT}
+    CERT_MANAGER_CONTROLLER_IMAGE=${CERT_MANAGER_CONTROLLER_IMAGE}
+    CERT_MANAGER_WEBHOOK_IMAGE=${CERT_MANAGER_WEBHOOK_IMAGE}
+    CERT_MANAGER_CAINJECTOR_IMAGE=${CERT_MANAGER_CAINJECTOR_IMAGE}
+    CERT_MANAGER_ACMESOLVER_IMAGE=${CERT_MANAGER_ACMESOLVER_IMAGE}
+    CERT_MANAGER_STARTUPIPCHECK_IMAGE=${CERT_MANAGER_STARTUPIPCHECK_IMAGE}
+    "
 echo "check if cert-manager exists"
 # Check if cert-manager is already installed
 if ! helm status cert-manager -n "${CERT_MANAGER_NAMESPACE}" > /dev/null 2>&1; then
   echo "CERT-MANAGER deployment"
   echo "$INTERNET_ACCESS"
   if [[ "$INTERNET_ACCESS" == "Yes" ]]; then
+    print_status "helm jetstack repo update"
+    helm repo add jetstack https://charts.jetstack.io
+    helm repo update
     helm install \
       cert-manager jetstack/cert-manager \
       -n "${CERT_MANAGER_NAMESPACE}" \
@@ -32,7 +45,7 @@ if ! helm status cert-manager -n "${CERT_MANAGER_NAMESPACE}" > /dev/null 2>&1; t
       --set controller.resources.limits.memory="${CERT_MEM_LIMIT}"
   else
     helm install \
-      cert-manager jetstack/cert-manager \
+      cert-manager ./cert-manager \
       -n "${CERT_MANAGER_NAMESPACE}" \
       --create-namespace \
       --version "${CERT_MANAGER_VERSION}" \
@@ -56,9 +69,9 @@ if ! helm status cert-manager -n "${CERT_MANAGER_NAMESPACE}" > /dev/null 2>&1; t
       --set webhook.image.tag="${CERT_MANAGER_VERSION}" \
       --set cainjector.image.repository="${CERT_MANAGER_CAINJECTOR_IMAGE}" \
       --set cainjector.image.tag="${CERT_MANAGER_VERSION}" \
-      --set startupapicheck.image.repository="${CERT_MANAGER_ACMESOLVER_IMAGE}" \
+      --set startupapicheck.image.repository="${CERT_MANAGER_STARTUPIPCHECK_IMAGE}" \
       --set startupapicheck.image.tag="${CERT_MANAGER_VERSION}" \
-      --set acmesolver.image.repository="${CERT_MANAGER_STARTUPIPCHECK_IMAGE}" \
+      --set acmesolver.image.repository="${CERT_MANAGER_ACMESOLVER_IMAGE}" \
       --set acmesolver.image.tag="${CERT_MANAGER_VERSION}"
   fi
 else
