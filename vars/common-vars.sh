@@ -181,4 +181,6 @@ export SPRING_DATASOURCE_PASSWORD="${POSTGRES_DB_PASSWORD}"
 export MODEL_API_URL=""
 export MAX_WORKERS="5"
 
+#-- service account --#
+export K8S_SERVICE_ACCOUNT_NAME="baserock-sa"
 

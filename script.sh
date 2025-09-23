@@ -20,6 +20,7 @@ chmod +x vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
 chmod +x vars/common-vars.sh
 chmod +x commons/image-secret.sh
 chmod +x commons/scripts/install-with-self-signed-cert.sh
+chmod +x commons/service-account/service-account.sh
 
 ./vars/"${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}"-vars.sh
 ./vars/common-vars.sh
@@ -100,6 +101,8 @@ elif [[ "$DEPLOY_TYPE" == "Service Redeploy" ]]; then
     print_status "Redeploying service in DEV environment..."
     ./commons/scripts/common-backend-redeploy.sh
 fi
+
+./commons/service-account/service-account.sh
 
 kubectl get all -n ingress-nginx
 
