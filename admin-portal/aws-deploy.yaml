@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: admin-portal-map
+  namespace: ${NAMESPACE}
+data:
+  REACT_APP_API_URL: "${REACT_APP_API_URL}"
+  DOMAIN_NAME: "${DOMAIN_NAME}"
+  PUBLIC_URL: "/admin-portal"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-portal-svc
+  namespace: ${NAMESPACE}
+spec:
+  type: ClusterIP
+  selector:
+    app: admin-portal
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-portal-deployment
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-portal
+  template:
+    metadata:
+      labels:
+        app: admin-portal
+    spec:
+      ${IMAGE_PULL_SECRET_BLOCK}
+      containers:
+          - name: admin-portal
+            image: ${ADMIN_PORTAL_IMAGE}
+            imagePullPolicy: Always
+            envFrom:
+              - configMapRef:
+                  name: admin-portal-map
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: admin-portal-ingress
+  namespace: ${NAMESPACE}
+  annotations:
+    kubernetes.io/ingress.class: ${INGRESS_CLASS}
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/certificate-arn: ${CERTIFICATE_ARN}
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+spec:
+  ingressClassName: ${INGRESS_CLASS}
+  tls:
+    - hosts:
+        - ${DOMAIN}
+      secretName: ${CERTIFICATE_NAME}
+  rules:
+    - host: ${DOMAIN}
+      http:
+        paths:
+          - path: /admin-portal
+            pathType: Prefix
+            backend:
+              service:
+                name: admin-portal-svc
+                port:
+                  number: 80
+          - path: /admin-portal/config.js
+            pathType: Prefix
+            backend:
+              service:
+                name: admin-portal-svc
+                port:
+                  number: 80

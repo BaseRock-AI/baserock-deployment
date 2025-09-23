@@ -48,6 +48,21 @@ done
 
 export ENV
 
+while true; do
+    echo "Internet Access to pull images:"
+    echo "1) Yes"
+    echo "2) No"
+    read -p "#? " INTERNET_ACCESS_TYPE
+
+    case $INTERNET_ACCESS_TYPE in
+        1) INTERNET_ACCESS="Yes"; break;;
+        2) INTERNET_ACCESS="No"; break;;
+        *) echo "Invalid option. Please select again.";;
+    esac
+done
+
+export INTERNET_ACCESS
+
 # Step 2: Select Deployment Type
 while true; do
     echo "Choose Deployment Type:"
@@ -94,6 +109,35 @@ done
 
 export CERT_MANAGER_OPTION_TYPE
 
+while true; do
+    echo "Install certificate:"
+    echo "1) Yes"
+    echo "2) No"
+    read -p "#? " CERTiFICATE_OPTION
+
+    case $CERTiFICATE_OPTION in
+        1) CERTIFICATE_OPTION_TYPE="Yes"; break;;
+        2) CERTIFICATE_OPTION_TYPE="No"; break;;
+        *) echo "Invalid option. Please select again.";;
+    esac
+done
+export CERTIFICATE_OPTION_TYPE
+
+
+
+while true; do
+    echo "Install ingress:"
+    echo "1) Yes"
+    echo "2) No"
+    read -p "#? " INGRESS_MANAGER_INSTALL_OPTION
+
+    case $INGRESS_MANAGER_INSTALL_OPTION in
+        1) INGRESS_INSTALL_TYPE="Yes"; break;;
+        2) INGRESS_INSTALL_TYPE="No"; break;;
+        *) echo "Invalid option. Please select again.";
+    esac
+done
+export INGRESS_INSTALL_TYPE
 
 while true; do
     echo "Ingress manager type:"
@@ -110,12 +154,29 @@ done
 
 export INGRESS_TYPE
 
+while true; do
+    echo "Deploy sample services:"
+    echo "1) Yes"
+    echo "2) No"
+    read -p "#? " SAMPLE_SERVICES_OPTION
+
+    case $SAMPLE_SERVICES_OPTION in
+        1) SAMPLE_SERVICES_TYPE="Yes"; break;;
+        2) SAMPLE_SERVICES_TYPE="No"; break;;
+        *) echo "Invalid option. Please select again.";
+    esac
+done
+
+export SAMPLE_SERVICES_TYPE
+
 print_status "Environment: $ENV"
 print_status "Deployment Type: $DEPLOY_TYPE"
 print_status "BASEROCK_CLOUD_OPTION_TYPE Type: $BASEROCK_CLOUD_OPTION_TYPE"
 print_status "CERT_TYPE_OPTION Type: $CERT_TYPE_OPTION"
 print_status "CERT_MANAGER_OPTION_TYPE Type: $CERT_MANAGER_OPTION_TYPE"
 print_status "INGRESS_TYPE Type: $INGRESS_TYPE"
+print_status "INGRESS_INSTALL_TYPE Type: $INGRESS_INSTALL_TYPE"
+print_status "CERTIFICATE_OPTION_TYPE Type: $CERTIFICATE_OPTION_TYPE"
 
 export VARS_FILE="${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}-vars.sh"
 # shellcheck source=./commons/vars/dev-gcp-vars.sh
@@ -123,6 +184,8 @@ export VARS_FILE="${ENV}-${BASEROCK_CLOUD_OPTION_TYPE}-vars.sh"
 source ./vars/"$VARS_FILE"
 source ./vars/common-vars.sh
 source ./vars/image-vars.sh
+
+printenv
 
 chmod +x script.sh
 ./script.sh

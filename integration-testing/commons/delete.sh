@@ -10,3 +10,6 @@ while read deployment; do
     kubectl delete deployment "$deployment" -n "${NAMESPACE}"
   fi
 done
+
+chmod +x integration-testing/commons/delete-secrets.sh
+./integration-testing/commons/delete-secrets.sh

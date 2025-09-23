@@ -19,7 +19,6 @@ export ADMIN_EMAIL="rishi@baserock.ai"
 export LLM_PROVIDER="anthropic"
 export LLM_API_KEY="<Anthropic-key>"
 export VOYAGE_API_KEY="<Voyage-key>"
-
 export BEDROCK_LLM_MODEL_NAME="<>"
 export BEDROCK_BASIC_MODEL_NAME="<>"
 export BEDROCK_BASIC_MAX_TOKENS="<>"
@@ -48,3 +47,5 @@ export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"
+export USE_LATEST_TAGS="true"
+export INGRESS_CLASS="nginx"

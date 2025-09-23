@@ -56,7 +56,6 @@ spec:
                   number: 80
             path: ${LE_SERVICE_BASE_URL}
             pathType: Prefix
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

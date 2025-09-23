@@ -42,9 +42,10 @@ spec:
       labels:
         app: mongodb
     spec:
+      ${IMAGE_PULL_SECRET_BLOCK}
       containers:
         - name: mongodb
-          image: mongo:8.0.0
+          image: ${MONGODB_IMAGE}
           ports:
             - containerPort: 27017 # MongoDB default port
           envFrom:
@@ -86,3 +87,4 @@ spec:
     - port: 27017 # MongoDB default port
       targetPort: 27017
   type: ClusterIP
+

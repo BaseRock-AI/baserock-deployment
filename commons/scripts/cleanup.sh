@@ -5,6 +5,13 @@ chmod +x integration-testing/initial/flink-operator-uninstall.sh
 chmod +x commons/ingress/ingress-cleanup.sh
 
 ./integration-testing/initial/flink-operator-uninstall.sh
-./commons/cert-manager/cert-manager-cleanup.sh
-./commons/ingress/ingress-cleanup.sh
+
+if [[ "$CERT_MANAGER_OPTION_TYPE" == "Yes" ]];then
+  ./commons/cert-manager/cert-manager-cleanup.sh
+fi
+
+if [[ "$INGRESS_INSTALL_TYPE" == "Yes" ]];then
+  ./commons/ingress/ingress-cleanup.sh
+fi
+
 ./commons/namespace-cleanup.sh

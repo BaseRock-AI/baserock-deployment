@@ -5,6 +5,8 @@ print_status "Deployment Type: $DEPLOY_TYPE"
 print_status "BASEROCK_CLOUD_OPTION_TYPE Type: $BASEROCK_CLOUD_OPTION_TYPE"
 print_status "CERT_TYPE_OPTION Type: $CERT_TYPE_OPTION"
 print_status "CERT_MANAGER_OPTION_TYPE Type: $CERT_MANAGER_OPTION_TYPE"
+print_status "INGRESS_INSTALL_TYPE Type: $INGRESS_INSTALL_TYPE"
+print_status "CERTIFICATE_OPTION_TYPE Type: $CERTIFICATE_OPTION_TYPE"
 
 chmod +x commons/scripts/install-with-cert.sh
 chmod +x commons/scripts/install-without-cert.sh
@@ -44,7 +46,7 @@ if [[ "$DEPLOY_TYPE" == "Full Install" ]]; then
     ./commons/namespace-setup.sh
 fi
 
-if [[ "$DEPLOY_TYPE" != "Full Install" && "$CERT_TYPE_OPTION" == "Self Signed" ]]; then
+if [[ "$CERT_MANAGER_OPTION_TYPE" != "Yes" && "$DEPLOY_TYPE" != "Full Install" && "$CERT_TYPE_OPTION" == "Self Signed" ]]; then
       print_status "Cleaning up cert manager for self signed certificate.."
     ./commons/cert-manager/cert-manager-cleanup.sh
 fi
@@ -98,5 +100,7 @@ elif [[ "$DEPLOY_TYPE" == "Service Redeploy" ]]; then
     print_status "Redeploying service in DEV environment..."
     ./commons/scripts/common-backend-redeploy.sh
 fi
+
+kubectl get all -n ingress-nginx
 
 print_status "Deployment process completed!"

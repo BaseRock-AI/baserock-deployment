@@ -56,10 +56,9 @@ export LE_SERVICE_BASE_URL="/it/leService/(.*)"
 export ISSUER_NAME="letsencrypt-production"
 export CERT_SERVER="https://acme-v02.api.letsencrypt.org/directory"
 export EMAIL="admin@baserock.ai"
-export INGRESS_CLASS="nginx"
 export HOST_PATH_TYPE="Prefix"
 export INGRESS_PORT="80"
-export CERT_MANAGER_VERSION="1.15.3"
+export CERT_MANAGER_VERSION="v1.15.3"
 
 #-- port & host --#
 export LE_SERVICE_PORT="80"
