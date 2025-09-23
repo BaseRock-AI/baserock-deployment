@@ -48,4 +48,4 @@ export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="dev"
 export USE_LATEST_TAGS="true"
 
 export INGRESS_CLASS="nginx"
-
+export GCP_SERVICE_ACCOUNT_NAME=""

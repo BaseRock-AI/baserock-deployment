@@ -50,6 +50,4 @@ export USE_LATEST_TAGS="false"
 
 export INGRESS_CLASS="alb"
 export AWS_NLB_NAME="awsonprem"
-
-
-
+export EKS_IRSA_ROLE_ARN=""
