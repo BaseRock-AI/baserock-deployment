@@ -17,13 +17,11 @@ while true; do
     echo "Select cloud env:"
     echo "1) gcp"
     echo "2) aws"
-    echo "3) minikube"
     read -p "#? " BASEROCK_CLOUD_OPTION
 
     case $BASEROCK_CLOUD_OPTION in
         1) BASEROCK_CLOUD_OPTION_TYPE="gcp"; break;;
         2) BASEROCK_CLOUD_OPTION_TYPE="aws"; break;;
-        3) BASEROCK_CLOUD_OPTION_TYPE="minikube"; break;;
         *) echo "Invalid option. Please select again.";;
     esac
 done
@@ -33,15 +31,13 @@ export BASEROCK_CLOUD_OPTION_TYPE
 
 while true; do
     echo "Select Environment:"
-    echo "1) minikube"
-    echo "2) dev"
-    echo "3) prod"
+    echo "1) dev"
+    echo "2) prod"
     read -p "#? " ENV_OPTION
 
     case $ENV_OPTION in
-        1) ENV="minikube"; break;;
-        2) ENV="dev"; break;;
-        3) ENV="prod"; break;;
+        1) ENV="dev"; break;;
+        2) ENV="prod"; break;;
         *) echo "Invalid option. Please select again.";;
     esac
 done

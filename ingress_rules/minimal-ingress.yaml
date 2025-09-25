@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ${MINIMAL_INGRESS_NAME}
+  namespace: ${NAMESPACE}
+spec:
+  ingressClassName: ${INGRESS_CLASS}
+  tls:
+    - hosts:
+        - ${DOMAIN}
+      secretName: ${CERTIFICATE_NAME}
+  rules:
+    - host: ${DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: ${MINIMAL_INGRESS_SERVICE_NAME}
+                port:
+                  number: ${MINIMAL_SERVICE_PORT}
+            path: ${MINIMAL_SERVICE_PATH}
+            pathType: ${MINIMAL_PATH_TYPE}

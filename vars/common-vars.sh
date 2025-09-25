@@ -53,6 +53,7 @@ export CELERY_WORKER_DEPLOYMENT="celery-worker"
 #-- ingress & Cert--#
 export CLIENT_BASE_URL="/it/catalog"
 export LE_SERVICE_BASE_URL="/it/leService/(.*)"
+export LE_DJANGO_BASE_URL="/it/leDjangoService/(.*)"
 export ISSUER_NAME="letsencrypt-production"
 export CERT_SERVER="https://acme-v02.api.letsencrypt.org/directory"
 export EMAIL="admin@baserock.ai"
@@ -160,11 +161,11 @@ export REACT_APP_REDIRECT_BASE_URL="${REACT_APP_API_URL}/admin-portal/"
 #-- todo-web-app --#
 export TODO_WEB_SERVICE_URL="https://${DOMAIN}${DOMAIN_PORT}/todo"
 export TODO_WEB_APP_CONTEXT_PATH="/todo-ui"
-export TODO_WEB_APP_SERVER_PORT="8080"
+export TODO_WEB_APP_SERVER_PORT=8080
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_CONTEXT_PATH="/todo"
-export TODO_WEB_SERVICE_SERVER_PORT="8080"
+export TODO_WEB_SERVICE_SERVER_PORT=8080
 export TODO_WEB_SERVICE_SERVICE_NAME="todo-web-service"
 export TODO_WEB_SERVICE_ENABLE_EXTENSION="true"
 export TODO_WEB_SERVICE_EXTENSION_MODE="capture"

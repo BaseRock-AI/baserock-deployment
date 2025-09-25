@@ -19,7 +19,7 @@ echo "check if cert-manager exists"
 # Check if cert-manager is already installed
 if ! helm status cert-manager -n "${CERT_MANAGER_NAMESPACE}" > /dev/null 2>&1; then
   echo "CERT-MANAGER deployment"
-  echo "$INTERNET_ACCESS"
+  echo "INTERNET_ACCESS: $INTERNET_ACCESS"
   if [[ "$INTERNET_ACCESS" == "Yes" ]]; then
     print_status "helm jetstack repo update"
     helm repo add jetstack https://charts.jetstack.io
@@ -66,7 +66,7 @@ if ! helm status cert-manager -n "${CERT_MANAGER_NAMESPACE}" > /dev/null 2>&1; t
       --set image.repository="${CERT_MANAGER_CONTROLLER_IMAGE}" \
       --set image.tag="${CERT_MANAGER_VERSION}" \
       --set webhook.image.repository="${CERT_MANAGER_WEBHOOK_IMAGE}" \
-      --set webhook.image.tag="${CERT_MANAGER_VERSION}" \
+      --set webhook.image.tag="373e3acd7b96c87a574f9234bb4fbfd576e3205c502d6da5dade41165c9dc828" \
       --set cainjector.image.repository="${CERT_MANAGER_CAINJECTOR_IMAGE}" \
       --set cainjector.image.tag="${CERT_MANAGER_VERSION}" \
       --set startupapicheck.image.repository="${CERT_MANAGER_STARTUPIPCHECK_IMAGE}" \

@@ -29,7 +29,7 @@ if [[ "$INTERNET_ACCESS" == "Yes" ]]; then
         --timeout 10m
 
 else
-  echo "🚀 Deploying flink with custom image: $POSTGRES_IMAGE"
+  echo "🚀 Deploying flink with custom image: $FLINK_OPERATOR_IMAGE"
   FLINK_OPERATOR_IMAGE_REPO=$(echo "$FLINK_OPERATOR_IMAGE" | cut -d: -f1)
   FLINK_OPERATOR_IMAGE_TAG=$(echo "$FLINK_OPERATOR_IMAGE" | cut -d: -f2)
   echo "Image Repository: $FLINK_OPERATOR_IMAGE_REPO"

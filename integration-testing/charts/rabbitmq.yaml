@@ -69,11 +69,11 @@ spec:
       port: ${RABBITMQ_PORT} # AMQP port inside the pod
       targetPort: ${RABBITMQ_PORT} # RabbitMQ's AMQP port inside the pod
       protocol: ${RABBITMQ_PROTOCOL}
-      nodePort: ${RABBITMQ_AMQP_NODEPORT} # External port exposed by the Minikube node for AMQP
+      nodePort: ${RABBITMQ_AMQP_NODEPORT}
     - name: management
       port: ${RABBITMQ_UI_PORT} # Management UI port inside the pod
       targetPort: ${RABBITMQ_UI_PORT} # RabbitMQ's Management UI port inside the pod
       protocol: ${RABBITMQ_PROTOCOL}
-      nodePort: ${RABBITMQ_UI_NODEPORT} # External port exposed by the Minikube node for the Management UI
+      nodePort: ${RABBITMQ_UI_NODEPORT}
   selector:
     app: rabbitmq

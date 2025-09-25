@@ -1,18 +1,7 @@
-ingress:
-  enabled: true
-  className: alb
-  annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/certificate-arn: ${CERTIFICATE_ARN}
-    alb.ingress.kubernetes.io/ssl-redirect: "443"
-  host: ""
-
 secrets:
   baserockBackend:
     ON_PREM_API_KEY:
-    ON_PREM_URL:
+    ON_PREM_URL: 
     ON_PREM_MODEL_NAME:
     ON_PREMISE_ADMIN_EMAIL: rishi@baserock.ai
     ON_PREMISE_USER_COUNT: "5"

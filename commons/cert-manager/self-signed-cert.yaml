@@ -8,7 +8,7 @@ spec:
   secretName: "${CERTIFICATE_NAME}"
   issuerRef:
     name: selfsigned-issuer
-    kind: Issuer
+    kind: ${ISSUER_KIND}
   commonName: "${DOMAIN}"
   dnsNames:
     - "${DOMAIN}"
