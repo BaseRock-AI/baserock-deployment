@@ -72,30 +72,3 @@ spec:
       port: ${TODO_WEB_SERVICE_SERVER_PORT}
       targetPort: ${TODO_WEB_SERVICE_SERVER_PORT}
   type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: todo-web-service-ingress
-  namespace: ${NAMESPACE}
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - ${DOMAIN}
-      secretName: ${CERTIFICATE_NAME}
-  rules:
-    - host: ${DOMAIN}
-      http:
-        paths:
-          - backend:
-              service:
-                name: todo-web-service
-                port:
-                  number: ${TODO_WEB_SERVICE_SERVER_PORT}
-            path: ${TODO_WEB_SERVICE_CONTEXT_PATH}
-            pathType: Prefix

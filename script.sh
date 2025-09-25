@@ -33,10 +33,6 @@ if [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "gcp" ]]; then
 elif [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "aws" ]]; then
     print_status "Setting aws context.."
     ./commons/aws/set-cluster-context.sh
-
-elif [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "minikube" ]]; then
-    print_status "Setting minikube context.."
-    ./minikube/minikube-install.sh
 fi
 
 

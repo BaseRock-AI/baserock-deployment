@@ -1,7 +1,7 @@
 source ./commons/messaging.sh
 
 CONTEXT="arn:aws:eks:${AWS_REGION}:${AWS_ACCOUNT_ID}:cluster/${EKS_CLUSTER}"
-print_status "Switching context"
+print_status "Switching context $CONTEXT"
 kubectl config use-context "$CONTEXT"
 print_status "Authenticating with AWS..."
 aws sts get-caller-identity

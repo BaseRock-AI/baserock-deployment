@@ -39,7 +39,7 @@ export BITBUCKET_INSTALLATION_URL="<>"
 export REPO_NAME="vikasbaserock"
 
 #-- backend-extras--#
-export VALUES_YAML="backend/baserock-backend/values-gcp.yaml"
+export VALUES_YAML="backend/baserock-backend/values.yaml"
 export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
 export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 
@@ -49,3 +49,4 @@ export USE_LATEST_TAGS="true"
 
 export INGRESS_CLASS="nginx"
 export GCP_SERVICE_ACCOUNT_NAME=""
+export ISSUER_KIND="Issuer"
