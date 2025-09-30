@@ -7,19 +7,43 @@ if [[ "$INGRESS_INSTALL_TYPE" == "Yes" ]]; then
   INGRESS_SERVICE_NAME=ingress-nginx-controller
 
   echo "Applying the ingress-nginx controller manifests..."
-  envsubst < commons/ingress/ingress-controller.yaml | kubectl apply -f -
+  envsubst < commons/ingress/ingress-controller.yaml | kubectl apply -n "${INGRESS_NAMESPACE}" -f -
   echo "Waiting for the ingress-nginx-controller service to be created..."
   sleep 30
 fi
 
+if [[ "$INGRESS_INSTALL_TYPE" == "Yes" ]]; then
+  echo "Waiting for configuration to take effect..."
+  sleep 60
+
+  kubectl get svc "$INGRESS_SERVICE_NAME" -n "$INGRESS_NAMESPACE"
+
+  echo "Ingress setup complete."
+fi
+
+if [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "aws" ]]; then
+    kubectl patch svc ingress-nginx-controller -n ingress-nginx -p '{"metadata":{"annotations":{"service.beta.kubernetes.io/aws-load-balancer-scheme":"internet-facing"}}}'
+fi
 
 if [[ "$INGRESS_INSTALL_TYPE" == "Yes" && "$INGRESS_TYPE" == "LoadBalancer" ]]; then
     echo "Ingress type is LoadBalancer"
-
     if [[ -n "$STATIC_IP_ADDRESS" && "$STATIC_IP_ADDRESS" != "<>" ]]; then
         echo "Patching the service $INGRESS_SERVICE_NAME to use static IP $STATIC_IP_ADDRESS"
-        kubectl patch svc "$INGRESS_SERVICE_NAME" -n "$INGRESS_NAMESPACE" --type='merge' \
-            -p "{\"spec\": {\"type\": \"LoadBalancer\", \"loadBalancerIP\": \"$STATIC_IP_ADDRESS\"}}"
+        if [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "aws" ]]; then
+          kubectl annotate ingress ingress-nginx-controller \
+                -n "${INGRESS_NAMESPACE}" \
+                external-dns.alpha.kubernetes.io/hostname="$STATIC_IP_ADDRESS" \
+                --overwrite
+          kubectl patch ingress ingress-nginx-controller \
+            -n "${INGRESS_NAMESPACE}" \
+            --type='merge' \
+            -p "{\"status\":{\"loadBalancer\":{\"ingress\":[{\"hostname\":\"${STATIC_IP_ADDRESS}\"}]}}}"
+#            k8s-ingressn-ingressn-6b0ac82a3d-ad3cefaa7f5f083f.elb.us-east-1.amazonaws.com
+        elif [[ "$BASEROCK_CLOUD_OPTION_TYPE" == "gcp" ]]; then
+          kubectl patch svc "$INGRESS_SERVICE_NAME" -n "$INGRESS_NAMESPACE" --type='merge' \
+                      -p "{\"spec\": {\"type\": \"LoadBalancer\", \"loadBalancerIP\": \"$STATIC_IP_ADDRESS\"}}"
+        fi
+
     elif [[ -n "$EIP_ALLOCATION_ID" && "$EIP_ALLOCATION_ID" != "<>" ]]; then
         echo "Patching the service $INGRESS_SERVICE_NAME to use Elastic IP allocation ID $EIP_ALLOCATION_ID"
         kubectl patch svc "$INGRESS_SERVICE_NAME" -n "$INGRESS_NAMESPACE" \
@@ -74,12 +98,4 @@ elif [[ "$INGRESS_INSTALL_TYPE" == "Yes" ]]; then
     echo "Invalid INGRESS_TYPE value: $INGRESS_TYPE. Must be 'LoadBalancer' or 'NodePort'."
 fi
 
-if [[ "$INGRESS_INSTALL_TYPE" == "Yes" ]]; then
-  echo "Waiting for configuration to take effect..."
-  sleep 60
-
-  kubectl get svc "$INGRESS_SERVICE_NAME" -n "$INGRESS_NAMESPACE"
-
-  echo "Ingress setup complete."
-fi
 

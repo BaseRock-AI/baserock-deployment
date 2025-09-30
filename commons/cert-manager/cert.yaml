@@ -8,6 +8,6 @@ spec:
   issuerRef:
     group: cert-manager.io
     name: ${ISSUER_NAME}
-    kind: Issuer
+    kind: ${ISSUER_KIND}
   dnsNames:
     - ${DOMAIN}

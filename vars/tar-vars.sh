@@ -35,7 +35,7 @@ export BACKEND_IMAGE="vikasbaserock/baserock-facade-service"
 export BACKEND_TAG="1.182.0"
 export INGRESS_CLASS="nginx"
 #-- backend-extras--#
-export VALUES_YAML="backend/baserock-backend/values-gcp.yaml"
+export VALUES_YAML="backend/baserock-backend/values.yaml"
 
 #-- todo-web-service --#
 export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="prod"

@@ -40,7 +40,7 @@ export BITBUCKET_INSTALLATION_URL="<>"
 export REPO_NAME="<REPO_NAME>"
 
 #-- backend-extras--#
-export VALUES_YAML="backend/baserock-backend/values-aws-dev.yaml"
+export VALUES_YAML="backend/baserock-backend/values.yaml"
 export BASEROCK_EMAIL_SMTP="onprem@baserock.ai"
 export BASEROCK_EMAIL_PASSWORD_SMTP="ootejotartwhagaw"
 #-- todo-web-service --#
@@ -48,6 +48,7 @@ export TODO_WEB_SERVICE_SPRING_PROFILES_ACTIVE="dev"
 export USE_LATEST_TAGS="false"
 
 
-export INGRESS_CLASS="alb"
+export INGRESS_CLASS="nginx"
 export AWS_NLB_NAME="awsonprem"
 export EKS_IRSA_ROLE_ARN=""
+export ISSUER_KIND="ClusterIssuer"

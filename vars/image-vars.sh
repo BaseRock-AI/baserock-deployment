@@ -20,7 +20,7 @@ if [[ "$USE_LATEST_TAGS" == "true" ]]; then
   export REDIS_IMAGE="${REPO_NAME}/redis:latest"
   export MONGO_EXPRESS_IMAGE="${REPO_NAME}/mongo-express:latest"
   export CERT_MANAGER_CONTROLLER_IMAGE="${REPO_NAME}/cert-manager-controller"
-  export CERT_MANAGER_WEBHOOK_IMAGE="${REPO_NAME}/cert-manager-webhook"
+  export CERT_MANAGER_WEBHOOK_IMAGE="${REPO_NAME}/cert-manager-webhook@sha256"
   export CERT_MANAGER_CAINJECTOR_IMAGE="${REPO_NAME}/cert-manager-cainjector"
   export CERT_MANAGER_ACMESOLVER_IMAGE="${REPO_NAME}/cert-manager-acmesolver"
   export CERT_MANAGER_STARTUPIPCHECK_IMAGE="${REPO_NAME}/cert-manager-startupapicheck"
